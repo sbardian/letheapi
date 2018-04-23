@@ -1,5 +1,5 @@
 {
-  "name": "todos",
+  "name": "shopping-list",
   "version": "1.0.0",
   "description": "A GraphQL API for ToDos",
   "main": "index.js",
