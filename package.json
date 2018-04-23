@@ -8,6 +8,7 @@
     "test": "jest --forceExit",
     "test:watch": "jest --watch",
     "test:coverage": "npm run test -- --coverage",
+    "dev": "cross-env NODE_ENV=development nodemon -e js,json,graphql --exec babel-node src/index.js | bunyan -o short -L",
     "lint": "eslint . ",
     "build": "npm run build:server",
     "prebuild": "npm run clean",
@@ -18,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "bunyan": "^1.8.12",
     "common-tags": "^1.7.2",
     "compression": "^1.7.2",
     "cors": "^2.8.4",
