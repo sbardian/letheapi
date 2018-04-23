@@ -11,7 +11,7 @@
     "build": "npm run build:server",
     "prebuild": "npm run clean",
     "clean": "rimraf dist",
-    "build:server": "babel src/server -d dist/server --source-maps --ignore \"**/*.test.js\""
+    "build:server": "babel src -d dist --source-maps --ignore \"**/*.test.js\""
   },
   "author": "Brian D. Andrews",
   "license": "MIT",
