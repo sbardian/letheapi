@@ -1,4 +1,3 @@
-// import Item from '../../database/model';
 import shoppingItems from '../../database/mocks';
 import { returnItems } from '../../database/utils';
 
