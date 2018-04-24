@@ -3,6 +3,14 @@ type Item {
   title: String!
 }
 
+input NewItem {
+  title: String!
+}
+
+type Mutation {
+  createNewItem(titles: [NewItem!]!): [Item!]!
+}
+
 type Query {
   getItems(limit: Int): [Item]
 }
