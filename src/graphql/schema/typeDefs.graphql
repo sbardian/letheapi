@@ -4,5 +4,5 @@ type Item {
 }
 
 type Query {
-  getItems: [Item]
+  getItems(limit: Int): [Item]
 }

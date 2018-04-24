@@ -4,8 +4,8 @@ import { returnItems } from '../../database/utils';
 
 const resolvers = {
   Query: {
-    getItems: async (root, args, { Item }) =>
-      (await Item.find({})).map(returnItems),
+    getItems: async (root, { limit = 500 }, { Item }) =>
+      (await Item.find({}).limit(limit)).map(returnItems),
   },
 };
 
