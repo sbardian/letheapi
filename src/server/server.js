@@ -26,11 +26,9 @@ export default () => {
         Item,
       },
       formatError: err => {
-        console.error('THATS AN ERROR = ', err);
+        console.error(err);
         return err;
       },
-      tracing: true,
-      cacheControl: true,
     }),
   );
 
