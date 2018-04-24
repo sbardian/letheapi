@@ -1,11 +1,11 @@
-import Item from '../../database/model';
+// import Item from '../../database/model';
 import shoppingItems from '../../database/mocks';
+import { returnItems } from '../../database/utils';
 
 const resolvers = {
   Query: {
-    getItems() {
-      return Item.find({});
-    },
+    getItems: async (root, args, { Item }) =>
+      (await Item.find({})).map(returnItems),
   },
 };
 
