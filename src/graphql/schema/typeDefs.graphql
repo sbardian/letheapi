@@ -1,5 +1,5 @@
 type Item {
-  itemId: Int!
+  id: String!
   title: String!
 }
 
