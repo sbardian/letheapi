@@ -1,4 +1,7 @@
-ToDo's GraphQL API
+Shopping List GraphQL Api
+
+This is a GraphQL Api that will be used with the Shopping List React Native
+application.
 
 [![Build Status on master][build-image-master]][build-url-master]
 
