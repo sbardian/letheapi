@@ -3,12 +3,28 @@ type Item {
   title: String!
 }
 
+type User {
+  id: String!
+  email: String!
+  username: String
+  password: String
+  jwt: String
+}
+
 input NewItem {
   title: String!
 }
 
+input UserInput {
+  email: String!
+  password: String!
+  username: String
+}
+
 type Mutation {
   createNewItem(titles: [NewItem!]!): [Item!]!
+  login(user: UserInput!): User
+  signup(user: UserInput!): User
 }
 
 type Query {
