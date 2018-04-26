@@ -29,11 +29,11 @@ export default () => {
     graphqlExpress(req => ({
       schema,
       context: {
-        Item,
-        User,
-        userObj: req.user
-          ? User.findOne({ id: req.user.id })
-          : Promise.resolve(null),
+        models: {
+          Item,
+          User,
+        },
+        user: req.user,
       },
       formatError: err => {
         console.error(err);
