@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import jwt from 'express-jwt';
 import { connectDB } from '../database';
 import schema from '../graphql/schema';
-import { Item, User } from '../database/models';
+import { Item, User, Group } from '../database/models';
 import { JWT_SECRET } from '../config/config';
 
 export default () => {
@@ -32,6 +32,7 @@ export default () => {
         models: {
           Item,
           User,
+          Group,
         },
         user: req.user,
       },

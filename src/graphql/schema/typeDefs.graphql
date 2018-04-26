@@ -5,28 +5,51 @@ type Item {
 
 type User {
   id: String!
+  username: String!
   email: String!
-  username: String
-  password: String
-  jwt: String
+  groups: [Group]
+  items: [Item]
+}
+
+type Group {
+  id: String
+  name: String
+  owner: String
+  users: [User]
+  items: [Item]
+}
+
+type AuthResponse {
+  token: String!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+input SignupInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input GroupInput {
+  name: String!
 }
 
 input NewItem {
   title: String!
 }
 
-input UserInput {
-  email: String!
-  password: String!
-  username: String
-}
-
 type Mutation {
-  createNewItem(titles: [NewItem!]!): [Item!]!
-  login(user: UserInput!): User
-  signup(user: UserInput!): User
+  createNewItems(titles: [NewItem!]!): [Item!]!
+  login(loginInput: LoginInput!): AuthResponse
+  signup(signupInput: SignupInput!): AuthResponse
+  createNewGroups(groups: [GroupInput!]!): [Group!]!
 }
 
 type Query {
   getItems(limit: Int): [Item]
+  getUsers(username: String!): [User]
 }
