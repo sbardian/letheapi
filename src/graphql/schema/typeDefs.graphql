@@ -13,7 +13,7 @@ type User {
 
 type Group {
   id: String
-  name: String
+  title: String
   owner: String
   users: [User]
   items: [Item]
@@ -35,7 +35,7 @@ input SignupInput {
 }
 
 input GroupInput {
-  name: String!
+  title: String!
 }
 
 input NewItem {
@@ -52,4 +52,5 @@ type Mutation {
 type Query {
   getItems(limit: Int): [Item]
   getUsers(username: String!): [User]
+  getGroups(username: String!): [Group]
 }

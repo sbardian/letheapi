@@ -6,8 +6,8 @@ import { JWT_SECRET } from '../../config/config';
 export const authorizeCreateGroups = async (user, groups, Group, User) =>
   // TODO implement user check?
   (await Group.create(
-    groups.map(({ name }) => ({
-      name: name,
+    groups.map(({ title }) => ({
+      title: title,
       owner: user.username,
       users: [{ username: user.username }],
       items: [],

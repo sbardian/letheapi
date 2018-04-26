@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const GroupSchema = new mongoose.Schema({
-  name: String,
+  title: String,
   owner: String,
   users: Array,
   items: Array,

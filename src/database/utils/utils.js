@@ -5,7 +5,7 @@ export const returnItems = item => ({
 
 export const returnGroups = group => ({
   id: group.id,
-  name: group.name,
+  title: group.title,
   owner: group.owner,
   users: group.users,
   items: group.items,
