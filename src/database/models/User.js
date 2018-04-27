@@ -24,6 +24,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  groups: [
+    {
+      id: String,
+    },
+  ],
 });
 
 // // authenticate input against database

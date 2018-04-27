@@ -3,13 +3,14 @@ import jwt from 'jsonwebtoken';
 import { returnGroups } from '../../database/utils';
 import { JWT_SECRET } from '../../config/config';
 
-export const authorizeCreateGroups = async (user, groups, Group, User) =>
+export const authorizeCreateGroups = async ({ id }, groups, Group, User) => {
   // TODO implement user check?
-  (await Group.create(
+  return (await Group.create(
     groups.map(({ title }) => ({
       title: title,
-      owner: user.username,
-      users: [{ username: user.username }],
+      owner: id,
+      users: [{ id }],
       items: [],
     })),
   )).map(returnGroups);
+};

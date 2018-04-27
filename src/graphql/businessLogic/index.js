@@ -4,3 +4,6 @@ export { authorizeLogin } from './authorizeLogin';
 export { authorizeSignup } from './authorizeSignup';
 export { authorizeCreateGroups } from './authorizeCreateGroups';
 export { authorizeGetUsers } from './authorizeGetUsers';
+export { authorizeGetGroups } from './authorizeGetGroups';
+export { authorizeGetUsersGroups } from './authorizeGetUsersGroups';
+export { authorizeGetGroupsUsers } from './authorizeGetGroupsUsers';

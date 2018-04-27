@@ -2,7 +2,7 @@
   "env": {
     "jest": true
   },
-  "extends": ["airbnb", "prettier"],
+  "extends": ["airbnb-base", "prettier"],
   "parser": "babel-eslint",
   "rules": {
     "react/jsx-filename-extension": "off",
