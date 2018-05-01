@@ -5,25 +5,21 @@ import mongoose from 'mongoose';
 import jwt from 'express-jwt';
 import { connectDB } from '../database';
 import schema from '../graphql/schema';
-import { Item, User, Group } from '../database/models';
-import { JWT_SECRET } from '../config/config';
+import { Item, User, List } from '../database/models';
+import { config } from '../config';
 
 export default () => {
   const server = express();
 
   // Configure mongo database connection
-  const db = connectDB();
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', () => {
-    console.log('Connected to the database!');
-  });
+  console.log(connectDB());
 
   // The GraphQL endpoint
   server.use(
     '/graphql',
     bodyParser.json(),
     jwt({
-      secret: JWT_SECRET,
+      secret: config.sessionSecret,
       credentialsRequired: false,
     }),
     graphqlExpress(req => ({
@@ -32,7 +28,7 @@ export default () => {
         models: {
           Item,
           User,
-          Group,
+          List,
         },
         user: req.user,
       },

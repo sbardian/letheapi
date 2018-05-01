@@ -1,17 +1,19 @@
 type Item {
   id: String!
   title: String!
+  creator: String!
+  list: String!
 }
 
 type User {
   id: String!
   username: String!
   email: String!
-  groups: [Group]
+  lists: [List]
   items: [Item]
 }
 
-type Group {
+type List {
   id: String
   title: String
   owner: String
@@ -23,12 +25,12 @@ type AuthResponse {
   token: String!
 }
 
-type getGroupsUsers {
+type getListUsers {
   users: [User]
 }
 
-type getUsersGroups {
-  groups: [Group]
+type getUserLists {
+  lists: [List]
 }
 
 input LoginInput {
@@ -42,23 +44,23 @@ input SignupInput {
   password: String!
 }
 
-input GroupInput {
+input NewList {
   title: String!
 }
 
 input NewItem {
   title: String!
+  list: String!
 }
 
 type Mutation {
-  createNewItems(titles: [NewItem!]!): [Item!]!
   login(loginInput: LoginInput!): AuthResponse
   signup(signupInput: SignupInput!): AuthResponse
-  createNewGroups(groups: [GroupInput!]!): [Group!]!
+  createNewItem(ItemInfo: NewItem!): Item!
+  createNewList(ListInfo: NewList!): List!
 }
 
 type Query {
-  getItems(limit: Int): [Item]
-  getUsers(username: String!): [User]
-  getGroups(username: String!, limit: Int): [Group]
+  getUser(userId: String): User
+  getLists(userId: String!, limit: Int): [List]
 }

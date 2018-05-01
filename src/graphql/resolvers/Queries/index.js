@@ -1,5 +1,5 @@
 export { getItems } from './getItems';
-export { getUsers } from './getUsers';
-export { getGroups } from './getGroups';
-export { getUsersGroups } from './getUsersGroups';
-export { getGroupsUsers } from './getGroupsUsers';
+export { getUser } from './getUser';
+export { getLists } from './getLists';
+export { getUserLists } from './getUserLists';
+export { getListUsers } from './getListUsers';

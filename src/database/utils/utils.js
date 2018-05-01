@@ -1,12 +1,14 @@
 export const returnItems = item => ({
   id: item.id,
   title: item.title,
+  creator: item.creator,
+  list: item.list,
 });
 
-export const returnGroups = group => ({
-  id: group.id,
-  title: group.title,
-  owner: group.owner,
+export const returnLists = list => ({
+  id: list.id,
+  title: list.title,
+  owner: list.owner,
 });
 
 export const returnUsers = user => ({

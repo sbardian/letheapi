@@ -3,8 +3,5 @@ import jwt from 'jsonwebtoken';
 import { returnUsers } from '../../database/utils';
 import { JWT_SECRET } from '../../config/config';
 
-export const authorizeGetGroupsUsers = async (
-  { id },
-  args,
-  { models: { User } },
-) => (await User.find({ 'groups.id': id })).map(returnUsers);
+export const authorizeGetUser = async (user, userId, User) =>
+  returnUsers(await User.findById(userId));

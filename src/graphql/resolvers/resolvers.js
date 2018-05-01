@@ -1,32 +1,33 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { login, signup, createNewItems, createNewGroups } from './Mutations';
+import { login, signup, createNewItem, createNewList } from './Mutations';
 import {
   getItems,
-  getUsers,
-  getGroups,
-  getGroupsUsers,
-  getUsersGroups,
+  getUser,
+  getLists,
+  getListUsers,
+  getUserLists,
 } from './Queries';
 import { JWT_SECRET } from '../../config/config';
 
 const resolvers = {
   Query: {
-    getItems,
-    getUsers,
-    getGroups,
+    getUser,
+    getLists,
   },
   Mutation: {
     login,
     signup,
-    createNewItems,
-    createNewGroups,
+    createNewItem,
+    createNewList,
   },
-  Group: {
-    users: getGroupsUsers,
+  List: {
+    users: getListUsers,
+    items: getItems,
   },
   User: {
-    groups: getUsersGroups,
+    lists: getUserLists,
+    items: getItems,
   },
 };
 
