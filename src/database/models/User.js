@@ -24,11 +24,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  lists: [
-    {
-      id: String,
-    },
-  ],
+  lists: [String],
 });
 
 // // authenticate input against database
