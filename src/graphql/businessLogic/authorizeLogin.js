@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../../config/config';
+import { config } from '../../config';
 
 export const authorizeLogin = async (username, password, User) => {
   const u = await User.findOne({ username });
@@ -11,7 +11,7 @@ export const authorizeLogin = async (username, password, User) => {
         email: u.email,
         username: u.username,
       },
-      JWT_SECRET,
+      config.sessionSecret,
     );
     return { token };
   }

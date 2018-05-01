@@ -1,6 +1,6 @@
 export { authorizeLogin } from './authorizeLogin';
 export { authorizeSignup } from './authorizeSignup';
-export { authorizeGetItems } from './authorizeGetItems';
+export { authorizeGetListItems } from './authorizeGetListItems';
 export { authorizeCreateItem } from './authorizeCreateItem';
 export { authorizeCreateList } from './authorizeCreateList';
 export { authorizeGetUser } from './authorizeGetUser';
