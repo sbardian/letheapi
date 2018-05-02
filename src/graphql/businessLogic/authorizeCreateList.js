@@ -12,11 +12,8 @@ export const authorizeCreateList = async (user, { title }, List, User) => {
     items: [],
   });
   const userfound = await User.findById(user.id);
-  console.log('user found = ', userfound);
   const { lists } = userfound;
-  console.log('User creating List, Lists: ', lists);
   const { id } = newList;
-  console.log('New list id = ', id);
   await User.update({ _id: user.id }, { $set: { lists: [...lists, id] } });
   return returnLists(newList);
 };
