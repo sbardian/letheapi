@@ -62,5 +62,5 @@ type Mutation {
 
 type Query {
   getUser(userId: String): User
-  getLists(userId: String!, limit: Int): [List]
+  getLists(userId: String!, limit: Int, title_contains: String): [List]
 }
