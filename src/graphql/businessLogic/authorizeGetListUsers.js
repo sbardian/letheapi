@@ -7,4 +7,4 @@ export const authorizeGetListUsers = async (
   { id },
   args,
   { models: { User } },
-) => (await User.find({ 'lists.id': id })).map(returnUsers);
+) => (await User.find({ lists: id })).map(returnUsers);
