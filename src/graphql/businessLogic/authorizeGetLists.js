@@ -6,6 +6,7 @@ export const authorizeGetLists = async (
   userId,
   limit,
   contains_title,
+  id_is,
   List,
   User,
 ) => {
@@ -14,6 +15,9 @@ export const authorizeGetLists = async (
       owner: userId,
       ...(contains_title && {
         title: { $regex: `${contains_title}`, $options: 'i' },
+      }),
+      ...(id_is && {
+        _id: id_is,
       }),
     }).limit(limit)).map(returnLists);
   } else {
