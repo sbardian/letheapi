@@ -7,7 +7,4 @@ export const authorizeGetUserLists = async (
   { id },
   args,
   { models: { List } },
-) =>
-  (await List.find({})
-    .where('owner')
-    .equals(id)).map(returnLists);
+) => (await List.find({ users: id })).map(returnLists);
