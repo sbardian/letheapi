@@ -6,6 +6,7 @@ import {
   createNewItem,
   createNewList,
   deleteItem,
+  deleteList,
 } from './Mutations';
 import {
   getListItems,
@@ -27,6 +28,7 @@ const resolvers = {
     createNewItem,
     createNewList,
     deleteItem,
+    deleteList,
   },
   List: {
     users: getListUsers,

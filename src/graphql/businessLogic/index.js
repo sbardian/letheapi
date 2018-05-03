@@ -8,8 +8,10 @@ export { authorizeGetLists } from './authorizeGetLists';
 export { authorizeGetUserLists } from './authorizeGetUserLists';
 export { authorizeGetListUsers } from './authorizeGetListUsers';
 export { authorizeDeleteItem } from './authorizeDeleteItem';
+export { authorizeDeleteList } from './authorizeDeleteList';
 export {
   userOfListByItemId,
   userOfListByListId,
   getOnlySelf,
+  ownerOfList,
 } from './checkAuth';

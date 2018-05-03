@@ -59,6 +59,7 @@ type Mutation {
   createNewItem(ItemInfo: NewItem!): Item!
   createNewList(ListInfo: NewList!): List!
   deleteItem(itemId: String!): Item!
+  deleteList(listId: String!): List!
 }
 
 type Query {
