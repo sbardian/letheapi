@@ -1,4 +1,7 @@
 import { authorizeDeleteItem } from '../../businessLogic';
 
-export const deleteItem = (root, { itemId }, { models: { Item }, user }) =>
-  authorizeDeleteItem(user, itemId, Item);
+export const deleteItem = (
+  root,
+  { itemId },
+  { models: { Item, User, List }, user },
+) => authorizeDeleteItem(user, itemId, Item, User, List);

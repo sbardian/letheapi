@@ -1,8 +1,9 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { userOfListByItemId } from './';
 import { returnItems } from '../../database/utils';
-import { JWT_SECRET } from '../../config/config';
 
-export const authorizeDeleteItem = async (user, itemId, Item) =>
-  // TODO: implement user check.
-  returnItems(await Item.findByIdAndRemove(itemId));
+export const authorizeDeleteItem = async (user, itemId, Item, User, List) => {
+  if (userOfList(user, itemId, User, List)) {
+    return returnItems(await Item.findByIdAndRemove(itemId));
+  }
+  return new Error('You do not have permission to delete this item');
+};
