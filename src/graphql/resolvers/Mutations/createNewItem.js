@@ -4,4 +4,4 @@ export const createNewItem = (
   root,
   { ItemInfo },
   { models: { Item, User }, user },
-) => authorizeCreateItem(user, ItemInfo, Item);
+) => authorizeCreateItem(user, ItemInfo, Item, User);
