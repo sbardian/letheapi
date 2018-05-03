@@ -7,3 +7,4 @@ export { authorizeGetUser } from './authorizeGetUser';
 export { authorizeGetLists } from './authorizeGetLists';
 export { authorizeGetUserLists } from './authorizeGetUserLists';
 export { authorizeGetListUsers } from './authorizeGetListUsers';
+export { authorizeDeleteItem } from './authorizeDeleteItem';

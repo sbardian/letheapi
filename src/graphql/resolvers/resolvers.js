@@ -1,6 +1,12 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { login, signup, createNewItem, createNewList } from './Mutations';
+import {
+  login,
+  signup,
+  createNewItem,
+  createNewList,
+  deleteItem,
+} from './Mutations';
 import {
   getListItems,
   getUser,
@@ -20,6 +26,7 @@ const resolvers = {
     signup,
     createNewItem,
     createNewList,
+    deleteItem,
   },
   List: {
     users: getListUsers,

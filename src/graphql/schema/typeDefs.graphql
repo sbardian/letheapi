@@ -58,6 +58,7 @@ type Mutation {
   signup(signupInput: SignupInput!): AuthResponse
   createNewItem(ItemInfo: NewItem!): Item!
   createNewList(ListInfo: NewList!): List!
+  deleteItem(itemId: String!): Item!
 }
 
 type Query {
