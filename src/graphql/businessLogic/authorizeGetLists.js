@@ -5,15 +5,15 @@ export const authorizeGetLists = async (
   user,
   userId,
   limit,
-  title_contains,
+  contains_title,
   List,
   User,
 ) => {
   if (getOnlySelf(user, userId)) {
     return (await List.find({
       owner: userId,
-      ...(title_contains && {
-        title: { $regex: `${title_contains}`, $options: 'i' },
+      ...(contains_title && {
+        title: { $regex: `${contains_title}`, $options: 'i' },
       }),
     }).limit(limit)).map(returnLists);
   } else {
