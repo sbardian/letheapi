@@ -1,7 +1,10 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { getOnlySelf } from './';
 import { returnUsers } from '../../database/utils';
-import { JWT_SECRET } from '../../config/config';
 
-export const authorizeGetUser = async (user, userId, User) =>
-  returnUsers(await User.findById(userId));
+export const authorizeGetUser = async (user, userId, User) => {
+  if (getOnlySelf(user, userId)) {
+    return returnUsers(await User.findById(userId));
+  } else {
+    return new Error('You are only allowed to retrieve your own information');
+  }
+};
