@@ -14,3 +14,5 @@ export const userOfListByListId = async (user, listId, User) => {
   }
   return false;
 };
+
+export const getOnlySelf = (user, userId) => user.id === userId;

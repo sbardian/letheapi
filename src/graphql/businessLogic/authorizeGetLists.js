@@ -1,7 +1,5 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { getOnlySelf } from './';
 import { returnLists } from '../../database/utils';
-import { JWT_SECRET } from '../../config/config';
 
 export const authorizeGetLists = async (
   user,
@@ -11,12 +9,14 @@ export const authorizeGetLists = async (
   List,
   User,
 ) => {
-  // TODO: implement user check.
-  // (await Item.find({username: user}).limit(limit)).map(returnItems);
-  return (await List.find({
-    owner: userId,
-    ...(title_contains && {
-      title: { $regex: `${title_contains}`, $options: 'i' },
-    }),
-  }).limit(limit)).map(returnLists);
+  if (getOnlySelf(user, userId)) {
+    return (await List.find({
+      owner: userId,
+      ...(title_contains && {
+        title: { $regex: `${title_contains}`, $options: 'i' },
+      }),
+    }).limit(limit)).map(returnLists);
+  } else {
+    return new Error('You are only allowed to retrieve your own lists');
+  }
 };
