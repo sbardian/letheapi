@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import {
   login,
   signup,
@@ -7,6 +5,8 @@ import {
   createNewList,
   deleteItem,
   deleteList,
+  createInvitation,
+  deleteInvitation,
 } from './Mutations';
 import {
   getMyInfo,
@@ -16,8 +16,9 @@ import {
   getLists,
   getListItems,
   getListUsers,
+  getListInvitations,
+  getUserInvitations,
 } from './Queries';
-import { JWT_SECRET } from '../../config/config';
 
 const resolvers = {
   Query: {
@@ -33,13 +34,17 @@ const resolvers = {
     createNewList,
     deleteItem,
     deleteList,
+    createInvitation,
+    deleteInvitation,
   },
   List: {
     users: getListUsers,
     items: getListItems,
+    invitations: getListInvitations,
   },
   User: {
     lists: getUserLists,
+    invitations: getUserInvitations,
   },
 };
 

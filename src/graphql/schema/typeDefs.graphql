@@ -11,6 +11,7 @@ type User {
   email: String!
   lists: [List]
   items: [Item]
+  invitations: [Invitation]
 }
 
 type List {
@@ -19,6 +20,15 @@ type List {
   owner: String
   users: [User]
   items: [Item]
+  invitations: [Invitation]
+}
+
+type Invitation {
+  id: String
+  inviter: String
+  invitee: String
+  list: String
+  title: String
 }
 
 type AuthResponse {
@@ -60,6 +70,12 @@ type Mutation {
   createNewList(ListInfo: NewList!): List!
   deleteItem(itemId: String!): Item!
   deleteList(listId: String!): List!
+  createInvitation(
+    listId: String!
+    invitee: String!
+    title: String!
+  ): Invitation
+  deleteInvitation(invitationId: String!): Invitation
 }
 
 type Query {

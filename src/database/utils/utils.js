@@ -16,3 +16,11 @@ export const returnUsers = user => ({
   username: user.username,
   email: user.email,
 });
+
+export const returnInvitations = invitation => ({
+  id: invitation.id,
+  inviter: invitation.inviter,
+  invitee: invitation.invitee,
+  list: invitation.list,
+  title: invitation.title,
+});

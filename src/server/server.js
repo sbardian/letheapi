@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import jwt from 'express-jwt';
 import { connectDB } from '../database';
 import schema from '../graphql/schema';
-import { Item, User, List } from '../database/models';
+import { Item, User, List, Invitation } from '../database/models';
 import { config } from '../config';
 
 export default () => {
@@ -29,6 +29,7 @@ export default () => {
           Item,
           User,
           List,
+          Invitation,
         },
         user: req.user,
         isAdmin: req.user.isAdmin,

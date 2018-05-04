@@ -11,6 +11,10 @@ export { authorizeGetUserLists } from './authorizeGetUserLists';
 export { authorizeGetListUsers } from './authorizeGetListUsers';
 export { authorizeDeleteItem } from './authorizeDeleteItem';
 export { authorizeDeleteList } from './authorizeDeleteList';
+export { authorizeGetListInvitations } from './authorizeGetListInvitations';
+export { authorizeGetUserInvitations } from './authorizeGetUserInvitations';
+export { authorizeCreateInvitation } from './authorizeCreateInvitation';
+export { authorizeDeleteInvitation } from './authorizeDeleteInvitation';
 export {
   userOfListByItemId,
   userOfListByListId,

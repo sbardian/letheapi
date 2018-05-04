@@ -1,1 +1,6 @@
-export { returnItems, returnLists, returnUsers } from './utils';
+export {
+  returnItems,
+  returnLists,
+  returnUsers,
+  returnInvitations,
+} from './utils';
