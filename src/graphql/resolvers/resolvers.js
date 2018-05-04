@@ -9,17 +9,21 @@ import {
   deleteList,
 } from './Mutations';
 import {
-  getListItems,
+  getMyInfo,
   getUser,
-  getLists,
-  getListUsers,
+  getUsers,
   getUserLists,
+  getLists,
+  getListItems,
+  getListUsers,
 } from './Queries';
 import { JWT_SECRET } from '../../config/config';
 
 const resolvers = {
   Query: {
+    getMyInfo,
     getUser,
+    getUsers,
     getLists,
   },
   Mutation: {

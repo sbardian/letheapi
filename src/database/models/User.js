@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema({
     require: true,
   },
   lists: [String],
+  isAdmin: Boolean,
 });
 
 // // authenticate input against database

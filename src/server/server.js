@@ -31,6 +31,7 @@ export default () => {
           List,
         },
         user: req.user,
+        isAdmin: req.user.isAdmin,
       },
       formatError: err => {
         console.error(err);

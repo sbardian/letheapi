@@ -20,12 +20,14 @@ export const listItems = Array.from(Array(LIST_ITEMS), () => ({
 
 export const userItems = Array.from(Array(USER_ITEMS), () => {
   const password = faker.internet.password();
+  const isAdmin = faker.random.boolean();
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(password, salt);
   const user = {
     email: faker.internet.email(),
     username: faker.internet.userName(),
     lists: [],
+    isAdmin,
   };
   console.log(
     `Email: ${user.email}, Username: ${user.username}, Password: ${password}`,

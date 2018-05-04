@@ -63,9 +63,16 @@ type Mutation {
 }
 
 type Query {
+  # Gets the current users information
+  getMyInfo: User
+  # Administrators only
   getUser(userId: String): User
+  # Administrators only
+  getUsers: [User]
+  # Returns a users lists or a users specifc list based on title or id
   getLists(
-    userId: String!
+    # userId is an Administrator only argument
+    userId: String
     limit: Int
     contains_title: String
     id_is: String

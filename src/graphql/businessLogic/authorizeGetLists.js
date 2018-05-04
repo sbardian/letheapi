@@ -1,4 +1,4 @@
-import { getOnlySelf } from './';
+import { getOnlySelf, isAdmin } from './';
 import { returnLists } from '../../database/utils';
 
 export const authorizeGetLists = async (
@@ -10,9 +10,19 @@ export const authorizeGetLists = async (
   List,
   User,
 ) => {
-  if (getOnlySelf(user, userId)) {
+  if (isAdmin(user)) {
     return (await List.find({
-      users: userId,
+      ...(userId && { users: userId }),
+      ...(contains_title && {
+        title: { $regex: `${contains_title}`, $options: 'i' },
+      }),
+      ...(id_is && {
+        _id: id_is,
+      }),
+    }).limit(limit)).map(returnLists);
+  } else if (getOnlySelf(user, userId) || !userId) {
+    return (await List.find({
+      users: user.id,
       ...(contains_title && {
         title: { $regex: `${contains_title}`, $options: 'i' },
       }),

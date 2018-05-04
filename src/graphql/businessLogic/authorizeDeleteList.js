@@ -1,8 +1,8 @@
-import { ownerOfList } from './';
+import { ownerOfList, isAdmin } from './';
 import { returnLists } from '../../database/utils';
 
 export const authorizeDeleteList = async (user, listId, User, List) => {
-  if (ownerOfList(user, listId, List)) {
+  if ((await ownerOfList(user, listId, List)) || isAdmin(user)) {
     const userToUpdate = await User.findById(user.id);
     const { lists } = userToUpdate;
     const newLists = lists.splice(lists.indexOf(listId) - 1, 1);
