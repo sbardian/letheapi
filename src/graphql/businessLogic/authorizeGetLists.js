@@ -12,7 +12,7 @@ export const authorizeGetLists = async (
 ) => {
   if (getOnlySelf(user, userId)) {
     return (await List.find({
-      owner: userId,
+      users: userId,
       ...(contains_title && {
         title: { $regex: `${contains_title}`, $options: 'i' },
       }),
