@@ -7,4 +7,3 @@ export { deleteList } from './deleteList';
 export { createInvitation } from './createInvitation';
 export { deleteInvitation } from './deleteInvitation';
 export { acceptInvitation } from './acceptInvitation';
-export { declineInvitation } from './declineInvitation';

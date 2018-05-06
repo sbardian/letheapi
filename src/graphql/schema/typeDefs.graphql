@@ -77,7 +77,6 @@ type Mutation {
   ): Invitation
   deleteInvitation(invitationId: String!): Invitation
   acceptInvitation(invitationId: String!): Invitation
-  declineInvitation(invitationId: String!): Invitation
 }
 
 type Query {
