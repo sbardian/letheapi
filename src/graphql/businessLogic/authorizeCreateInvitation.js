@@ -16,7 +16,6 @@ export const authorizeCreateInvitation = async (
         $or: [{ email: invitee }, { username: invitee }],
       }),
     );
-    console.log('invited user = ', invitedUser);
     return returnInvitations(
       await Invitation.create({
         inviter: user.id,

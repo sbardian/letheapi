@@ -1,4 +1,4 @@
 import { authorizeGetListInvitations } from '../../businessLogic';
 
-export const getListInvitations = (list, args, context) =>
-  authorizeGetListInvitations(list, args, context);
+export const getListInvitations = ({ id }, args, { models: { Invitation } }) =>
+  authorizeGetListInvitations(id, args, Invitation);

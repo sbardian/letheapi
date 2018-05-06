@@ -1,4 +1,4 @@
 import { authorizeGetUserLists } from '../../businessLogic';
 
-export const getUserLists = (user, args, context) =>
-  authorizeGetUserLists(user, args, context);
+export const getUserLists = ({ id }, args, { models: { List } }) =>
+  authorizeGetUserLists(id, args, List);
