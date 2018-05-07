@@ -7,6 +7,7 @@ import {
   deleteList,
   createInvitation,
   deleteInvitation,
+  declineInvitation,
   acceptInvitation,
 } from './Mutations';
 import {
@@ -37,6 +38,7 @@ const resolvers = {
     deleteList,
     createInvitation,
     deleteInvitation,
+    declineInvitation,
     acceptInvitation,
   },
   List: {

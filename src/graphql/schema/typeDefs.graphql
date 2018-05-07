@@ -76,6 +76,7 @@ type Mutation {
     title: String!
   ): Invitation
   deleteInvitation(invitationId: String!): Invitation
+  declineInvitation(invitationId: String!): Invitation
   acceptInvitation(invitationId: String!): Invitation
 }
 

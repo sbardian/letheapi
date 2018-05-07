@@ -1,4 +1,5 @@
 import { returnInvitations } from '../../database/utils';
+import { isAdmin } from './checkAuth';
 
 export const authorizeAcceptInvitation = async (
   user,
@@ -13,14 +14,10 @@ export const authorizeAcceptInvitation = async (
       User.findById(invitation.invitee),
       List.findById(invitation.list),
     ]);
-    await User.update(
-      { _id: user.id },
-      { $set: { lists: [...lists, invitation.list] } },
-    );
-    await List.update(
-      { _id: id },
-      { $set: { users: [...users, invitation.invitee] } },
-    );
+    await User.findByIdAndUpdate(user.id, {
+      lists: [...lists, invitation.list],
+    });
+    await List.findByIdAndUpdate(id, { users: [...users, invitation.invitee] });
     await Invitation.findByIdAndRemove(invitationId);
     return returnInvitations(invitation);
   }

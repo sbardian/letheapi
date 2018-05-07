@@ -6,4 +6,5 @@ export { deleteItem } from './deleteItem';
 export { deleteList } from './deleteList';
 export { createInvitation } from './createInvitation';
 export { deleteInvitation } from './deleteInvitation';
+export { declineInvitation } from './declineInvitation';
 export { acceptInvitation } from './acceptInvitation';

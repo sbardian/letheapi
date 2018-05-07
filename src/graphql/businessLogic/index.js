@@ -15,6 +15,7 @@ export { authorizeGetListInvitations } from './authorizeGetListInvitations';
 export { authorizeGetUserInvitations } from './authorizeGetUserInvitations';
 export { authorizeCreateInvitation } from './authorizeCreateInvitation';
 export { authorizeDeleteInvitation } from './authorizeDeleteInvitation';
+export { authorizeDeclineInvitation } from './authorizeDeclineInvitation';
 export { authorizeAcceptInvitation } from './authorizeAcceptInvitation';
 export {
   userOfListByItemId,
