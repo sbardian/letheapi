@@ -17,6 +17,7 @@ export { authorizeCreateInvitation } from './authorizeCreateInvitation';
 export { authorizeDeleteInvitation } from './authorizeDeleteInvitation';
 export { authorizeDeclineInvitation } from './authorizeDeclineInvitation';
 export { authorizeAcceptInvitation } from './authorizeAcceptInvitation';
+export { authorizeRemoveFromList } from './authorizeRemoveFromList';
 export {
   userOfListByItemId,
   userOfListByListId,

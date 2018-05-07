@@ -8,3 +8,4 @@ export { createInvitation } from './createInvitation';
 export { deleteInvitation } from './deleteInvitation';
 export { declineInvitation } from './declineInvitation';
 export { acceptInvitation } from './acceptInvitation';
+export { removeFromList } from './removeFromList';

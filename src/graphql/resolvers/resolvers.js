@@ -9,6 +9,7 @@ import {
   deleteInvitation,
   declineInvitation,
   acceptInvitation,
+  removeFromList,
 } from './Mutations';
 import {
   getMyInfo,
@@ -40,6 +41,7 @@ const resolvers = {
     deleteInvitation,
     declineInvitation,
     acceptInvitation,
+    removeFromList,
   },
   List: {
     users: getListUsers,

@@ -78,6 +78,7 @@ type Mutation {
   deleteInvitation(invitationId: String!): Invitation
   declineInvitation(invitationId: String!): Invitation
   acceptInvitation(invitationId: String!): Invitation
+  removeFromList(listId: String!, userId: String): User
 }
 
 type Query {
