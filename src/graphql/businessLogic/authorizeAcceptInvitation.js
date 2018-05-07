@@ -9,16 +9,16 @@ export const authorizeAcceptInvitation = async (
 ) => {
   const invitation = await Invitation.findById(invitationId);
   if (invitation.invitee === user.id || isAdmin(user)) {
-    const updateUser = await User.findById(invitation.invitee);
-    const updateList = await List.findById(invitation.list);
-    const { lists } = updateUser;
-    const { users } = updateList;
+    const [{ lists }, { users, id }] = await Promise.all([
+      User.findById(invitation.invitee),
+      List.findById(invitation.list),
+    ]);
     await User.update(
       { _id: user.id },
       { $set: { lists: [...lists, invitation.list] } },
     );
     await List.update(
-      { _id: updateList.id },
+      { _id: id },
       { $set: { users: [...users, invitation.invitee] } },
     );
     await Invitation.findByIdAndRemove(invitationId);
