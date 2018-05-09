@@ -15,7 +15,7 @@ describe('Sign up tests', () => {
   it('Returns an error', async () => {
     mockUser.findOne.mockImplementationOnce(() => true);
     expect(
-      authorizeSignup('bob', 'bob@bob.com', 'bobspassword', mockUser),
-    ).resolves.toEqual(expect.any(Error));
+      await authorizeSignup('bob', 'bob@bob.com', 'bobspassword', mockUser),
+    ).toEqual(expect.any(Error));
   });
 });
