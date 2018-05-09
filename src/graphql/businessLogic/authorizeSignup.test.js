@@ -12,4 +12,10 @@ describe('Sign up ', () => {
       await authorizeSignup('bob', 'bob@bob.com', 'bobspassword', mockUser),
     ).toEqual(expect.objectContaining({ token: expect.any(String) }));
   });
+  it('Returns an error', async () => {
+    mockUser.findOne.mockImplementationOnce(() => true);
+    expect(
+      authorizeSignup('bob', 'bob@bob.com', 'bobspassword', mockUser),
+    ).resolves.toEqual(expect.any(Error));
+  });
 });
