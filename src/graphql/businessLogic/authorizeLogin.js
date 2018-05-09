@@ -4,7 +4,7 @@ import { config } from '../../config';
 
 export const authorizeLogin = async (username, password, User) => {
   const u = await User.findOne({ username });
-  if (await bcrypt.compare(password, u.password)) {
+  if (u && (await bcrypt.compare(password, u.password))) {
     const token = jwt.sign(
       {
         id: u.id,
@@ -16,5 +16,5 @@ export const authorizeLogin = async (username, password, User) => {
     );
     return { token };
   }
-  throw new Error('Bad username or password');
+  return new Error('Bad username or password');
 };

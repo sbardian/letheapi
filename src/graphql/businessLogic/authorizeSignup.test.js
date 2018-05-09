@@ -4,7 +4,7 @@ import { config } from '../../config';
 
 jest.mock('../../database/models/User');
 
-describe('Sign up ', () => {
+describe('Sign up tests', () => {
   it('Returns a token', async () => {
     mockUser.findOne.mockImplementationOnce(() => false);
     mockUser.create.mockImplementationOnce(() => ({ id: 'SomeUserId' }));
