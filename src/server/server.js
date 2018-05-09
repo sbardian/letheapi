@@ -32,7 +32,6 @@ export default () => {
           Invitation,
         },
         user: req.user,
-        isAdmin: req.user.isAdmin,
       },
       formatError: err => {
         console.error(err);

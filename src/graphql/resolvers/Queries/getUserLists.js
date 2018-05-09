@@ -1,4 +1,4 @@
-import { authorizeGetUserLists } from '../../businessLogic';
+import { returnLists } from '../../../database/utils';
 
-export const getUserLists = ({ id }, args, { models: { List } }) =>
-  authorizeGetUserLists(id, args, List);
+export const getUserLists = async ({ id }, args, { models: { List } }) =>
+  (await List.find({ users: id })).map(returnLists);

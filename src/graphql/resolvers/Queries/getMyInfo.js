@@ -1,4 +1,7 @@
-import { authorizeGetMyInfo } from '../../businessLogic';
+import { returnUsers } from '../../../database/utils';
 
-export const getMyInfo = (root, args, { models: { User }, user, isAdmin }) =>
-  authorizeGetMyInfo(user, User);
+export const getMyInfo = async (
+  root,
+  args,
+  { models: { User }, user, isAdmin },
+) => returnUsers(await User.findById(user.id));

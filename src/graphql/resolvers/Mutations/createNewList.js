@@ -1,7 +1,20 @@
-import { authorizeCreateList } from '../../businessLogic';
+import { returnLists } from '../../../database/utils';
 
-export const createNewList = (
+export const createNewList = async (
   root,
-  { ListInfo },
+  { ListInfo: { title } },
   { models: { List, User }, user },
-) => authorizeCreateList(user, ListInfo, List, User);
+) => {
+  // TODO implement user check?
+  const newList = await List.create({
+    title,
+    owner: user.id,
+    users: [user.id],
+    items: [],
+  });
+  const userfound = await User.findById(user.id);
+  const { lists } = userfound;
+  const { id } = newList;
+  await User.update({ _id: user.id }, { $set: { lists: [...lists, id] } });
+  return returnLists(newList);
+};

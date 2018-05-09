@@ -1,7 +1,7 @@
-import { authorizeDeclineInvitation } from '../../businessLogic';
+import { deleteInvitation } from './';
 
-export const declineInvitation = (
+export const declineInvitation = async (
   root,
   { invitationId },
   { models: { Invitation, List }, user },
-) => authorizeDeclineInvitation(user, invitationId, Invitation, List);
+) => deleteInvitation(user, invitationId, Invitation, List);

@@ -85,7 +85,7 @@ type Query {
   # Gets the current users information
   getMyInfo: User
   # Administrators only
-  getUser(userId: String): User
+  getUser(userId: String!): User
   # Administrators only
   getUsers: [User]
   # Returns a users lists or a users specifc list based on title or id

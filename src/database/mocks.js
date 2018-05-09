@@ -29,9 +29,9 @@ export const userItems = Array.from(Array(USER_ITEMS), () => {
     lists: [],
     isAdmin,
   };
-  // console.log(
-  //   `Email: ${user.email}, Username: ${user.username}, Password: ${password}`,
-  // );
+  console.log(
+    `Email: ${user.email}, Username: ${user.username}, Password: ${password}`,
+  );
   return {
     ...user,
     password: hash,

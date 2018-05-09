@@ -1,4 +1,7 @@
-import { authorizeGetUserInvitations } from '../../businessLogic';
+import { returnInvitations } from '../../../database/utils';
 
-export const getUserInvitations = ({ id }, args, { models: { Invitation } }) =>
-  authorizeGetUserInvitations(id, args, Invitation);
+export const getUserInvitations = async (
+  { id },
+  args,
+  { models: { Invitation } },
+) => (await Invitation.find({ invitee: id })).map(returnInvitations);
