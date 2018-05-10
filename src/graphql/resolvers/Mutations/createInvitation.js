@@ -6,7 +6,7 @@ export const createInvitation = async (
   { listId, invitee, title },
   { models: { Invitation, List, User }, user },
 ) => {
-  if (ownerOfList(user, listId, List) || isAdmin(user)) {
+  if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
     const invitedUser = returnUsers(
       await User.findOne({
         $or: [{ email: invitee }, { username: invitee }],
