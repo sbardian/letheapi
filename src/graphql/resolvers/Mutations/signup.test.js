@@ -9,13 +9,21 @@ describe('Sign up tests', () => {
     mockUser.findOne.mockImplementationOnce(() => false);
     mockUser.create.mockImplementationOnce(() => ({ id: 'SomeUserId' }));
     expect(
-      await signup('bob', 'bob@bob.com', 'bobspassword', mockUser),
+      await signup(
+        'root',
+        { signupInput: { username: 'bob', password: 'bobspassword' } },
+        { models: { User: mockUser } },
+      ),
     ).toEqual(expect.objectContaining({ token: expect.any(String) }));
   });
   it('Returns an error', async () => {
     mockUser.findOne.mockImplementationOnce(() => true);
     expect(
-      await signup('bob', 'bob@bob.com', 'bobspassword', mockUser),
+      await signup(
+        'root',
+        { signupInput: { username: 'bob', password: 'bobspassword' } },
+        { models: { User: mockUser } },
+      ),
     ).toEqual(expect.any(Error));
   });
 });
