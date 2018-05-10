@@ -14,15 +14,23 @@ describe('Login tests', () => {
       username: 'bob',
       password: passHash,
     }));
-    expect(await login('bob', 'bobspassword', mockUser)).toEqual(
-      expect.objectContaining({ token: expect.any(String) }),
-    );
+    expect(
+      await login(
+        'root',
+        { loginInput: { username: 'bob', password: 'bobspassword' } },
+        { models: { User: mockUser } },
+      ),
+    ).toEqual(expect.objectContaining({ token: expect.any(String) }));
   });
   it('Returns an error, user not found', async () => {
     mockUser.findOne.mockImplementationOnce(() => undefined);
-    expect(await login('bob', 'bobspassword', mockUser)).toEqual(
-      expect.any(Error),
-    );
+    expect(
+      await login(
+        'root',
+        { loginInput: { username: 'bob', password: 'bobspassword' } },
+        { models: { User: mockUser } },
+      ),
+    ).toEqual(expect.any(Error));
   });
   it('Returns an error, bad password', async () => {
     mockUser.findOne.mockImplementationOnce(() => ({
@@ -31,8 +39,12 @@ describe('Login tests', () => {
       username: 'bob',
       password: 'wrong',
     }));
-    expect(await login('bob', 'bobspassword', mockUser)).toEqual(
-      expect.any(Error),
-    );
+    expect(
+      await login(
+        'root',
+        { loginInput: { username: 'bob', password: 'bobspassword' } },
+        { models: { User: mockUser } },
+      ),
+    ).toEqual(expect.any(Error));
   });
 });
