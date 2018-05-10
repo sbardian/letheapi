@@ -43,7 +43,7 @@
     "babel-plugin-source-map-support": "2.0.1",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-env": "1.6.1",
-    "cross-env": "5.1.4",
+    "cross-env": "5.1.5",
     "eslint": "4.19.1",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-config-prettier": "2.9.0",
