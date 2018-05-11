@@ -1,5 +1,5 @@
 import { returnInvitations } from '../../../database/utils';
-import { isAdmin, ownerOfList } from '../checkAuth';
+import { ownerOfList } from '../checkAuth';
 
 export const deleteInvitation = async (
   root,
@@ -9,10 +9,10 @@ export const deleteInvitation = async (
   const invitation = await Invitation.findById(invitationId);
   if (
     (await ownerOfList(user, invitation.list, List)) ||
-    isAdmin(user) ||
+    user.isAdmin ||
     user.id === invitation.invitee
   ) {
     return returnInvitations(await Invitation.findByIdAndRemove(invitationId));
   }
-  return new Error('You do not have permission to delete this invitation.');
+  throw new Error('You do not have permission to delete this invitation.');
 };
