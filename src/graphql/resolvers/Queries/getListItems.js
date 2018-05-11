@@ -5,7 +5,8 @@ export const getListItems = async (
   { limit = 500 },
   { models: { Item } },
 ) =>
-  (await Item.find({})
-    .where('list')
-    .equals(id)
-    .limit(limit)).map(returnItems);
+  // (await Item.find({})
+  //   .where('list')
+  //   .equals(id)
+  //   .limit(limit)).map(returnItems);
+  (await Item.find({ list: id }).limit(limit)).map(returnItems);
