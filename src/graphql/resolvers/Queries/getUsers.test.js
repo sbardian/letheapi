@@ -1,5 +1,4 @@
 import { getUsers } from './';
-import { myFunc } from './getUsers';
 import mockUser from '../../../database/models/User';
 import { resolveSoa } from 'dns';
 
