@@ -4,7 +4,7 @@ import { getOnlySelf } from '../checkAuth';
 export const getLists = async (
   root,
   { userId, limit, contains_title, id_is },
-  { models: { List, User }, user },
+  { models: { List }, user },
 ) => {
   if (user.isAdmin) {
     return (await List.find({
