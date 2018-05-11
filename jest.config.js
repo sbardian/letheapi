@@ -1,6 +1,5 @@
 module.exports = {
-  collectCoverage: true,
-  coverageDirectory: "./coverage",
-  coveragePathIgnorePatterns: ["dist", "node_modules"],
-  testPathIgnorePatterns: ["dist"]
+  coverageDirectory: './coverage',
+  coveragePathIgnorePatterns: ['dist', 'node_modules'],
+  testPathIgnorePatterns: ['dist'],
 };
