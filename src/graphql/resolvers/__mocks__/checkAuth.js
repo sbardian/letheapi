@@ -1,3 +1,1 @@
-export default {
-  ownerOfList: jest.fn(),
-};
+export const ownerOfList = jest.fn();

@@ -5,7 +5,7 @@ import * as mockCheckAuth from '../checkAuth';
 
 jest.mock('../../../database/models/Invitation');
 jest.mock('../../../database/models/List');
-mockCheckAuth.ownerOfList = jest.fn(() => true);
+jest.mock('../checkAuth');
 
 describe('deleteInvitation Tests', () => {
   it('Returns a deleted invitation, is Admin', async () => {
