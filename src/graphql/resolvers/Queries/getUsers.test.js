@@ -1,5 +1,7 @@
 import { getUsers } from './';
+import { myFunc } from './getUsers';
 import mockUser from '../../../database/models/User';
+import { resolveSoa } from 'dns';
 
 jest.mock('../../../database/models/User');
 
@@ -16,12 +18,18 @@ describe('getUsers tests', () => {
       }),
     ).toEqual(expect.any(Array));
   });
+
   it('Returns error, user is not Admin', async () => {
-    expect(
+    expect.assertions(1);
+    try {
       await getUsers('root', 'args', {
         models: { User: mockUser },
         user: { isAdmin: false },
-      }),
-    ).toEqual(expect.any(Error));
+      });
+    } catch (err) {
+      expect(err.message).toMatch(
+        'This is an Admin only function, please use getMyInfo query',
+      );
+    }
   });
 });
