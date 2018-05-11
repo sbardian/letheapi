@@ -1,0 +1,33 @@
+import { getListInvitations } from './';
+import mockInvitation from '../../../database/models/Invitation';
+
+jest.mock('../../../database/models/Invitation');
+
+describe('getListInvitations tests', () => {
+  it('Returns an array of invitations', async () => {
+    mockInvitation.find.mockImplementationOnce(() => [
+      {
+        id: 'someInvitationId',
+        title: 'someInvitationTitle',
+        inviter: 'someInviterId',
+        invitee: 'someInviteeId',
+        list: 'someListId',
+      },
+    ]);
+    expect(
+      await getListInvitations({ id: 'someInvitationId' }, 'args', {
+        models: { Invitation: mockInvitation },
+      }),
+    ).toEqual(
+      expect.arrayContaining([
+        {
+          id: 'someInvitationId',
+          title: 'someInvitationTitle',
+          inviter: 'someInviterId',
+          invitee: 'someInviteeId',
+          list: 'someListId',
+        },
+      ]),
+    );
+  });
+});
