@@ -17,5 +17,5 @@ export const signup = async (
     const token = jwt.sign({ id, email }, config.sessionSecret);
     return { token };
   }
-  return new Error('Email or username already exists');
+  throw new Error('Email or username already exists');
 };

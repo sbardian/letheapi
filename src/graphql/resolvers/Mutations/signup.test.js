@@ -17,13 +17,16 @@ describe('Sign up tests', () => {
     ).toEqual(expect.objectContaining({ token: expect.any(String) }));
   });
   it('Returns an error', async () => {
+    expect.assertions(1);
     mockUser.findOne.mockImplementationOnce(() => true);
-    expect(
+    try {
       await signup(
         'root',
         { signupInput: { username: 'bob', password: 'bobspassword' } },
         { models: { User: mockUser } },
-      ),
-    ).toEqual(expect.any(Error));
+      );
+    } catch (err) {
+      expect(err.message).toMatch('Email or username already exists');
+    }
   });
 });
