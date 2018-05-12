@@ -7,7 +7,6 @@ export const getLists = async (
   { models: { List }, user },
 ) => {
   if (user.isAdmin) {
-    console.log('userId  =  ', userId);
     return (await List.find({
       ...(userId && { users: userId }),
       ...(contains_title && {
