@@ -3,4 +3,5 @@ export default {
     limit: jest.fn(),
   })),
   findById: jest.fn(),
+  findByIdAndUpdate: jest.fn(),
 };

@@ -1,5 +1,5 @@
 import { returnUsers } from '../../../database/utils';
-import { isAdmin, ownerOfList } from '../checkAuth';
+import { ownerOfList } from '../checkAuth';
 
 export const removeFromList = async (
   root,
@@ -9,10 +9,10 @@ export const removeFromList = async (
   let userToRemove;
   if (!userId || userId === user.id) {
     userToRemove = user.id;
-  } else if ((await ownerOfList(user, listId, List)) || isAdmin(user)) {
+  } else if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
     userToRemove = userId;
   } else {
-    return new Error(
+    throw new Error(
       'You do not have permission to remove this user from the list.',
     );
   }
