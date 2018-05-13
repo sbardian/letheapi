@@ -23,7 +23,7 @@ export default async () => {
     const mockDB = mongoose.connection;
 
     // TODO: structure to make sense for dev.
-    await User.insertMany(userItems);
+    await User.insertMany(userItems(2));
     // const insertedUser = [(await User.find())[0]];
     // const user = insertedUser.map(returnUsers);
     // await List.create(

@@ -1,94 +1,89 @@
+import MongodbMemoryServer from 'mongodb-memory-server';
+import mongoose from 'mongoose';
+import { testDatabase } from '../../../database/testDatabase';
 import { removeFromList } from './';
-import mockUser from '../../../database/models/User';
-import mockList from '../../../database/models/List';
+import { User, List } from '../../../database/models';
+import { listItems, userItems } from '../../../database/mocks';
+import { returnUsers, returnLists } from '../../../database/utils';
+import * as mockCheckAuth from '../checkAuth';
 
-jest.mock('../../../database/models/User');
-jest.mock('../../../database/models/List');
+jest.mock('../checkAuth');
 
-describe('removeFromList test', () => {
-  it('Returns an error, not admin, not self', async () => {
-    expect.assertions(1);
-    mockList.findById.mockImplementationOnce(() => false);
+let server;
+let toUpdate;
+
+beforeAll(async done => {
+  server = await testDatabase();
+  done();
+});
+
+afterAll(() => {
+  server.mongoose.disconnect();
+  server.mongoServer.stop();
+});
+
+beforeEach(async () => {
+  const users = await User.insertMany(userItems(1));
+  const lists = await List.insertMany(listItems(2, users[0].id));
+  await User.findByIdAndUpdate(users[0].id, {
+    lists: [lists[0].id, lists[1].id],
+  });
+  toUpdate = await User.findById(users[0].id);
+});
+
+describe('removeFromList tests', () => {
+  it('Removes user from list, returns empty list users array, self', async () => {
+    await removeFromList(
+      'root',
+      { listId: toUpdate.lists[0], userId: toUpdate.id },
+      {
+        models: { User, List },
+        user: { id: toUpdate.id, isAdmin: false },
+      },
+    );
+    const updatedList = await List.findById(toUpdate.lists[0]);
+    expect(updatedList.users).toHaveLength(0);
+  });
+  it('Removes user from list, returns empty list users array, admin', async () => {
+    await removeFromList(
+      'root',
+      { listId: toUpdate.lists[0], userId: toUpdate.id },
+      {
+        models: { User, List },
+        user: { id: 'someAdminId', isAdmin: true },
+      },
+    );
+    const updatedList = await List.findById(toUpdate.lists[0]);
+    expect(updatedList.users).toHaveLength(0);
+  });
+  it('Removes user from list, returns empty list users array, owner', async () => {
+    mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
+    await removeFromList(
+      'root',
+      { listId: toUpdate.lists[0], userId: toUpdate.id },
+      {
+        models: { User, List },
+        user: { id: 'someAdminId', isAdmin: false },
+      },
+    );
+    const updatedList = await List.findById(toUpdate.lists[0]);
+    expect(updatedList.users).toHaveLength(0);
+  });
+  it('Returns an error', async () => {
+    mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
     try {
-      expect(
-        await removeFromList(
-          'root',
-          { listId: 'someListId', userId: 'someOtherUserId' },
-          {
-            models: { User: mockUser, List: mockList },
-            user: { id: 'someUserId', isAdmin: false },
-          },
-        ),
+      await removeFromList(
+        'root',
+        { listId: toUpdate.lists[0], userId: toUpdate.id },
+        {
+          models: { User, List },
+          user: { id: 'someAdminId', isAdmin: false },
+        },
       );
     } catch (err) {
       expect(err.message).toMatch(
         'You do not have permission to remove this user from the list.',
       );
     }
-  });
-  // TODO: Needs to be implementation or end to end test
-  it('Returns a user removed from a list, self', async () => {
-    mockUser.findById
-      .mockImplementationOnce(() => ({
-        lists: [
-          {
-            id: 'someListId',
-            title: 'someListTitle',
-            owner: 'someListOwnerId',
-          },
-          {
-            id: 'someListId2',
-            title: 'someListTitle2',
-            owner: 'someListOwnerId2',
-          },
-        ],
-      }))
-      .mockImplementationOnce(() => ({
-        id: 'someUserId',
-        username: 'someUser',
-        email: 'someUser@someUser.com',
-      }));
-    mockList.findById.mockImplementationOnce(() => ({
-      users: [
-        {
-          id: 'bobsId',
-          username: 'bob',
-          email: 'bob@bob.com',
-        },
-        {
-          id: 'someUserId',
-          username: 'someUser',
-          email: 'someUser@someUser.com',
-        },
-      ],
-    }));
-    mockUser.findByIdAndUpdate.mockImplementationOnce(() => ({
-      id: 'bobsId',
-      username: 'bob',
-      email: 'bob@bob.com',
-    }));
-    mockList.findByIdAndUpdate.mockImplementationOnce(() => [
-      {
-        id: 'someListId',
-        title: 'someListTitle',
-        owner: 'someListOwnerId',
-      },
-    ]);
-    expect(
-      await removeFromList(
-        'root',
-        { listId: 'someListId', userId: 'someUserId' },
-        {
-          models: { User: mockUser, List: mockList },
-          user: { id: 'someUserId', isAdmin: false },
-        },
-      ),
-    ).toEqual(
-      expect.objectContaining({
-        id: 'someUserId',
-        username: 'someUser',
-        email: 'someUser@someUser.com',
-      }),
-    );
   });
 });
