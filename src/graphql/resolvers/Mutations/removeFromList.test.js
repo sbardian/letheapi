@@ -7,6 +7,7 @@ import { listItems, userItems } from '../../../database/mocks';
 import { returnUsers, returnLists } from '../../../database/utils';
 import * as mockCheckAuth from '../checkAuth';
 
+jest.setTimeout(10000);
 jest.mock('../checkAuth');
 
 let server;
