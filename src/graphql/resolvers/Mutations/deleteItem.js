@@ -6,8 +6,8 @@ export const deleteItem = async (
   { itemId },
   { models: { Item, User, List }, user },
 ) => {
-  if (userOfListByItemId(user, itemId, User, List) || isAdmin(user)) {
+  if (userOfListByItemId(user, itemId, User, List) || user.isAdmin) {
     return returnItems(await Item.findByIdAndRemove(itemId));
   }
-  return new Error('You do not have permission to delete this item');
+  throw new Error('You do not have permission to delete this item.');
 };
