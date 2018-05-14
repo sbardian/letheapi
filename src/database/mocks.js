@@ -1,18 +1,16 @@
 import faker from 'faker';
 import bcrypt from 'bcrypt';
 
-const SHOPPING_ITEMS = 10;
-const USER_ITEMS = 10;
-const LIST_ITEMS = 5;
-const LISTS = 2;
-
 faker.seed(1337);
 
-export const shoppingItems = Array.from(Array(SHOPPING_ITEMS), () => ({
-  title: faker.lorem.words(),
-}));
+export const insertMockItems = (count, list, user) =>
+  Array.from(Array(count), () => ({
+    title: faker.lorem.words(),
+    list: list.id,
+    creator: user.id,
+  }));
 
-export const listItems = (count, users) =>
+export const insertMockLists = (count, users) =>
   Array.from(Array(count), () => ({
     title: faker.company.companyName(),
     owner: users[0].id,
@@ -20,7 +18,7 @@ export const listItems = (count, users) =>
     items: [],
   }));
 
-export const userItems = count =>
+export const insertMockUsers = count =>
   Array.from(Array(count), () => {
     const password = faker.internet.password();
     const isAdmin = faker.random.boolean();

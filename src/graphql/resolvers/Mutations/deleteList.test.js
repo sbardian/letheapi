@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { testDatabase } from '../../../database/testDatabase';
 import { deleteList } from './';
 import { User, List } from '../../../database/models';
-import { listItems, userItems } from '../../../database/mocks';
+import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
 
 jest.setTimeout(10000);
@@ -23,8 +23,8 @@ afterAll(() => {
 });
 
 beforeEach(async () => {
-  const users = await User.insertMany(userItems(1));
-  const lists = await List.insertMany(listItems(2, users[0].id));
+  const users = await User.insertMany(insertMockUsers(1));
+  const lists = await List.insertMany(insertMockLists(2, users[0].id));
   await User.findByIdAndUpdate(users[0].id, {
     lists: [lists[0].id, lists[1].id],
   });
