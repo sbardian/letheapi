@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import MongodbMemoryServer from 'mongodb-memory-server';
 import { Item, User, List } from './models';
 import { config } from '../config';
-import { listItems, shoppingItems, userItems } from './mocks';
+import { insertMockLists, insertMockItems, insertMockUsers } from './mocks';
 import { returnUsers, returnItems, returnLists } from './utils';
 
 export default async () => {
@@ -23,7 +23,7 @@ export default async () => {
     const mockDB = mongoose.connection;
 
     // TODO: structure to make sense for dev.
-    await User.insertMany(userItems(2));
+    await User.insertMany(insertMockUsers(2));
     // const insertedUser = [(await User.find())[0]];
     // const user = insertedUser.map(returnUsers);
     // await List.create(
