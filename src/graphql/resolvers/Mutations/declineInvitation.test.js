@@ -12,10 +12,6 @@ describe('declineInvitation test', () => {
     mockInvitation.findById.mockImplementationOnce(() => 'someInvitationId');
     mockList.findById.mockImplementationOnce(() => 'someListId');
     mockDeleteInvitation.deleteInvitation.mockImplementationOnce(() => true);
-    const spyOnDeleteInvitation = jest.spyOn(
-      mockDeleteInvitation,
-      'deleteInvitation',
-    );
     await declineInvitation(
       'root',
       { invitationId: 'invitationId' },
@@ -24,6 +20,6 @@ describe('declineInvitation test', () => {
         user: { id: 'someUserId' },
       },
     );
-    expect(spyOnDeleteInvitation).toHaveBeenCalledTimes(1);
+    expect(mockDeleteInvitation.deleteInvitation).toHaveBeenCalledTimes(1);
   });
 });
