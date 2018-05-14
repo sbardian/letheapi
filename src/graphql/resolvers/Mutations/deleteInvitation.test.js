@@ -117,4 +117,29 @@ describe('deleteInvitation Tests', () => {
       }),
     );
   });
+  it('Returns an error', async () => {
+    expect.assertions(1);
+    mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockInvitation.findById.mockImplementationOnce(() => ({
+      id: 'someInvitationId',
+      title: 'someInvitationTitle',
+      inviter: 'someInviterId',
+      invitee: 'someInviteeId',
+      list: 'someListId',
+    }));
+    try {
+      await deleteInvitation(
+        'root',
+        { invitationId: 'someInvitationId' },
+        {
+          models: { Invitation: mockInvitation, List: mockList },
+          user: { id: 'someWrongInviteeId', isAdmin: false },
+        },
+      );
+    } catch (err) {
+      expect(err.message).toMatch(
+        'You do not have permission to delete this invitation.',
+      );
+    }
+  });
 });
