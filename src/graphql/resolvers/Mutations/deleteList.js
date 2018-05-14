@@ -1,17 +1,20 @@
 import { returnLists } from '../../../database/utils';
-import { isAdmin, ownerOfList } from '../checkAuth';
+import { ownerOfList } from '../checkAuth';
 
 export const deleteList = async (
   root,
   { listId },
   { models: { User, List }, user },
 ) => {
-  if ((await ownerOfList(user, listId, List)) || isAdmin(user)) {
-    const userToUpdate = await User.findById(user.id);
-    const { lists } = userToUpdate;
-    const newLists = lists.splice(lists.indexOf(listId) - 1, 1);
-    await User.update({ _id: user.id }, { $set: { lists: newLists } });
+  if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
+    const usersToUpdate = await User.find({ lists: listId });
+    usersToUpdate.forEach(async currentUser => {
+      const { lists } = currentUser;
+      await User.findByIdAndUpdate(currentUser.id, {
+        lists: lists.filter(l => l !== listId),
+      });
+    });
     return returnLists(await List.findByIdAndRemove(listId));
   }
-  return new Error('You do not have permission to delete this list');
+  throw new Error('You do not have permission to delete this list.');
 };
