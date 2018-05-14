@@ -32,6 +32,11 @@ beforeEach(async () => {
   toUpdate = await User.findById(users[0].id);
 });
 
+afterEach(async () => {
+  await User.remove();
+  await List.remove();
+});
+
 describe('removeFromList tests', () => {
   it('Removes user from list, returns empty list users array, self', async () => {
     await removeFromList(
