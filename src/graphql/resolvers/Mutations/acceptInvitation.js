@@ -1,5 +1,4 @@
 import { returnInvitations } from '../../../database/utils';
-import { isAdmin } from '../checkAuth';
 
 export const acceptInvitation = async (
   root,
@@ -7,7 +6,7 @@ export const acceptInvitation = async (
   { models: { Invitation, List, User }, user },
 ) => {
   const invitation = await Invitation.findById(invitationId);
-  if (invitation.invitee === user.id || isAdmin(user)) {
+  if (invitation.invitee === user.id || user.isAdmin) {
     const [{ lists }, { users, id }] = await Promise.all([
       User.findById(invitation.invitee),
       List.findById(invitation.list),

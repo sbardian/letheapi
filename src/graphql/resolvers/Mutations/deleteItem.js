@@ -1,5 +1,5 @@
 import { returnItems } from '../../../database/utils';
-import { isAdmin, userOfListByItemId } from '../checkAuth';
+import { userOfListByItemId } from '../checkAuth';
 
 export const deleteItem = async (
   root,

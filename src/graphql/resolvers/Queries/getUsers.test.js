@@ -1,6 +1,6 @@
 import { getUsers } from './';
 import mockUser from '../../../database/models/User';
-import { resolveSoa } from 'dns';
+// import { resolveSoa } from 'dns';
 
 jest.mock('../../../database/models/User');
 

@@ -1,5 +1,5 @@
 import { returnInvitations, returnUsers } from '../../../database/utils';
-import { isAdmin, ownerOfList } from '../checkAuth';
+import { ownerOfList } from '../checkAuth';
 
 export const createInvitation = async (
   root,
