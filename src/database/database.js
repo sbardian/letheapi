@@ -15,11 +15,13 @@ export default async () => {
       instance: {
         port: MONGO_DB_PORT,
         dbName: MONGO_DB_NAME,
+        debug: true,
       },
     });
     const MONGO_MOCK_URI = await mongod.getConnectionString();
     console.log('connection string = ', MONGO_MOCK_URI);
     mongoose.connect(MONGO_MOCK_URI);
+    mongoose.set('debug', true);
     const mockDB = mongoose.connection;
 
     // TODO: structure to make sense for dev.
