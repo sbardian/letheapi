@@ -1,5 +1,4 @@
 import DataLoader from 'dataloader';
-import { returnItems } from '../../database/utils';
 
 export const getListItemsLoader = ({ Item }) =>
   new DataLoader(async listIds => {
