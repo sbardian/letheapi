@@ -7,13 +7,9 @@ export const getListItemsLoader = ({ Item }) =>
       const items = await Item.find({ list: { $in: listIds } });
       let groupedArray = [];
       listIds.forEach(id =>
-        groupedArray.push(
-          items.filter(item => {
-            return item.list === id;
-          }),
-        ),
+        groupedArray.push(items.filter(item => item.list === id)),
       );
       return groupedArray;
     },
-    { cacheKeyFn: item => item.toString() },
+    { cacheKeyFn: item => item },
   );
