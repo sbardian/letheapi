@@ -7,7 +7,7 @@ import { connectDB } from '../database';
 import schema from '../graphql/schema';
 import { Item, User, List, Invitation } from '../database/models';
 import { config } from '../config';
-import { getListItemsLoader } from '../graphql/loaders';
+import { getListItemsLoader, getUserLoader } from '../graphql/loaders';
 
 export default () => {
   const server = express();
@@ -35,6 +35,7 @@ export default () => {
         user: req.user,
         loaders: {
           getListItemsLoader: getListItemsLoader({ Item }),
+          getUserLoader: getUserLoader({ User }),
         },
       },
       formatError: err => {
