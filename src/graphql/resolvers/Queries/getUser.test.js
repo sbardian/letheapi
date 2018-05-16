@@ -1,33 +1,31 @@
 import { getUser } from './';
 import mockUser from '../../../database/models/User';
+import mockGetUserLoader from '../../loaders/getUserLoader';
 
 jest.mock('../../../database/models/User');
+jest.mock('../../loaders/getUserLoader');
 
 describe('Test getUser', () => {
   it('Returns a user', async () => {
+    mockGetUserLoader.load.mockImplementationOnce(() => true);
     mockUser.findById.mockImplementationOnce(() => ({
       id: 'bobsId',
       username: 'bob',
       email: 'bob@bob.com',
     }));
-    expect(
-      await getUser('root', 'args', {
-        models: { User: mockUser },
-        user: { isAdmin: true },
-      }),
-    ).toEqual(
-      expect.objectContaining({
-        id: 'bobsId',
-        username: 'bob',
-        email: 'bob@bob.com',
-      }),
-    );
+    await getUser('root', 'args', {
+      models: { User: mockUser },
+      loaders: { getUserLoader: mockGetUserLoader },
+      user: { isAdmin: true },
+    });
+    expect(mockGetUserLoader.load).toHaveBeenCalledTimes(1);
   });
   it('Returns an error, user is not Admin', async () => {
     expect.assertions(1);
     try {
       await getUser('root', 'args', {
         models: { User: mockUser },
+        loaders: { getUserLoader: mockGetUserLoader },
         user: { isAdmin: false },
       });
     } catch (err) {
@@ -45,6 +43,7 @@ describe('Test getUser', () => {
         { userId: 'someUserId' },
         {
           models: { User: mockUser },
+          loaders: { getUserLoader: mockGetUserLoader },
           user: { isAdmin: true },
         },
       );

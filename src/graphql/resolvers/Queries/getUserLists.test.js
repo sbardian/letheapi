@@ -1,29 +1,14 @@
 import { getUserLists } from './';
-import mockList from '../../../database/models/List';
+import mockGetUserListsLoader from '../../loaders/getUserListsLoader';
 
 jest.mock('../../../database/models/List');
+jest.mock('../../loaders/getUserListsLoader');
 
 describe('getUserLists tests', () => {
-  it('Returns an array of user lists', async () => {
-    mockList.find.mockImplementationOnce(() => [
-      {
-        id: 'someListId',
-        title: 'someListTitle',
-        owner: 'someListOwnerId',
-      },
-    ]);
-    expect(
-      await getUserLists({ id: 'someUserId' }, 'args', {
-        models: { List: mockList },
-      }),
-    ).toEqual(
-      expect.arrayContaining([
-        {
-          id: 'someListId',
-          title: 'someListTitle',
-          owner: 'someListOwnerId',
-        },
-      ]),
-    );
+  it('Confirm load is called once', async () => {
+    await getUserLists({ id: 'someUserId' }, 'args', {
+      loaders: { getUserListsLoader: mockGetUserListsLoader },
+    });
+    expect(mockGetUserListsLoader.load).toHaveBeenCalledTimes(1);
   });
 });
