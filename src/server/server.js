@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import { ApolloEngine } from 'apollo-engine';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import mongoose from 'mongoose';
 import jwt from 'express-jwt';
@@ -7,10 +8,11 @@ import { connectDB } from '../database';
 import schema from '../graphql/schema';
 import { Item, User, List, Invitation } from '../database/models';
 import { config } from '../config';
-import loaders from '../graphql/loaders/createLoaders';
+// import loaders from '../graphql/loaders/createLoaders';
 import {
   getListItemsLoader,
   getListUsersLoader,
+  getMyInfoLoader,
   getUserInvitationsLoader,
   getUserLoader,
   getUserListsLoader,
@@ -19,7 +21,7 @@ export default async () => {
   const server = express();
 
   // Configure mongo database connection
-  console.log(await connectDB());
+  await connectDB();
 
   // The GraphQL endpoint
   server.use(
@@ -42,11 +44,14 @@ export default async () => {
         loaders: {
           getListItemsLoader: getListItemsLoader({ Item }),
           getListUsersLoader: getListUsersLoader({ User }),
+          getMyInfoLoader: getMyInfoLoader({ User }),
           getUserLoader: getUserLoader({ User }),
           getUserListsLoader: getUserListsLoader({ List }),
           getUserInvitationsLoader: getUserInvitationsLoader({ Invitation }),
         },
       },
+      tracing: true,
+      cacheControl: true,
       formatError: err => {
         console.error(err);
         return err;
@@ -62,5 +67,9 @@ export default async () => {
     }),
   );
 
-  return server;
+  const engine = new ApolloEngine({
+    apiKey: config.apolloEngineApiKey,
+  });
+
+  return { engine, server };
 };

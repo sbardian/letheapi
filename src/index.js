@@ -1,13 +1,8 @@
 import { createServer } from './server';
 
-// const server = createServer().then(server);
-
-createServer().then(server =>
-  server.listen(9999, 'localhost', () =>
-    console.log('Server listening on port 9999'),
-  ),
+createServer().then(({ engine, server }) =>
+  engine.listen({
+    port: 9999,
+    expressApp: server,
+  }),
 );
-
-// server.listen(9999, 'localhost', () =>
-//   console.log('Server listening on port 9999'),
-// );

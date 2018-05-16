@@ -18,7 +18,14 @@ export const config = yargs
     default: 'mongodb://localhost/shoppinglist',
     type: 'string',
   })
-  .group(['session-secret', 'mock-mode', 'database-url'], 'Config Options:')
+  .option('apollo-engine-api-key', {
+    describe: 'Apollo Engine Api key',
+    type: 'string',
+  })
+  .group(
+    ['session-secret', 'mock-mode', 'database-url', 'apollo-engine-api-key'],
+    'Config Options:',
+  )
   .wrap(Math.min(100, yargs.terminalWidth()))
   .alias('h', 'help')
   .alias('v', 'version').argv;
