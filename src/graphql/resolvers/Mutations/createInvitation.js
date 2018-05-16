@@ -13,12 +13,19 @@ export const createInvitation = async (
       }),
     );
     return returnInvitations(
-      await Invitation.create({
-        inviter: user.id,
-        invitee: invitedUser.id,
-        title,
-        list: listId,
-      }),
+      await Invitation.findOneAndUpdate(
+        {
+          invitee: invitedUser.id,
+          list: listId,
+        },
+        {
+          inviter: user.id,
+          invitee: invitedUser.id,
+          title,
+          list: listId,
+        },
+        { upsert: true },
+      ),
     );
   } else {
     return new Error('You must be the list owner to invite other users.');
