@@ -1,33 +1,13 @@
 import { getListInvitations } from './';
-import mockInvitation from '../../../database/models/Invitation';
+import mockGetListInvitationsLoader from '../../loaders';
 
-jest.mock('../../../database/models/Invitation');
+jest.mock('../../loaders');
 
 describe('getListInvitations tests', () => {
   it('Returns an array of invitations', async () => {
-    mockInvitation.find.mockImplementationOnce(() => [
-      {
-        id: 'someInvitationId',
-        title: 'someInvitationTitle',
-        inviter: 'someInviterId',
-        invitee: 'someInviteeId',
-        list: 'someListId',
-      },
-    ]);
-    expect(
-      await getListInvitations({ id: 'someInvitationId' }, 'args', {
-        models: { Invitation: mockInvitation },
-      }),
-    ).toEqual(
-      expect.arrayContaining([
-        {
-          id: 'someInvitationId',
-          title: 'someInvitationTitle',
-          inviter: 'someInviterId',
-          invitee: 'someInviteeId',
-          list: 'someListId',
-        },
-      ]),
-    );
+    await getListInvitations({ id: 'someInvitationId' }, 'args', {
+      loaders: { getListInvitationsLoader: mockGetListInvitationsLoader },
+    });
+    expect(mockGetListInvitationsLoader.load).toHaveBeenCalledTimes(1);
   });
 });

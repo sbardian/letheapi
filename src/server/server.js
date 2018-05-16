@@ -12,6 +12,7 @@ import { config } from '../config';
 import {
   getListItemsLoader,
   getListUsersLoader,
+  getListInvitationsLoader,
   getMyInfoLoader,
   getUserInvitationsLoader,
   getUserLoader,
@@ -44,6 +45,7 @@ export default async () => {
         loaders: {
           getListItemsLoader: getListItemsLoader({ Item }),
           getListUsersLoader: getListUsersLoader({ User }),
+          getListInvitationsLoader: getListInvitationsLoader({ Invitation }),
           getMyInfoLoader: getMyInfoLoader({ User }),
           getUserLoader: getUserLoader({ User }),
           getUserListsLoader: getUserListsLoader({ List }),
