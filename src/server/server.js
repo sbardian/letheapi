@@ -9,6 +9,7 @@ import { Item, User, List, Invitation } from '../database/models';
 import { config } from '../config';
 import {
   getListItemsLoader,
+  getListUsersLoader,
   getUserLoader,
   getUserListsLoader,
   getUserInvitationsLoader,
@@ -40,6 +41,7 @@ export default () => {
         user: req.user,
         loaders: {
           getListItemsLoader: getListItemsLoader({ Item }),
+          getListUsersLoader: getListUsersLoader({ User }),
           getUserLoader: getUserLoader({ User }),
           getUserListsLoader: getUserListsLoader({ List }),
           getUserInvitationsLoader: getUserInvitationsLoader({ Invitation }),

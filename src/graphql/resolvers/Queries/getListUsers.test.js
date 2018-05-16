@@ -1,39 +1,14 @@
 import { getListUsers } from './';
-import mockUser from '../../../database/models/User';
+import mockGetListUsersLoader from '../../loaders/getListUsersLoader';
 
-jest.mock('../../../database/models/User');
+jest.mock('../../loaders/getListUsersLoader');
 
 describe('getListUsers test', () => {
-  it('Returns an array of users', async () => {
-    mockUser.find.mockImplementationOnce(() => [
-      {
-        id: 'bobsId',
-        username: 'bob',
-        email: 'bob@bob.com',
-      },
-      {
-        id: 'franksId',
-        username: 'frank',
-        email: 'frank@frank.com',
-      },
-    ]);
-    expect(
-      await getListUsers({ id: 'someListId' }, 'args', {
-        models: { User: mockUser },
-      }),
-    ).toEqual(
-      expect.arrayContaining([
-        {
-          id: 'bobsId',
-          username: 'bob',
-          email: 'bob@bob.com',
-        },
-        {
-          id: 'franksId',
-          username: 'frank',
-          email: 'frank@frank.com',
-        },
-      ]),
-    );
+  it('Confirm load is called once', async () => {
+    mockGetListUsersLoader.load.mockImplementationOnce(() => true);
+    await getListUsers({ id: 'someListId' }, 'args', {
+      loaders: { getListUsersLoader: mockGetListUsersLoader },
+    });
+    expect(mockGetListUsersLoader.load).toHaveBeenCalledTimes(1);
   });
 });
