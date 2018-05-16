@@ -6,7 +6,6 @@ jest.mock('../../loaders');
 
 describe('getUserInvitations tests', () => {
   it('Confirm load is called once', async () => {
-    mockGetUserInvitationsLoader.load.mockImplementationOnce(() => true);
     await getUserInvitations(
       {
         id: 'someInviteeId',

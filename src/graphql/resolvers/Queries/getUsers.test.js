@@ -11,7 +11,6 @@ describe('getUsers tests', () => {
       { username: 'bob', email: 'bob@bob.com', isAdmin: false, lists: [] },
       { username: 'bob2', email: 'bob2@bob2.com', isAdmin: true, lists: [] },
     ]);
-    mockGetUserLoader.load.mockImplementationOnce(() => true);
     await getUsers('root', 'args', {
       models: { User: mockUser },
       loaders: { getUserLoader: mockGetUserLoader },
@@ -21,7 +20,6 @@ describe('getUsers tests', () => {
   });
 
   it('Returns error, user is not Admin', async () => {
-    mockGetUserLoader.load.mockImplementationOnce(() => true);
     expect.assertions(1);
     try {
       await getUsers('root', 'args', {

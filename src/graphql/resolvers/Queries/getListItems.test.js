@@ -7,7 +7,6 @@ jest.mock('../../loaders');
 
 describe('getListItems tests', () => {
   it('Confirm load is called once', async () => {
-    mockGetListItemsLoader.load.mockImplementationOnce(() => true);
     await getListItems({ id: 'someListId' }, 'args', {
       loaders: { getListItemsLoader: mockGetListItemsLoader },
     });
