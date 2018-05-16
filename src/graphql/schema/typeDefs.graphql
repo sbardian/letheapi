@@ -1,20 +1,19 @@
-type Item @cacheControl(maxAge: 240) {
+type Item {
   id: String!
   title: String!
   creator: String!
   list: String!
 }
 
-type User @cacheControl(maxAge: 240) {
+type User {
   id: String!
   username: String!
   email: String!
   lists: [List]
-  items: [Item]
   invitations: [Invitation]
 }
 
-type List @cacheControl(maxAge: 240) {
+type List {
   id: String
   title: String
   owner: String
@@ -23,7 +22,7 @@ type List @cacheControl(maxAge: 240) {
   invitations: [Invitation]
 }
 
-type Invitation @cacheControl(maxAge: 240) {
+type Invitation {
   id: String
   inviter: String
   invitee: String
