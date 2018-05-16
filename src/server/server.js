@@ -7,19 +7,19 @@ import { connectDB } from '../database';
 import schema from '../graphql/schema';
 import { Item, User, List, Invitation } from '../database/models';
 import { config } from '../config';
+import loaders from '../graphql/loaders/createLoaders';
 import {
   getListItemsLoader,
   getListUsersLoader,
+  getUserInvitationsLoader,
   getUserLoader,
   getUserListsLoader,
-  getUserInvitationsLoader,
 } from '../graphql/loaders';
-
-export default () => {
+export default async () => {
   const server = express();
 
   // Configure mongo database connection
-  console.log(connectDB());
+  console.log(await connectDB());
 
   // The GraphQL endpoint
   server.use(
