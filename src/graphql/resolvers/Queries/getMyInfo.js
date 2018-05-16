@@ -1,4 +1,7 @@
 import { returnUsers } from '../../../database/utils';
 
-export const getMyInfo = async (root, args, { models: { User }, user }) =>
-  returnUsers(await User.findById(user.id));
+export const getMyInfo = async (
+  root,
+  args,
+  { loaders: { getMyInfoLoader }, user },
+) => getMyInfoLoader.load(user.id);
