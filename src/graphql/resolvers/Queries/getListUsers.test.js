@@ -1,7 +1,7 @@
 import { getListUsers } from './';
-import mockGetListUsersLoader from '../../loaders/getListUsersLoader';
+import mockGetListUsersLoader from '../../loaders';
 
-jest.mock('../../loaders/getListUsersLoader');
+jest.mock('../../loaders');
 
 describe('getListUsers test', () => {
   it('Confirm load is called once', async () => {

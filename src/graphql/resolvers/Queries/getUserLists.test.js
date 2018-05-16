@@ -1,8 +1,8 @@
 import { getUserLists } from './';
-import mockGetUserListsLoader from '../../loaders/getUserListsLoader';
+import mockGetUserListsLoader from '../../loaders';
 
 jest.mock('../../../database/models/List');
-jest.mock('../../loaders/getUserListsLoader');
+jest.mock('../../loaders');
 
 describe('getUserLists tests', () => {
   it('Confirm load is called once', async () => {

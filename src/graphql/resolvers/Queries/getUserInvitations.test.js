@@ -1,8 +1,8 @@
 import { getUserInvitations } from './';
-import mockGetUserInvitationsLoader from '../../loaders/getUserInvitationsLoader';
+import mockGetUserInvitationsLoader from '../../loaders';
 
 jest.mock('../../../database/models/Invitation');
-jest.mock('../../loaders/getUserInvitationsLoader');
+jest.mock('../../loaders');
 
 describe('getUserInvitations tests', () => {
   it('Confirm load is called once', async () => {
