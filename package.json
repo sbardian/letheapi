@@ -1,7 +1,7 @@
 {
-  "name": "shopping-list",
+  "name": "lethe",
   "version": "1.0.0",
-  "description": "A GraphQL API for ToDos",
+  "description": "A GraphQL API for lethe",
   "main": "index.js",
   "scripts": {
     "pretest": "npm run clean",
