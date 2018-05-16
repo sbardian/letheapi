@@ -11,6 +11,7 @@ import {
   getListItemsLoader,
   getUserLoader,
   getUserListsLoader,
+  getUserInvitationsLoader,
 } from '../graphql/loaders';
 
 export default () => {
@@ -41,6 +42,7 @@ export default () => {
           getListItemsLoader: getListItemsLoader({ Item }),
           getUserLoader: getUserLoader({ User }),
           getUserListsLoader: getUserListsLoader({ List }),
+          getUserInvitationsLoader: getUserInvitationsLoader({ Invitation }),
         },
       },
       formatError: err => {
