@@ -24,7 +24,7 @@ export const createInvitation = async (
           title,
           list: listId,
         },
-        { upsert: true },
+        { new: true, upsert: true },
       ),
     );
   } else {
