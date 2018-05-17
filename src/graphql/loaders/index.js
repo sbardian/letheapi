@@ -5,3 +5,4 @@ export { getUserInvitationsLoader } from './getUserInvitationsLoader';
 export { getListUsersLoader } from './getListUsersLoader';
 export { getMyInfoLoader } from './getMyInfoLoader';
 export { getListInvitationsLoader } from './getListInvitationsLoader';
+export { getListsLoader } from './getListsLoader';

@@ -17,6 +17,7 @@ import {
   getUserInvitationsLoader,
   getUserLoader,
   getUserListsLoader,
+  getListsLoader,
 } from '../graphql/loaders';
 export default async () => {
   const server = express();
@@ -50,6 +51,7 @@ export default async () => {
           getUserLoader: getUserLoader({ User }),
           getUserListsLoader: getUserListsLoader({ List }),
           getUserInvitationsLoader: getUserInvitationsLoader({ Invitation }),
+          getListsLoader: getListsLoader({ List, User }),
         },
       },
       tracing: true,

@@ -1,10 +1,9 @@
-import { returnLists } from '../../../database/utils';
 import { getOnlySelf } from '../checkAuth';
 
 export const getLists = async (
   root,
   { userId, limit, contains_title, id_is },
-  { models: { List }, user },
+  { loaders: { getListsLoader }, user },
 ) => {
   if (user.isAdmin) {
     return (await List.find({
@@ -15,7 +14,7 @@ export const getLists = async (
       ...(id_is && {
         _id: id_is,
       }),
-    }).limit(limit)).map(returnLists);
+    }).limit(limit)).map(getListsLoader.load(list.id));
   } else if (getOnlySelf(user, userId) || !userId) {
     return (await List.find({
       users: user.id,
@@ -25,7 +24,7 @@ export const getLists = async (
       ...(id_is && {
         _id: id_is,
       }),
-    }).limit(limit)).map(returnLists);
+    }).limit(limit)).map(getListsLoader.load(list.id));
   } else {
     throw new Error('You are only allowed to retrieve your own lists');
   }
