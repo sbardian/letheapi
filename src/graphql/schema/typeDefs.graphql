@@ -63,22 +63,35 @@ input NewItem {
 }
 
 type Mutation {
+  # User login
   login(loginInput: LoginInput!): AuthResponse
+  # User Sign up
   signup(signupInput: SignupInput!): AuthResponse
+  # Creates a new item in a list. (Permissions: Admin/List Owner/List User)
   createNewItem(ItemInfo: NewItem!): Item!
+  # Creates a new list for current user.
   createNewList(ListInfo: NewList!): List!
+  # Deletes an item in a list. (Permissions: Admin/List Owner/List User)
   deleteItem(itemId: String!): Item!
+  # Deletes a List. (Permissions: Admin/List Owner)
   deleteList(listId: String!): List!
+  # Creates an invitation to a list. (Permissions: Admin/List Owner)
   createInvitation(
     listId: String!
     invitee: String!
     title: String!
   ): Invitation
+  # Deletes an invitation. (Permissions: Admin/Inviter/Invitee)
   deleteInvitation(invitationId: String!): Invitation
+  # Declines and invitation. (Helper endpoint, calls deleteInvitation)
   declineInvitation(invitationId: String!): Invitation
+  # Accepts an invitation. (Permissions: Admin/Invitee)
   acceptInvitation(invitationId: String!): Invitation
+  # Removes a user from a list. (Permissions: Admin/List Owner/Remove Self)
   removeFromList(listId: String!, userId: String): User
+  # Updates a List. (Permissions: Admin/List Owner)
   updateList(listId: String!, title: String!): List
+  # Updates a list item. (Permissions: Admin/List Owner/List User)
   updateItem(itemId: String!, title: String!): Item
 }
 
