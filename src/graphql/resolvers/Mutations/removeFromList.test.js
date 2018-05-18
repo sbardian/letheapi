@@ -1,10 +1,7 @@
-import MongodbMemoryServer from 'mongodb-memory-server';
-import mongoose from 'mongoose';
 import { testDatabase } from '../../../database/testDatabase';
 import { removeFromList } from './';
 import { User, List } from '../../../database/models';
 import { insertMockLists, insertMockUsers } from '../../../database/mocks';
-import { returnUsers, returnLists } from '../../../database/utils';
 import * as mockCheckAuth from '../checkAuth';
 
 jest.setTimeout(10000);

@@ -1,7 +1,4 @@
-import MongodbMemoryServer from 'mongodb-memory-server';
-import mongoose from 'mongoose';
 import { testDatabase } from '../../../database/testDatabase';
-import { deleteList } from './';
 import { User, List, Item } from '../../../database/models';
 import {
   insertMockLists,

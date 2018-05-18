@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import { login } from './';
 import mockUser from '../../../database/models/User';
-import { config } from '../../../config';
 
 jest.mock('../../../database/models/User');
 
