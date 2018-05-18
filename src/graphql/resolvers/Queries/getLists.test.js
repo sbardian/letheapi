@@ -7,6 +7,8 @@ jest.mock('../../../database/models/User');
 jest.mock('../../../database/models/List');
 jest.mock('../../loaders');
 
+afterEach(() => mockGetListsLoader.load.mockClear());
+
 // TODO: calledTimes? what?
 describe('getLists tests', () => {
   it('Confirm load called twice, is Admin with no filters', async () => {
@@ -55,7 +57,7 @@ describe('getLists tests', () => {
         user: { id: 'someUserId', isAdmin: false },
       },
     );
-    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(4);
+    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(2);
   });
   it('Confirm load called twice, no userId, with no filters', async () => {
     mockList.find.mockImplementationOnce(() => ({
@@ -77,7 +79,7 @@ describe('getLists tests', () => {
       loaders: { getListsLoader: mockGetListsLoader },
       user: { id: 'someUserId', isAdmin: false },
     });
-    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(6);
+    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(2);
   });
   it('Confirm load called twice, not Admin and contains_title and id_is', async () => {
     mockList.find.mockImplementationOnce(() => ({
@@ -103,7 +105,7 @@ describe('getLists tests', () => {
         user: { id: 'someUserId', isAdmin: false },
       },
     );
-    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(8);
+    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(2);
   });
   it('Confirm load called twice, is Admin and contains_title and id_is', async () => {
     mockList.find.mockImplementationOnce(() => ({
@@ -129,7 +131,7 @@ describe('getLists tests', () => {
         user: { id: 'someUserId', isAdmin: true },
       },
     );
-    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(10);
+    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(2);
   });
   it('Returns an error: is not Admin, is not getOnlySelf', async () => {
     expect.assertions(1);
