@@ -1,12 +1,15 @@
 import { getLists } from './';
 import mockUser from '../../../database/models/User';
 import mockList from '../../../database/models/List';
+import mockGetListsLoader from '../../loaders';
 
 jest.mock('../../../database/models/User');
 jest.mock('../../../database/models/List');
+jest.mock('../../loaders');
 
+// TODO: calledTimes? what?
 describe('getLists tests', () => {
-  it('Returns an array of lists, is Admin with no filters', async () => {
+  it('Confirm load called twice, is Admin with no filters', async () => {
     mockList.find.mockImplementationOnce(() => ({
       limit: () => [
         {
@@ -21,27 +24,14 @@ describe('getLists tests', () => {
         },
       ],
     }));
-    expect(
-      await getLists('root', 'args', {
-        models: { List: mockList, User: mockUser },
-        user: { isAdmin: true },
-      }),
-    ).toEqual(
-      expect.arrayContaining([
-        {
-          id: 'someListId1',
-          title: 'someListTitle1',
-          owner: 'someListOwnerId1',
-        },
-        {
-          id: 'someListId2',
-          title: 'someListTitle2',
-          owner: 'someListOwnerId2',
-        },
-      ]),
-    );
+    await getLists('root', 'args', {
+      models: { List: mockList, User: mockUser },
+      loaders: { getListsLoader: mockGetListsLoader },
+      user: { isAdmin: true },
+    });
+    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(2);
   });
-  it('Returns an array of lists, getOnlySelf with no filters', async () => {
+  it('Confirm load called twice, getOnlySelf with no filters', async () => {
     mockList.find.mockImplementationOnce(() => ({
       limit: () => [
         {
@@ -56,66 +46,18 @@ describe('getLists tests', () => {
         },
       ],
     }));
-    expect(
-      await getLists(
-        'root',
-        { userId: 'someUserId' },
-        {
-          models: { List: mockList, User: mockUser },
-          user: { id: 'someUserId', isAdmin: false },
-        },
-      ),
-    ).toEqual(
-      expect.arrayContaining([
-        {
-          id: 'someListId1',
-          title: 'someListTitle1',
-          owner: 'someListOwnerId1',
-        },
-        {
-          id: 'someListId2',
-          title: 'someListTitle2',
-          owner: 'someListOwnerId2',
-        },
-      ]),
-    );
-  });
-  it('Returns an array of lists, no userId, with no filters', async () => {
-    mockList.find.mockImplementationOnce(() => ({
-      limit: () => [
-        {
-          id: 'someListId1',
-          title: 'someListTitle1',
-          owner: 'someListOwnerId1',
-        },
-        {
-          id: 'someListId2',
-          title: 'someListTitle2',
-          owner: 'someListOwnerId2',
-        },
-      ],
-    }));
-    expect(
-      await getLists('root', 'args', {
+    await getLists(
+      'root',
+      { userId: 'someUserId' },
+      {
         models: { List: mockList, User: mockUser },
+        loaders: { getListsLoader: mockGetListsLoader },
         user: { id: 'someUserId', isAdmin: false },
-      }),
-    ).toEqual(
-      expect.arrayContaining([
-        {
-          id: 'someListId1',
-          title: 'someListTitle1',
-          owner: 'someListOwnerId1',
-        },
-        {
-          id: 'someListId2',
-          title: 'someListTitle2',
-          owner: 'someListOwnerId2',
-        },
-      ]),
+      },
     );
+    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(4);
   });
-  it('Returns an array of one list, not Admin and contains_title and id_is', async () => {
+  it('Confirm load called twice, no userId, with no filters', async () => {
     mockList.find.mockImplementationOnce(() => ({
       limit: () => [
         {
@@ -130,31 +72,14 @@ describe('getLists tests', () => {
         },
       ],
     }));
-    expect(
-      await getLists(
-        'root',
-        { contains_title: 'someListTitle1', id_is: 'someListId2' },
-        {
-          models: { List: mockList, User: mockUser },
-          user: { id: 'someUserId', isAdmin: false },
-        },
-      ),
-    ).toEqual(
-      expect.arrayContaining([
-        {
-          id: 'someListId1',
-          title: 'someListTitle1',
-          owner: 'someListOwnerId1',
-        },
-        {
-          id: 'someListId2',
-          title: 'someListTitle2',
-          owner: 'someListOwnerId2',
-        },
-      ]),
-    );
+    await getLists('root', 'args', {
+      models: { List: mockList, User: mockUser },
+      loaders: { getListsLoader: mockGetListsLoader },
+      user: { id: 'someUserId', isAdmin: false },
+    });
+    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(6);
   });
-  it('Returns an array of one list, is Admin and contains_title and id_is', async () => {
+  it('Confirm load called twice, not Admin and contains_title and id_is', async () => {
     mockList.find.mockImplementationOnce(() => ({
       limit: () => [
         {
@@ -169,17 +94,20 @@ describe('getLists tests', () => {
         },
       ],
     }));
-    expect(
-      await getLists(
-        'root',
-        { contains_title: 'someListTitle1', id_is: 'someListId2' },
-        {
-          models: { List: mockList, User: mockUser },
-          user: { id: 'someUserId', isAdmin: true },
-        },
-      ),
-    ).toEqual(
-      expect.arrayContaining([
+    await getLists(
+      'root',
+      { contains_title: 'someListTitle1', id_is: 'someListId2' },
+      {
+        models: { List: mockList, User: mockUser },
+        loaders: { getListsLoader: mockGetListsLoader },
+        user: { id: 'someUserId', isAdmin: false },
+      },
+    );
+    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(8);
+  });
+  it('Confirm load called twice, is Admin and contains_title and id_is', async () => {
+    mockList.find.mockImplementationOnce(() => ({
+      limit: () => [
         {
           id: 'someListId1',
           title: 'someListTitle1',
@@ -190,8 +118,18 @@ describe('getLists tests', () => {
           title: 'someListTitle2',
           owner: 'someListOwnerId2',
         },
-      ]),
+      ],
+    }));
+    await getLists(
+      'root',
+      { contains_title: 'someListTitle1', id_is: 'someListId2' },
+      {
+        models: { List: mockList, User: mockUser },
+        loaders: { getListsLoader: mockGetListsLoader },
+        user: { id: 'someUserId', isAdmin: true },
+      },
     );
+    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(10);
   });
   it('Returns an error: is not Admin, is not getOnlySelf', async () => {
     expect.assertions(1);
@@ -201,6 +139,7 @@ describe('getLists tests', () => {
         { userId: 'someOtherUserId' },
         {
           models: { List: mockList, User: mockUser },
+          loaders: { getListsLoader: mockGetListsLoader },
           user: { id: 'someUserId', isAdmin: false },
         },
       );
