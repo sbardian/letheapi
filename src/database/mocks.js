@@ -3,6 +3,14 @@ import bcrypt from 'bcrypt';
 
 faker.seed(1337);
 
+export const insertInvitationItems = (count, list, user, invitee) =>
+  Array.from(Array(count), () => ({
+    inviter: user.id,
+    invitee: invitee.id,
+    title: faker.lorem.words(),
+    list: list.id,
+  }));
+
 export const insertMockItems = (count, list, user) =>
   Array.from(Array(count), () => ({
     title: faker.lorem.words(),

@@ -18,5 +18,5 @@ export const acceptInvitation = async (
     await Invitation.findByIdAndRemove(invitationId);
     return returnInvitations(invitation);
   }
-  return new Error('You do not have permission to accept this invitation');
+  throw new Error('You do not have permission to accept this invitation');
 };
