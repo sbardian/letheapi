@@ -133,6 +133,34 @@ describe('getLists tests', () => {
     );
     expect(mockGetListsLoader.load).toHaveBeenCalledTimes(2);
   });
+
+  it('Confirm load called twice, is Admin and userId', async () => {
+    mockList.find.mockImplementationOnce(() => ({
+      limit: () => [
+        {
+          id: 'someListId1',
+          title: 'someListTitle1',
+          owner: 'someListOwnerId1',
+        },
+        {
+          id: 'someListId2',
+          title: 'someListTitle2',
+          owner: 'someListOwnerId2',
+        },
+      ],
+    }));
+    await getLists(
+      'root',
+      { userId: 'someUserId' },
+      {
+        models: { List: mockList, User: mockUser },
+        loaders: { getListsLoader: mockGetListsLoader },
+        user: { id: 'someUserId', isAdmin: true },
+      },
+    );
+    expect(mockGetListsLoader.load).toHaveBeenCalledTimes(2);
+  });
+
   it('Returns an error: is not Admin, is not getOnlySelf', async () => {
     expect.assertions(1);
     try {
