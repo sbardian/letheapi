@@ -7,7 +7,7 @@ import { getMyInfoLoader } from './getMyInfoLoader';
 import { getListInvitationsLoader } from './getListInvitationsLoader';
 import { Item, User, List, Invitation } from '../../database/models';
 
-export default {
+export default () => ({
   getListItemsLoader: getListItemsLoader({ Item }),
   getListUsersLoader: getListUsersLoader({ User }),
   getMyInfoLoader: getMyInfoLoader({ User }),
@@ -15,4 +15,4 @@ export default {
   getUserListsLoader: getUserListsLoader({ List }),
   getUserInvitationsLoader: getUserInvitationsLoader({ Invitation }),
   getListInvitationsLoader: getListInvitationsLoader({ Invitation }),
-};
+});

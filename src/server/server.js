@@ -8,17 +8,7 @@ import { connectDB } from '../database';
 import schema from '../graphql/schema';
 import { Item, User, List, Invitation } from '../database/models';
 import { config } from '../config';
-// import loaders from '../graphql/loaders/createLoaders';
-import {
-  getListItemsLoader,
-  getListUsersLoader,
-  getListInvitationsLoader,
-  getMyInfoLoader,
-  getUserInvitationsLoader,
-  getUserLoader,
-  getUserListsLoader,
-  getListsLoader,
-} from '../graphql/loaders';
+import createLoaders from '../graphql/loaders/createLoaders';
 export default async () => {
   const server = express();
 
@@ -43,16 +33,7 @@ export default async () => {
           Invitation,
         },
         user: req.user,
-        loaders: {
-          getListItemsLoader: getListItemsLoader({ Item }),
-          getListUsersLoader: getListUsersLoader({ User }),
-          getListInvitationsLoader: getListInvitationsLoader({ Invitation }),
-          getMyInfoLoader: getMyInfoLoader({ User }),
-          getUserLoader: getUserLoader({ User }),
-          getUserListsLoader: getUserListsLoader({ List }),
-          getUserInvitationsLoader: getUserInvitationsLoader({ Invitation }),
-          getListsLoader: getListsLoader({ List, User }),
-        },
+        loaders: createLoaders(),
       },
       tracing: true,
       cacheControl: true,
