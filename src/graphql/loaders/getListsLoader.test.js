@@ -31,9 +31,8 @@ afterEach(async () => {
   await List.remove();
 });
 
-// TODO: calledTimes? what?
 describe('getLists tests', () => {
-  it('Confirm load called twice, is Admin with no filters', async () => {
+  it('DataLoader returns list it receives', async () => {
     expect.assertions(4);
     mockLists.forEach(async list => {
       expect(returnLists(await loaders.getListsLoader.load(list.id))).toEqual(
