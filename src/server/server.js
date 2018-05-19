@@ -2,13 +2,13 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { ApolloEngine } from 'apollo-engine';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import mongoose from 'mongoose';
 import jwt from 'express-jwt';
 import { connectDB } from '../database';
 import schema from '../graphql/schema';
 import { Item, User, List, Invitation } from '../database/models';
 import { config } from '../config';
 import createLoaders from '../graphql/loaders/createLoaders';
+
 export default async () => {
   const server = express();
 

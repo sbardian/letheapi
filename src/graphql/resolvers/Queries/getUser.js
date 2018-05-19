@@ -1,7 +1,7 @@
 export const getUser = async (
   root,
   { userId },
-  { models: { User }, loaders: { getUserLoader }, user },
+  { loaders: { getUserLoader }, user },
 ) => {
   if (!user.isAdmin) {
     throw new Error(

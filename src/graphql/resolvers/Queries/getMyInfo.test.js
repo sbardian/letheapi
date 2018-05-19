@@ -8,7 +8,7 @@ describe('getMyInfo tests', () => {
     await getMyInfo('root', 'args', {
       loaders: { getMyInfoLoader: mockGetMyInfoLoader },
       user: { id: 'someUserId' },
-    }),
-      expect(mockGetMyInfoLoader.load).toHaveBeenCalledTimes(1);
+    });
+    expect(mockGetMyInfoLoader.load).toHaveBeenCalledTimes(1);
   });
 });

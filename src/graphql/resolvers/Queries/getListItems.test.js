@@ -1,5 +1,4 @@
 import { getListItems } from './';
-import mockItem from '../../../database/models/Item';
 import mockGetListItemsLoader from '../../loaders';
 
 jest.mock('../../../database/models/Item');

@@ -6,7 +6,7 @@ faker.seed(1337);
 export const insertMockItems = (count, list, user) =>
   Array.from(Array(count), () => ({
     title: faker.lorem.words(),
-    list: list,
+    list,
     creator: user,
   }));
 
@@ -14,7 +14,7 @@ export const insertMockLists = (count, users) =>
   Array.from(Array(count), () => ({
     title: faker.company.companyName(),
     owner: users[0].id,
-    users: users,
+    users,
     items: [],
   }));
 

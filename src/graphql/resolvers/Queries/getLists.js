@@ -28,7 +28,6 @@ export const getLists = async (
       }),
     }).limit(limit);
     return lists.map(list => getListsLoader.load(list.id));
-  } else {
-    throw new Error('You are only allowed to retrieve your own lists');
   }
+  throw new Error('You are only allowed to retrieve your own lists');
 };

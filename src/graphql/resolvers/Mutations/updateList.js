@@ -6,7 +6,7 @@ export const updateList = async (
   { models: { List }, user },
 ) => {
   if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
-    return await List.findByIdAndUpdate(listId, { title }, { new: true });
+    return List.findByIdAndUpdate(listId, { title }, { new: true });
   }
   throw new Error('You do not have permission to update this list.');
 };

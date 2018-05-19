@@ -1,4 +1,4 @@
-import { default as createServer } from './server';
+import createServer from './server';
 
 test('Should return a server', () => {
   // expect(createServer()).toBeTruthy();

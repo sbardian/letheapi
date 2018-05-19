@@ -27,7 +27,6 @@ export const createInvitation = async (
         { new: true, upsert: true },
       ),
     );
-  } else {
-    return new Error('You must be the list owner to invite other users.');
   }
+  throw new Error('You must be the list owner to invite other users.');
 };
