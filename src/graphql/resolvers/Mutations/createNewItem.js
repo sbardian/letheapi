@@ -9,5 +9,5 @@ export const createNewItem = async (
   if (userOfListByListId(user, ItemInfo.list, User) || user.isAdmin) {
     return returnItems(await Item.create({ ...ItemInfo, creator: user.id }));
   }
-  throw new Error('You do not have permission to create items in this list');
+  throw new Error('You do not have permission to create items in this list.');
 };
