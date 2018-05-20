@@ -39,6 +39,7 @@ afterEach(async () => {
 
 describe('createInvitation test', () => {
   it('Returns error', async () => {
+    mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
     try {
       await createInvitation(
         'root',
