@@ -1,4 +1,5 @@
 import DataLoader from 'dataloader';
+import { returnLists } from '../../database/utils';
 
 export const getUserListsLoader = ({ List }) =>
   new DataLoader(async userIds => {
@@ -6,7 +7,9 @@ export const getUserListsLoader = ({ List }) =>
     return userIds.reduce(
       (newArray, id) => [
         ...newArray,
-        lists.filter(list => list.users.find(userId => userId === id)),
+        lists.filter(list =>
+          returnLists(list.users.find(userId => userId === id)),
+        ),
       ],
       [],
     );
