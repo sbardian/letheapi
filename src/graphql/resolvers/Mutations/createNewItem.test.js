@@ -40,6 +40,7 @@ afterEach(async () => {
 describe('createNewItem tests', () => {
   it('Returns an error', async () => {
     mockCheckAuth.userOfListByListId.mockImplementationOnce(() => false);
+    expect.assertions(1);
     try {
       await createNewItem(
         'root',
