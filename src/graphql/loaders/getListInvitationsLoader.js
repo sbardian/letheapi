@@ -5,6 +5,7 @@ export const getListInvitationsLoader = ({ Invitation }) =>
     const invitations = await Invitation.find({ list: { $in: listIds } });
     return listIds.reduce(
       (newArray, id) => [
+        ...newArray,
         invitations.filter(invitation => invitation.list === id),
       ],
       [],
