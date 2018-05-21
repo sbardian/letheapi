@@ -22,8 +22,8 @@ afterAll(() => {
 });
 
 beforeEach(async () => {
-  mockUsers = await User.insertMany(insertMockUsers(1));
-  mockLists = await List.insertMany(insertMockLists(1, mockUsers));
+  mockUsers = await User.insertMany(insertMockUsers(2));
+  mockLists = await List.insertMany(insertMockLists(2, mockUsers));
   loaders = { getUserListsLoader: getUserListsLoader({ List }) };
 });
 
@@ -34,9 +34,12 @@ afterEach(async () => {
 
 describe('getLists tests', () => {
   it('DataLoader returns users lists', async () => {
-    const list = returnLists(
-      await loaders.getUserListsLoader.load(mockUsers[0].id),
+    expect.assertions(2);
+    return Promise.all(
+      mockUsers.map(async user => {
+        const lists = await loaders.getUserListsLoader.load(user.id);
+        expect(lists.map(returnLists)).toEqual(mockLists.map(returnLists));
+      }),
     );
-    expect(list).toEqual(returnLists(mockLists));
   });
 });

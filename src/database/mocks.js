@@ -22,7 +22,7 @@ export const insertMockLists = (count, users) =>
   Array.from(Array(count), () => ({
     title: faker.company.companyName(),
     owner: users[0].id,
-    users: [users[0].id],
+    users: users.map(user => user.id),
     items: [],
   }));
 
