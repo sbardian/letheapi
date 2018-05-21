@@ -28,8 +28,8 @@ beforeEach(async () => {
   await User.findByIdAndUpdate(users[0].id, {
     lists: [lists[0].id],
   });
-  userToUse = users[0];
-  listToUse = lists[0];
+  [userToUse] = users;
+  [listToUse] = lists;
 });
 
 afterEach(async () => {
