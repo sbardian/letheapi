@@ -5,16 +5,18 @@ export const createNewList = async (
   { ListInfo: { title } },
   { models: { List, User }, user },
 ) => {
-  // TODO implement user check?
-  const newList = await List.create({
-    title,
-    owner: user.id,
-    users: [user.id],
-    items: [],
-  });
-  const userfound = await User.findById(user.id);
-  const { lists } = userfound;
-  const { id } = newList;
-  await User.update({ _id: user.id }, { $set: { lists: [...lists, id] } });
-  return returnLists(newList);
+  if (user) {
+    const newList = await List.create({
+      title,
+      owner: user.id,
+      users: [user.id],
+      items: [],
+    });
+    const userfound = await User.findById(user.id);
+    const { lists } = userfound;
+    const { id } = newList;
+    await User.findByIdAndUpdate(user.id, { lists: [...lists, id] });
+    return returnLists(newList);
+  }
+  throw new Error('You must be logged in to create a list.');
 };
