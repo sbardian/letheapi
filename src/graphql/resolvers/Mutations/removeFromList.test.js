@@ -22,7 +22,7 @@ afterAll(() => {
 
 beforeEach(async () => {
   const users = await User.insertMany(insertMockUsers(1));
-  const lists = await List.insertMany(insertMockLists(2, users[0].id));
+  const lists = await List.insertMany(insertMockLists(2, users));
   await User.findByIdAndUpdate(users[0].id, {
     lists: [lists[0].id, lists[1].id],
   });
