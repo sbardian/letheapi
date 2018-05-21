@@ -22,7 +22,7 @@ afterAll(() => {
 
 beforeEach(async () => {
   const users = await User.insertMany(insertMockUsers(1));
-  mockLists = await List.insertMany(insertMockLists(4, users[0].id));
+  mockLists = await List.insertMany(insertMockLists(4, users));
   loaders = { getListsLoader: getListsLoader({ List }) };
 });
 
