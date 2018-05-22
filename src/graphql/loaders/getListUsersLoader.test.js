@@ -24,11 +24,12 @@ afterAll(() => {
 beforeEach(async () => {
   mockUsers = await User.insertMany(insertMockUsers(2));
   mockLists = await List.insertMany(insertMockLists(2, mockUsers));
-  mockUsers.map(
-    async user =>
-      await User.findByIdAndUpdate(user.id, {
+  Promise.all(
+    mockUsers.map(async user =>
+      User.findByIdAndUpdate(user.id, {
         lists: mockLists.map(list => list.id),
       }),
+    ),
   );
   loaders = { getListUsersLoader: getListUsersLoader({ User }) };
 });
