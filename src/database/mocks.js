@@ -14,7 +14,7 @@ export const insertInvitationItems = (count, list, user, invitee) =>
 export const insertMockItems = (count, list, user) =>
   Array.from(Array(count), () => ({
     title: faker.lorem.words(),
-    list,
+    list: list.id,
     creator: user,
   }));
 
