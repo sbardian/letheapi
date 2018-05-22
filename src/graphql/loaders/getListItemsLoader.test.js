@@ -8,7 +8,7 @@ import {
   insertMockItems,
 } from '../../database/mocks';
 
-jest.setTimeout(10000);
+jest.setTimeout(12000);
 
 let server;
 let mockUsers;
@@ -27,8 +27,8 @@ afterAll(() => {
 });
 
 beforeEach(async () => {
-  mockUsers = await User.insertMany(insertMockUsers(2));
-  mockLists = await List.insertMany(insertMockLists(2, mockUsers));
+  mockUsers = await User.insertMany(insertMockUsers(1));
+  mockLists = await List.insertMany(insertMockLists(1, mockUsers));
   Promise.all(
     mockUsers.map(async user =>
       User.findByIdAndUpdate(user.id, {
@@ -36,10 +36,11 @@ beforeEach(async () => {
       }),
     ),
   );
-  mockItems = await Item.insertMany(
-    insertMockItems(5, mockLists[0], mockUsers),
+  mockLists.map(async list =>
+    Item.insertMany(insertMockItems(5, list, mockUsers)),
   );
-  console.log('FOUND Items = ', await )
+  mockLists = await List.find();
+  mockItems = await Item.find();
   loaders = { getListItemsLoader: getListItemsLoader({ Item }) };
 });
 
@@ -50,14 +51,12 @@ afterEach(async () => {
 
 describe('getListItemsLoader test', () => {
   it('Returns items', async () => {
-    expect.assertions(5);
-    Promise.all(
-      mockItems.map(async item => {
-        const items = await loaders.getListItemsLoader.load(item.id);
-        console.log('items = ', items);
+    expect.assertions(1);
+    return Promise.all(
+      mockLists.map(async list => {
+        const items = await loaders.getListItemsLoader.load(list.id);
         expect(items.map(returnItems)).toEqual(mockItems.map(returnItems));
       }),
     );
   });
 });
-
