@@ -22,17 +22,14 @@ afterAll(() => {
 });
 
 beforeEach(async () => {
-  const user = await User.insertMany(insertMockUsers(1));
-  mockLists = await List.insertMany(insertMockLists(1, user));
-  await User.findByIdAndUpdate(
-    user[0].id,
-    {
-      lists: [mockLists[0].id],
-    },
-    { new: true },
+  mockUsers = await User.insertMany(insertMockUsers(2));
+  mockLists = await List.insertMany(insertMockLists(2, mockUsers));
+  mockUsers.map(
+    async user =>
+      await User.findByIdAndUpdate(user.id, {
+        lists: mockLists.map(list => list.id),
+      }),
   );
-  mockUsers = await User.find();
-  console.log('mockUsers = ', mockUsers);
   loaders = { getListUsersLoader: getListUsersLoader({ User }) };
 });
 
@@ -41,19 +38,14 @@ afterEach(async () => {
   await List.remove();
 });
 
-describe('getLists tests', () => {
+describe('getListUsersLoader tests', () => {
   it('DataLoader returns lists users', async () => {
-    // expect.assertions(1);
-    // expect(
-    //   returnUsers(await loaders.getListUsersLoader.load(mockLists[0].id)),
-    // ).toEqual(returnUsers(mockUsers));
-    console.log('user in test = ', await User.find());
-    expect.assertions(1);
-    mockLists.forEach(async list => {
-      console.log('list.id = ', list.id);
-      expect(
-        returnUsers(await loaders.getListUsersLoader.load(list.id)),
-      ).toEqual(returnUsers(mockUsers));
-    });
+    expect.assertions(2);
+    return Promise.all(
+      mockLists.map(async list => {
+        const users = await loaders.getListUsersLoader.load(list.id);
+        expect(users.map(returnUsers)).toEqual(mockUsers.map(returnUsers));
+      }),
+    );
   });
 });

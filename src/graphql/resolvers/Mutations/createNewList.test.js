@@ -21,7 +21,7 @@ afterAll(() => {
 
 beforeEach(async () => {
   const users = await User.insertMany(insertMockUsers(1));
-  userToUse = users[0];
+  [userToUse] = users;
 });
 
 afterEach(async () => {
