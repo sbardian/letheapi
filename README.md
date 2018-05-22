@@ -1,7 +1,6 @@
-Shopping List GraphQL Api
+Lethe GraphQL Api
 
-This is a GraphQL Api that will be used with the Shopping List React Native
-application.
+This is a GraphQL Api that will be used with the Lethe React Native application.
 
 [![Build Status on master][build-image-master]][build-url-master]
 
