@@ -30,7 +30,7 @@ beforeEach(async () => {
   await User.findByIdAndUpdate(users[0].id, {
     lists: [lists[0].id, lists[1].id],
   });
-  const items = await Item.insertMany(insertMockItems(1, lists[0], users[0]));
+  const items = await Item.insertMany(insertMockItems(1, lists[0], users));
   [toUpdate] = items;
 });
 
