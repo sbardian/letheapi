@@ -13,7 +13,7 @@ jest.setTimeout(12000);
 let server;
 let mockUsers;
 let mockLists;
-let mockInvitations;
+let mockInvitations = [];
 let loaders;
 
 beforeAll(async done => {
@@ -28,7 +28,7 @@ afterAll(() => {
 
 beforeEach(async () => {
   mockUsers = await User.insertMany(insertMockUsers(2));
-  mockLists = await List.insertMany(insertMockLists(2, mockUsers));
+  mockLists = await List.insertMany(insertMockLists(4, mockUsers));
   Promise.all(
     mockUsers.map(async user =>
       User.findByIdAndUpdate(user.id, {
@@ -36,14 +36,13 @@ beforeEach(async () => {
       }),
     ),
   );
-  // mockLists.map(list =>
-  //   Invitation.insertMany(
-  //     insertInvitationItems(2, list, mockUsers[0], mockUsers[0]),
-  //   ),
-  // );
 
-  mockInvitations = await Invitation.insertMany(
-    insertInvitationItems(2, mockLists[0], mockUsers[0], mockUsers[0]),
+  mockLists.forEach(async list =>
+    mockInvitations.push(
+      await Invitation.insertMany(
+        insertInvitationItems(8, list, mockUsers[0], mockUsers[0]),
+      ),
+    ),
   );
 
   loaders = {
@@ -58,21 +57,16 @@ afterEach(async () => {
 
 describe('getListInvitationsLoader tests', () => {
   it('DataLoader returns lists users', async () => {
-    expect.assertions(1);
-    // return Promise.all(
-    //   mockLists.map(async list => {
-    //     const invitations = await loaders.getListInvitationsLoader.load(
-    //       list.id,
-    //     );
-    //     expect(invitations.map(returnInvitations)).toEqual(
-    //       mockInvitations.map(returnInvitations),
-    //     );
-    //   }),
-    // );
-    expect(
-      (await loaders.getListInvitationsLoader.load(mockLists[0].id)).map(
-        returnInvitations,
-      ),
-    ).toEqual(mockInvitations.map(returnInvitations));
+    expect.assertions(4);
+    return Promise.all(
+      mockLists.map(async (list, index) => {
+        const invitations = await loaders.getListInvitationsLoader.load(
+          list.id,
+        );
+        expect(invitations.map(returnInvitations)).toEqual(
+          mockInvitations[index].map(returnInvitations),
+        );
+      }),
+    );
   });
 });
