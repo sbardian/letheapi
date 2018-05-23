@@ -13,7 +13,7 @@ jest.setTimeout(12000);
 let server;
 let mockUsers;
 let mockLists;
-let mockItems;
+let mockItems = [];
 let loaders;
 
 beforeAll(async done => {
@@ -28,7 +28,7 @@ afterAll(() => {
 
 beforeEach(async () => {
   mockUsers = await User.insertMany(insertMockUsers(1));
-  mockLists = await List.insertMany(insertMockLists(1, mockUsers));
+  mockLists = await List.insertMany(insertMockLists(2, mockUsers));
   Promise.all(
     mockUsers.map(async user =>
       User.findByIdAndUpdate(user.id, {
@@ -37,10 +37,9 @@ beforeEach(async () => {
     ),
   );
   mockLists.map(async list =>
-    Item.insertMany(insertMockItems(5, list, mockUsers)),
+    mockItems.push(await Item.insertMany(insertMockItems(2, list, mockUsers))),
   );
   mockLists = await List.find();
-  mockItems = await Item.find();
   loaders = { getListItemsLoader: getListItemsLoader({ Item }) };
 });
 
@@ -51,11 +50,13 @@ afterEach(async () => {
 
 describe('getListItemsLoader test', () => {
   it('Returns items', async () => {
-    expect.assertions(1);
+    expect.assertions(2);
     return Promise.all(
-      mockLists.map(async list => {
+      mockLists.map(async (list, index) => {
         const items = await loaders.getListItemsLoader.load(list.id);
-        expect(items.map(returnItems)).toEqual(mockItems.map(returnItems));
+        expect(items.map(returnItems)).toEqual(
+          mockItems[index].map(returnItems),
+        );
       }),
     );
   });
