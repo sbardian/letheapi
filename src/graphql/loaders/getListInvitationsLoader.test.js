@@ -8,7 +8,7 @@ import {
   insertInvitationItems,
 } from '../../database/mocks';
 
-jest.setTimeout(12000);
+jest.setTimeout(15000);
 
 let server;
 let mockUsers;
@@ -28,7 +28,7 @@ afterAll(() => {
 
 beforeEach(async () => {
   mockUsers = await User.insertMany(insertMockUsers(2));
-  mockLists = await List.insertMany(insertMockLists(4, mockUsers));
+  mockLists = await List.insertMany(insertMockLists(3, mockUsers));
   Promise.all(
     mockUsers.map(async user =>
       User.findByIdAndUpdate(user.id, {
@@ -40,7 +40,7 @@ beforeEach(async () => {
   mockLists.forEach(async list =>
     mockInvitations.push(
       await Invitation.insertMany(
-        insertInvitationItems(8, list, mockUsers[0], mockUsers[0]),
+        insertInvitationItems(4, list, mockUsers[0], mockUsers[0]),
       ),
     ),
   );
@@ -57,7 +57,7 @@ afterEach(async () => {
 
 describe('getListInvitationsLoader tests', () => {
   it('DataLoader returns lists users', async () => {
-    expect.assertions(4);
+    expect.assertions(3);
     return Promise.all(
       mockLists.map(async (list, index) => {
         const invitations = await loaders.getListInvitationsLoader.load(
