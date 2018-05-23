@@ -36,10 +36,13 @@ beforeEach(async () => {
       }),
     ),
   );
-  mockLists.map(async list =>
-    mockItems.push(await Item.insertMany(insertMockItems(2, list, mockUsers))),
+  Promise.all(
+    mockLists.map(async list =>
+      mockItems.push(
+        await Item.insertMany(insertMockItems(1, list, mockUsers)),
+      ),
+    ),
   );
-  mockLists = await List.find();
   loaders = { getListItemsLoader: getListItemsLoader({ Item }) };
 });
 
