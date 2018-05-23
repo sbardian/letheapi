@@ -12,7 +12,7 @@
     "lint": "eslint . ",
     "build": "npm run build:server",
     "prebuild": "npm run clean",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist coverage",
     "build:server": "babel src -d dist --source-maps --ignore \"**/*.test.js\""
   },
   "lint-staged": {
