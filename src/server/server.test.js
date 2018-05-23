@@ -1,5 +1,8 @@
 import createServer from './server';
+import mockConnectDB from '../database';
 
-test('Should return a server', () => {
-  // expect(createServer()).toBeTruthy();
+jest.mock('../database');
+
+test('Should return a server', async () => {
+  expect(await createServer()).toBeTruthy();
 });
