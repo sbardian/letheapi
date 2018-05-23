@@ -28,21 +28,25 @@ afterAll(() => {
 
 beforeEach(async () => {
   mockUsers = await User.insertMany(insertMockUsers(1));
-  mockLists = await List.insertMany(insertMockLists(2, mockUsers));
-  Promise.all(
+  mockLists = await List.insertMany(insertMockLists(9, mockUsers));
+  await Promise.all(
     mockUsers.map(async user =>
       User.findByIdAndUpdate(user.id, {
         lists: mockLists.map(list => list.id),
       }),
     ),
   );
-  Promise.all(
-    mockLists.map(async list =>
-      mockItems.push(
-        await Item.insertMany(insertMockItems(1, list, mockUsers)),
-      ),
-    ),
+
+  await Promise.all(
+    mockLists.map(async list => {
+      const items = await Item.insertMany(insertMockItems(10, list, mockUsers));
+      mockItems = {
+        ...mockItems,
+        [list.id]: items,
+      };
+    }),
   );
+
   loaders = { getListItemsLoader: getListItemsLoader({ Item }) };
 });
 
@@ -53,12 +57,12 @@ afterEach(async () => {
 
 describe('getListItemsLoader test', () => {
   it('Returns items', async () => {
-    expect.assertions(2);
+    expect.assertions(9);
     return Promise.all(
-      mockLists.map(async (list, index) => {
+      mockLists.map(async list => {
         const items = await loaders.getListItemsLoader.load(list.id);
         expect(items.map(returnItems)).toEqual(
-          mockItems[index].map(returnItems),
+          mockItems[list.id].map(returnItems),
         );
       }),
     );

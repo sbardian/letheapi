@@ -13,7 +13,7 @@ jest.setTimeout(20000);
 let server;
 let mockUsers;
 let mockLists;
-let mockInvitations = [];
+let mockInvitations = {};
 let loaders;
 
 beforeAll(async done => {
@@ -28,23 +28,37 @@ afterAll(() => {
 
 beforeEach(async () => {
   mockUsers = await User.insertMany(insertMockUsers(2));
-  mockLists = await List.insertMany(insertMockLists(2, mockUsers));
-  Promise.all(
+  mockLists = await List.insertMany(insertMockLists(9, mockUsers));
+  await Promise.all(
     mockUsers.map(async user =>
       User.findByIdAndUpdate(user.id, {
         lists: mockLists.map(list => list.id),
       }),
     ),
   );
-  Promise.all(
-    mockLists.map(async list =>
-      mockInvitations.push(
-        await Invitation.insertMany(
-          insertInvitationItems(10, list, mockUsers[0], mockUsers[0]),
-        ),
-      ),
-    ),
+
+  await Promise.all(
+    mockLists.map(async list => {
+      const invites = await Invitation.insertMany(
+        insertInvitationItems(2, list, mockUsers[0], mockUsers[0]),
+      );
+      mockInvitations = {
+        ...mockInvitations,
+        [list.id]: invites,
+      };
+    }),
   );
+
+  // Alternate code for populating mockInvitations, cause weirdness
+  // mockInvitations = await mockLists.reduce(async (m, list) => {
+  //   return {
+  //     ...(await m),
+  //     [list.id]: await Invitation.insertMany(
+  //       insertInvitationItems(20, list, mockUsers[0], mockUsers[0]),
+  //     ),
+  //   };
+  // }, Promise.resolve({}));
+
   loaders = {
     getListInvitationsLoader: getListInvitationsLoader({ Invitation }),
   };
@@ -57,14 +71,14 @@ afterEach(async () => {
 
 describe('getListInvitationsLoader tests', () => {
   it('DataLoader returns lists users', async () => {
-    expect.assertions(2);
+    expect.assertions(9);
     return Promise.all(
-      mockLists.map(async (list, index) => {
+      mockLists.map(async list => {
         const invitations = await loaders.getListInvitationsLoader.load(
           list.id,
         );
         expect(invitations.map(returnInvitations)).toEqual(
-          mockInvitations[index].map(returnInvitations),
+          mockInvitations[list.id].map(returnInvitations),
         );
       }),
     );

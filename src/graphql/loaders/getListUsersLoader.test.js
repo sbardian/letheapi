@@ -24,7 +24,7 @@ afterAll(() => {
 beforeEach(async () => {
   mockUsers = await User.insertMany(insertMockUsers(2));
   mockLists = await List.insertMany(insertMockLists(2, mockUsers));
-  Promise.all(
+  await Promise.all(
     mockUsers.map(async user =>
       User.findByIdAndUpdate(user.id, {
         lists: mockLists.map(list => list.id),
