@@ -1,5 +1,5 @@
 {
-  "name": "lethe",
+  "name": "letheapi",
   "version": "1.0.0",
   "description": "A GraphQL API for lethe",
   "main": "index.js",
