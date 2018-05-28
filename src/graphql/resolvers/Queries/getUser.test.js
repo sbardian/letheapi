@@ -26,11 +26,10 @@ describe('Test getUser', () => {
       await getUser('root', 'args', {
         models: { User: mockUser },
         loaders: { getUserLoader: mockGetUserLoader },
-        user: { isAdmin: false },
       });
     } catch (err) {
       expect(err.message).toMatch(
-        'This is an Admin only function, please use getMyInfo query',
+        'You must be a valid user to perform this query.',
       );
     }
   });

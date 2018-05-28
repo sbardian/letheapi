@@ -3,10 +3,8 @@ export const getUser = async (
   { userId },
   { loaders: { getUserLoader }, user },
 ) => {
-  if (!user.isAdmin) {
-    throw new Error(
-      'This is an Admin only function, please use getMyInfo query',
-    );
+  if (!user) {
+    throw new Error('You must be a valid user to perform this query.');
   }
   const userFound = await getUserLoader.load(userId);
   if (!userFound) {
