@@ -42,6 +42,18 @@ describe('ceateNewList tests', () => {
       expect(err.message).toMatch('You must be logged in to create a list.');
     }
   });
+  it('Returns an error, no title', async () => {
+    expect.assertions(1);
+    try {
+      await createNewList(
+        'root',
+        { ListInfo: {} },
+        { models: { List, User }, user: { id: userToUse.id } },
+      );
+    } catch (err) {
+      expect(err.message).toMatch('A title is required.');
+    }
+  });
   it('Returns a list', async () => {
     expect(
       await createNewList(

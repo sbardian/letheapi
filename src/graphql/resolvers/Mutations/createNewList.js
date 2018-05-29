@@ -6,6 +6,9 @@ export const createNewList = async (
   { models: { List, User }, user },
 ) => {
   if (user) {
+    if (!title) {
+      throw new Error('A title is required.');
+    }
     const newList = await List.create({
       title,
       owner: user.id,
