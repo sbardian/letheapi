@@ -31,7 +31,7 @@ afterEach(async () => {
   await List.remove();
 });
 
-describe('getLists tests', () => {
+describe('getListsLoader tests', () => {
   it('DataLoader returns list it receives', async () => {
     expect.assertions(4);
     mockLists.forEach(async list => {
