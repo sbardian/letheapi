@@ -72,7 +72,11 @@ describe('createInvitation test', () => {
           },
           {
             models: { User, List, Invitation },
-            user: { id: userToUse.id, isAdmin: true },
+            user: {
+              id: userToUse.id,
+              username: userToUse.username,
+              isAdmin: true,
+            },
           },
         ),
       ),
@@ -82,7 +86,7 @@ describe('createInvitation test', () => {
         title: 'InvitationTitle',
         list: listToUse.id,
         invitee: userToUse.id,
-        inviter: userToUse.id,
+        inviter: userToUse.username,
       }),
     );
   });
@@ -99,7 +103,11 @@ describe('createInvitation test', () => {
           },
           {
             models: { User, List, Invitation },
-            user: { id: userToUse.id, isAdmin: false },
+            user: {
+              id: userToUse.id,
+              username: userToUse.username,
+              isAdmin: false,
+            },
           },
         ),
       ),
@@ -109,7 +117,7 @@ describe('createInvitation test', () => {
         title: 'InvitationTitle',
         list: listToUse.id,
         invitee: userToUse.id,
-        inviter: userToUse.id,
+        inviter: userToUse.username,
       }),
     );
   });
