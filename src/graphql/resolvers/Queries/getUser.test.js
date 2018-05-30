@@ -26,28 +26,12 @@ describe('Test getUser', () => {
       await getUser('root', 'args', {
         models: { User: mockUser },
         loaders: { getUserLoader: mockGetUserLoader },
+        user: { isAdmin: false },
       });
     } catch (err) {
       expect(err.message).toMatch(
-        'You must be a valid user to perform this query.',
+        'This is an Admin only function, please use getMyInfo query.',
       );
-    }
-  });
-  it('Returns an error, user is not found', async () => {
-    mockUser.findById.mockImplementationOnce(() => undefined);
-    expect.assertions(1);
-    try {
-      await getUser(
-        'root',
-        { userId: 'someUserId' },
-        {
-          models: { User: mockUser },
-          loaders: { getUserLoader: mockGetUserLoader },
-          user: { isAdmin: true },
-        },
-      );
-    } catch (err) {
-      expect(err.message).toMatch('User ID someUserId not found');
     }
   });
 });
