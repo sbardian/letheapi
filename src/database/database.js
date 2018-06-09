@@ -25,6 +25,9 @@ export default async () => {
     await User.insertMany(insertMockUsers(2));
   } else {
     mongoose.connect(databaseUrl);
+    // mongoose.connect(
+    //   'mongodb+srv://lethe:lethe@lethemongodb-hmxj3.mongodb.net/test',
+    // );
   }
   const db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
