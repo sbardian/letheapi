@@ -16,7 +16,7 @@ export default async () => {
 
   const apolloServer = new ApolloServer({
     schema,
-    context: async ({ req }) => ({
+    context: ({ req }) => ({
       models: {
         Item,
         User,
