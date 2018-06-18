@@ -1,7 +1,6 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import { ApolloEngine } from 'apollo-engine';
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 import jwt from 'express-jwt';
 import { connectDB } from '../database';
 import schema from '../graphql/schema';
@@ -15,42 +14,36 @@ export default async () => {
   // Configure mongo database connection
   await connectDB();
 
+  const apolloServer = new ApolloServer({
+    schema,
+    context: async ({ req }) => ({
+      models: {
+        Item,
+        User,
+        List,
+        Invitation,
+      },
+      user: req.user,
+      loaders: createLoaders(),
+    }),
+    tracing: true,
+    cacheControl: true,
+    formatError: err => {
+      console.error(err);
+      return err;
+    },
+  });
+
   // The GraphQL endpoint
   server.use(
     '/graphql',
-    bodyParser.json(),
     jwt({
       secret: config.sessionSecret,
       credentialsRequired: false,
     }),
-    graphqlExpress(req => ({
-      schema,
-      context: {
-        models: {
-          Item,
-          User,
-          List,
-          Invitation,
-        },
-        user: req.user,
-        loaders: createLoaders(),
-      },
-      tracing: true,
-      cacheControl: true,
-      formatError: err => {
-        console.error(err);
-        return err;
-      },
-    })),
   );
 
-  // GraphiQL, a visual editor for queries
-  server.use(
-    '/graphiql',
-    graphiqlExpress({
-      endpointURL: '/graphql',
-    }),
-  );
+  apolloServer.applyMiddleware({ app: server });
 
   const engine = new ApolloEngine({
     apiKey: config.apolloEngineApiKey,
