@@ -15,6 +15,13 @@ export const returnUsers = user => ({
   id: user.id,
   username: user.username,
   email: user.email,
+  profileImageUrl: user.profileImageUrl,
+});
+
+export const returnProfileImage = user => ({
+  mimetype: user.profileImage.mimetype,
+  encoding: user.profileImage.encoding,
+  filename: user.profileImage.filename,
 });
 
 export const returnInvitations = invitation => ({

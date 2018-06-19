@@ -38,6 +38,7 @@ export const insertMockUsers = count =>
       username: faker.internet.userName(),
       lists: [],
       isAdmin,
+      profileImage: null,
     };
     console.log(
       `Email: ${user.email}, Username: ${user.username}, Password: ${password}`,

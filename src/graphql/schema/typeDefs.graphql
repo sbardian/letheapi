@@ -11,6 +11,7 @@ type User {
   email: String!
   lists: [List]
   invitations: [Invitation]
+  profileImageUrl: String
 }
 
 type List {
@@ -62,6 +63,8 @@ input NewItem {
   list: String!
 }
 
+scalar Upload
+
 type Mutation {
   # User login
   login(loginInput: LoginInput!): AuthResponse
@@ -93,6 +96,8 @@ type Mutation {
   updateList(listId: String!, title: String!): List
   # Updates a list item. (Permissions: Admin/List Owner/List User)
   updateItem(itemId: String!, title: String!): Item
+  # Uploads a user profile image
+  profileImageUpload(file: Upload!): User!
 }
 
 type Query {

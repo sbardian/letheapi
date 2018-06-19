@@ -12,6 +12,7 @@ import {
   removeFromList,
   updateList,
   updateItem,
+  profileImageUpload,
 } from './Mutations';
 import {
   getMyInfo,
@@ -46,6 +47,7 @@ const resolvers = {
     removeFromList,
     updateList,
     updateItem,
+    profileImageUpload,
   },
   List: {
     users: getListUsers,

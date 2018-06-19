@@ -19,6 +19,7 @@ const UserSchema = new mongoose.Schema({
   },
   lists: [String],
   isAdmin: Boolean,
+  profileImageUrl: String,
 });
 
 const User = mongoose.model('User', UserSchema);
