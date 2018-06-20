@@ -19,7 +19,7 @@ export const createInvitation = async (
           list: listId,
         },
         {
-          inviter: user.username,
+          inviter: user,
           invitee: invitedUser.id,
           title,
           list: listId,
