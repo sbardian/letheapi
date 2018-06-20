@@ -12,6 +12,11 @@ export const createInvitation = async (
         $or: [{ email: invitee }, { username: invitee }],
       }),
     );
+    const invitingUser = returnUsers(
+      await User.findOne({
+        _id: user.id,
+      }),
+    );
     return returnInvitations(
       await Invitation.findOneAndUpdate(
         {
@@ -19,7 +24,7 @@ export const createInvitation = async (
           list: listId,
         },
         {
-          inviter: user,
+          inviter: invitingUser,
           invitee: invitedUser.id,
           title,
           list: listId,
