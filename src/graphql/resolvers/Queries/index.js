@@ -7,3 +7,4 @@ export { getListItems } from './getListItems';
 export { getListUsers } from './getListUsers';
 export { getListInvitations } from './getListInvitations';
 export { getUserInvitations } from './getUserInvitations';
+export { getMessages } from './getMessages';

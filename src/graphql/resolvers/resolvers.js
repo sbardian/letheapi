@@ -1,3 +1,4 @@
+import { PubSub } from 'apollo-server';
 import {
   login,
   signup,
@@ -24,6 +25,7 @@ import {
   getListUsers,
   getListInvitations,
   getUserInvitations,
+  getMessages,
 } from './Queries';
 
 const resolvers = {
@@ -57,6 +59,11 @@ const resolvers = {
   User: {
     lists: getUserLists,
     invitations: getUserInvitations,
+  },
+  Subscription: {
+    message: {
+      subscribe: getMessages,
+    },
   },
 };
 

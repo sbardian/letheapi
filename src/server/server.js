@@ -44,6 +44,7 @@ export default async () => {
   );
 
   apolloServer.applyMiddleware({ app: server });
+  apolloServer.installSubscriptionHandlers(server);
 
   const engine = new ApolloEngine({
     apiKey: config.apolloEngineApiKey,
