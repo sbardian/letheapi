@@ -3,10 +3,9 @@ import faker from 'faker';
 
 const pubsub = new PubSub();
 
-export const getMessages = () => {
+export const getMessages = () =>
   setInterval(() => {
-    pubsub.publish('MESSAGE', {
+    pubsub.publish('newMessage', {
       message: faker.lorem.words(),
     });
   }, 1000);
-};

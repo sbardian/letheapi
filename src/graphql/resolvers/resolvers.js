@@ -1,4 +1,3 @@
-import { PubSub } from 'apollo-server';
 import {
   login,
   signup,
@@ -27,6 +26,7 @@ import {
   getUserInvitations,
   getMessages,
 } from './Queries';
+import { pubsub } from '../../server/server';
 
 const resolvers = {
   Query: {
@@ -61,8 +61,8 @@ const resolvers = {
     invitations: getUserInvitations,
   },
   Subscription: {
-    message: {
-      subscribe: getMessages,
+    messageCreated: {
+      subscribe: () => pubsub.asyncIterator(['MESSAGE_CREATED']),
     },
   },
 };

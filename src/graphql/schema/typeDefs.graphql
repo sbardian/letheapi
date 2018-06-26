@@ -43,7 +43,9 @@ type getUserLists {
   lists: [List]
 }
 
-type message String
+type Message {
+  content: String
+}
 
 input LoginInput {
   username: String!
@@ -119,6 +121,6 @@ type Query {
   ): [List]
 }
 
-  type Subscription {
-    message: Message
-  }
+type Subscription {
+  messageCreated: Message
+}
