@@ -123,4 +123,5 @@ type Query {
 
 type Subscription {
   messageCreated: Message
+  itemAdded(listId: String!): Item
 }

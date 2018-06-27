@@ -31,7 +31,7 @@ createServer().then(({ engine, app, schema, httpServer }) =>
         execute,
         subscribe,
         schema,
-        onConnect: connectionParams => {
+        onConnect: (connectionParams, webSocket, context) => {
           if (connectionParams.token) {
             return { valid: true };
           }

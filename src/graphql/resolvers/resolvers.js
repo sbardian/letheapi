@@ -64,6 +64,9 @@ const resolvers = {
     messageCreated: {
       subscribe: () => pubsub.asyncIterator(['MESSAGE_CREATED']),
     },
+    itemAdded: {
+      subscribe: () => pubsub.asyncIterator([`ITEM_ADDED`]),
+    },
   },
 };
 
