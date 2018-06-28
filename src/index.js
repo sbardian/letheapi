@@ -40,7 +40,7 @@ createServer().then(({ engine, app, schema, httpServer }) =>
       },
       {
         server: httpServer,
-        path: '/graphql',
+        path: '/subscriptions',
       },
     );
   }),
