@@ -1,7 +1,7 @@
 import express from 'express';
 import { ApolloEngine } from 'apollo-engine';
-import { ApolloServer } from 'apollo-server-express';
-import { PubSub } from 'apollo-server';
+// import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, PubSub } from 'apollo-server';
 import jwt from 'express-jwt';
 import faker from 'faker';
 import { execute, subscribe } from 'graphql';
@@ -22,10 +22,11 @@ export default async () => {
 
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req }) => {
-      // if (!req) {
-      //   return {};
-      // }
+    context: ({ req, connection }) => {
+      if (connection) {
+        console.log('connection: ', connection);
+        return {};
+      }
       return {
         models: {
           Item,
@@ -42,6 +43,16 @@ export default async () => {
     formatError: err => {
       console.error(err);
       return err;
+    },
+    subscriptions: {
+      path: '/subscriptions',
+      onConnect: (connectionParams, webSocket, context) => {
+        console.log('onConnect called!!!!');
+        return Promise.resolve();
+      },
+      onDisconnect: (webSocket, context) => {
+        console.log('onDisconnect called!!!!');
+      },
     },
   });
 
@@ -62,17 +73,7 @@ export default async () => {
     apiKey: config.apolloEngineApiKey,
   });
 
-  // apolloServer.installSubscriptionHandlers(httpServer);
+  apolloServer.installSubscriptionHandlers(httpServer);
 
-  setInterval(() => {
-    const content = faker.lorem.words();
-    pubsub.publish('MESSAGE_CREATED', {
-      messageCreated: {
-        content,
-      },
-    });
-    // console.log('running... ', content);
-  }, 1000);
-
-  return { engine, app, httpServer, schema };
+  return { engine, app, httpServer, schema, apolloServer };
 };

@@ -1,3 +1,4 @@
+import { withFilter } from 'apollo-server';
 import {
   login,
   signup,
@@ -61,11 +62,11 @@ const resolvers = {
     invitations: getUserInvitations,
   },
   Subscription: {
-    messageCreated: {
-      subscribe: () => pubsub.asyncIterator(['MESSAGE_CREATED']),
-    },
     itemAdded: {
-      subscribe: () => pubsub.asyncIterator([`ITEM_ADDED`]),
+      subscribe: withFilter(
+        () => pubsub.asyncIterator([`ITEM_ADDED`]),
+        (payload, variables) => payload.itemAdded.list === variables.listId,
+      ),
     },
   },
 };
