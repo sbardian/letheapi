@@ -3,14 +3,13 @@ import { ApolloEngine } from 'apollo-engine';
 // import { ApolloServer } from 'apollo-server-express';
 import { ApolloServer, PubSub } from 'apollo-server';
 import jwt from 'express-jwt';
-import faker from 'faker';
-import { execute, subscribe } from 'graphql';
 import { createServer } from 'http';
 import { connectDB } from '../database';
 import schema from '../graphql/schema';
 import { Item, User, List, Invitation } from '../database/models';
 import { config } from '../config';
 import createLoaders from '../graphql/loaders/createLoaders';
+import { verifyToken } from './verifyToken';
 
 export const pubsub = new PubSub();
 
@@ -25,7 +24,9 @@ export default async () => {
     context: ({ req, connection }) => {
       if (connection) {
         console.log('connection: ', connection);
-        return {};
+        return {
+          user: connection.context.user,
+        };
       }
       return {
         models: {
@@ -47,11 +48,15 @@ export default async () => {
     subscriptions: {
       path: '/subscriptions',
       onConnect: (connectionParams, webSocket, context) => {
-        console.log('onConnect called!!!!');
-        return Promise.resolve();
+        if (connectionParams.token) {
+          console.log('onConnect called 📭 : ', connectionParams);
+          const decodedUser = verifyToken(connectionParams.token);
+          return Promise.resolve({ user: decodedUser });
+        }
+        return Promise.resolve({});
       },
       onDisconnect: (webSocket, context) => {
-        console.log('onDisconnect called!!!!');
+        console.log('onDisconnect called 📫');
       },
     },
   });
