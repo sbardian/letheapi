@@ -1,4 +1,5 @@
-import { withFilter } from 'apollo-server';
+import { withFilter, AuthenticationError } from 'apollo-server';
+import { userOfListByListId } from './checkAuth';
 import {
   login,
   signup,
@@ -63,6 +64,20 @@ const resolvers = {
   },
   Subscription: {
     itemAdded: {
+      resolve: (payload, { listId }, { models: { User }, user }, info) => {
+        if (user) {
+          if (
+            userOfListByListId(userOfListByListId(user, listId, User)) ||
+            user.isAdmin
+          ) {
+            return payload.itemAdded;
+          }
+          return new AuthenticationError(
+            'You must be a member of the list to subscribe.',
+          );
+        }
+        return new AuthenticationError('Authentication failed.');
+      },
       subscribe: withFilter(
         () => pubsub.asyncIterator([`ITEM_ADDED`]),
         (payload, variables) => payload.itemAdded.list === variables.listId,

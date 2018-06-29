@@ -1,7 +1,7 @@
 import express from 'express';
 import { ApolloEngine } from 'apollo-engine';
 // import { ApolloServer } from 'apollo-server-express';
-import { ApolloServer, PubSub } from 'apollo-server';
+import { ApolloServer, PubSub, AuthenticationError } from 'apollo-server';
 import jwt from 'express-jwt';
 import { createServer } from 'http';
 import { connectDB } from '../database';
@@ -23,8 +23,8 @@ export default async () => {
     schema,
     context: ({ req, connection }) => {
       if (connection) {
-        console.log('connection: ', connection);
         return {
+          models: { User },
           user: connection.context.user,
         };
       }
@@ -49,11 +49,11 @@ export default async () => {
       path: '/subscriptions',
       onConnect: (connectionParams, webSocket, context) => {
         if (connectionParams.token) {
-          console.log('onConnect called 📭 : ', connectionParams);
+          console.log('onConnect called 📭');
           const decodedUser = verifyToken(connectionParams.token);
-          return Promise.resolve({ user: decodedUser });
+          return { user: decodedUser };
         }
-        return Promise.resolve({});
+        throw new AuthenticationError('Authentication failed.');
       },
       onDisconnect: (webSocket, context) => {
         console.log('onDisconnect called 📫');
