@@ -119,4 +119,5 @@ type Query {
 
 type Subscription {
   itemAdded(listId: String!): Item
+  itemDeleted(listId: String!): Item
 }
