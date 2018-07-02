@@ -110,7 +110,7 @@ const resolvers = {
             userOfListByListId(userOfListByListId(user, listId, User)) ||
             user.isAdmin
           ) {
-            return payload.itemDeleted;
+            return payload.itemEdited;
           }
           return new AuthenticationError(
             'You must be a member of the list to subscribe.',
@@ -120,7 +120,7 @@ const resolvers = {
       },
       subscribe: withFilter(
         () => pubsub.asyncIterator([`ITEM_EDITED`]),
-        (payload, variables) => payload.itemDeleted.list === variables.listId,
+        (payload, variables) => payload.itemEdited.list === variables.listId,
       ),
     },
   },
