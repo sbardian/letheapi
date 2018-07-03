@@ -1,5 +1,6 @@
 import { returnLists } from '../../../database/utils';
 import { ownerOfList } from '../checkAuth';
+import { pubsub } from '../../../server/server';
 
 export const deleteList = async (
   root,
@@ -14,7 +15,15 @@ export const deleteList = async (
         lists: lists.filter(l => l !== listId),
       });
     });
-    return returnLists(await List.findByIdAndRemove(listId));
+    const deletedList = returnLists(await List.findByIdAndRemove(listId));
+    pubsub.publish(`LIST_DELETED`, {
+      listDeleted: {
+        ...deletedList,
+        __typename: 'List',
+      },
+    });
+    // return returnLists(await List.findByIdAndRemove(listId));
+    return deletedList;
   }
   throw new Error('You do not have permission to delete this list.');
 };

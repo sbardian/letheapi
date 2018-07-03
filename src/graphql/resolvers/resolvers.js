@@ -123,6 +123,26 @@ const resolvers = {
         (payload, variables) => payload.itemEdited.list === variables.listId,
       ),
     },
+    listDeleted: {
+      resolve: (payload, args, { models: { User }, user }, info) => {
+        console.log('delete list payload = ', payload);
+        if (user) {
+          if (
+            userOfListByListId(
+              userOfListByListId(user, payload.listDeleted.id, User),
+            ) ||
+            user.isAdmin
+          ) {
+            return payload.listDeleted;
+          }
+          return new AuthenticationError(
+            'You must be a member of the list to subscribe.',
+          );
+        }
+        return new AuthenticationError('Authentication failed.');
+      },
+      subscribe: () => pubsub.asyncIterator([`LIST_DELETED`]),
+    },
   },
 };
 
