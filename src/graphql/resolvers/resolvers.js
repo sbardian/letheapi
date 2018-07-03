@@ -66,10 +66,7 @@ const resolvers = {
     itemAdded: {
       resolve: (payload, { listId }, { models: { User }, user }, info) => {
         if (user) {
-          if (
-            userOfListByListId(userOfListByListId(user, listId, User)) ||
-            user.isAdmin
-          ) {
+          if (userOfListByListId(user, listId, User) || user.isAdmin) {
             return payload.itemAdded;
           }
           return new AuthenticationError(
@@ -86,10 +83,7 @@ const resolvers = {
     itemDeleted: {
       resolve: (payload, { listId }, { models: { User }, user }, info) => {
         if (user) {
-          if (
-            userOfListByListId(userOfListByListId(user, listId, User)) ||
-            user.isAdmin
-          ) {
+          if (userOfListByListId(user, listId, User) || user.isAdmin) {
             return payload.itemDeleted;
           }
           return new AuthenticationError(
@@ -106,10 +100,7 @@ const resolvers = {
     itemEdited: {
       resolve: (payload, { listId }, { models: { User }, user }, info) => {
         if (user) {
-          if (
-            userOfListByListId(userOfListByListId(user, listId, User)) ||
-            user.isAdmin
-          ) {
+          if (userOfListByListId(user, listId, User) || user.isAdmin) {
             return payload.itemEdited;
           }
           return new AuthenticationError(
@@ -125,12 +116,9 @@ const resolvers = {
     },
     listDeleted: {
       resolve: (payload, args, { models: { User }, user }, info) => {
-        console.log('delete list payload = ', payload);
         if (user) {
           if (
-            userOfListByListId(
-              userOfListByListId(user, payload.listDeleted.id, User),
-            ) ||
+            userOfListByListId(user, payload.listDeleted.id, User) ||
             user.isAdmin
           ) {
             return payload.listDeleted;
