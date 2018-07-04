@@ -22,7 +22,6 @@ export const deleteList = async (
         __typename: 'List',
       },
     });
-    // return returnLists(await List.findByIdAndRemove(listId));
     return deletedList;
   }
   throw new Error('You do not have permission to delete this list.');
