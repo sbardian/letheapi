@@ -42,7 +42,7 @@
     "express": "4.16.3",
     "express-jwt": "5.3.1",
     "faker": "4.1.0",
-    "get-stream": "^3.0.0",
+    "get-stream": "3.0.0",
     "graphql": "0.13.2",
     "http": "^0.0.0",
     "jsonwebtoken": "8.3.0",
