@@ -31,7 +31,7 @@
   "license": "MIT",
   "dependencies": {
     "apollo-engine": "1.1.2",
-    "apollo-server": "^2.0.0-rc.0",
+    "apollo-server": "2.0.0-rc.6",
     "apollo-server-express": "^2.0.0-rc.0",
     "bcrypt": "2.0.1",
     "bunyan": "1.8.12",
