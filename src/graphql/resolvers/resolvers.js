@@ -26,7 +26,6 @@ import {
   getListUsers,
   getListInvitations,
   getUserInvitations,
-  getMessages,
 } from './Queries';
 import { pubsub } from '../../server/server';
 
@@ -130,6 +129,19 @@ const resolvers = {
         return new AuthenticationError('Authentication failed.');
       },
       subscribe: () => pubsub.asyncIterator([`LIST_DELETED`]),
+    },
+    invitationAdded: {
+      resolve: (payload, args, { models: { Invitation }, user }, info) => {
+        if (user) {
+          return payload.invitationAdded;
+        }
+        return new AuthenticationError('Authentication failed.');
+      },
+      subscribe: withFilter(
+        () => pubsub.asyncIterator([`INVITATION_ADDED`]),
+        (payload, variables, { user }, info) =>
+          payload.invitationAdded.invitee === user.id,
+      ),
     },
   },
 };

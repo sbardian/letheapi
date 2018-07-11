@@ -1,3 +1,4 @@
+import { pubsub } from '../../../server/server';
 import { returnInvitations, returnUsers } from '../../../database/utils';
 import { ownerOfList } from '../checkAuth';
 
@@ -17,7 +18,7 @@ export const createInvitation = async (
         _id: user.id,
       }),
     );
-    return returnInvitations(
+    const invitation = returnInvitations(
       await Invitation.findOneAndUpdate(
         {
           invitee: invitedUser.id,
@@ -32,6 +33,13 @@ export const createInvitation = async (
         { new: true, upsert: true },
       ),
     );
+    pubsub.publish(`INVITATION_ADDED`, {
+      invitationAdded: {
+        ...invitation,
+        __typename: 'Invitation',
+      },
+    });
+    return invitation;
   }
   throw new Error('You must be the list owner to invite other users.');
 };

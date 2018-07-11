@@ -122,4 +122,5 @@ type Subscription {
   itemDeleted(listId: String!): Item
   itemEdited(listId: String!): Item
   listDeleted: List
+  invitationAdded: Invitation
 }
