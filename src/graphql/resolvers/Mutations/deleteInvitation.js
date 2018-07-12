@@ -1,3 +1,4 @@
+import { pubsub } from '../../../server/server';
 import { returnInvitations } from '../../../database/utils';
 import { ownerOfList } from '../checkAuth';
 
@@ -12,7 +13,16 @@ export const deleteInvitation = async (
     user.isAdmin ||
     user.id === invitation.invitee
   ) {
-    return returnInvitations(await Invitation.findByIdAndRemove(invitationId));
+    const deletedInvitation = returnInvitations(
+      await Invitation.findByIdAndRemove(invitationId),
+    );
+    pubsub.publish(`INVITATION_DELETED`, {
+      invitationDeleted: {
+        ...deletedInvitation,
+        __typename: 'Invitation',
+      },
+    });
+    return deletedInvitation;
   }
   throw new Error('You do not have permission to delete this invitation.');
 };

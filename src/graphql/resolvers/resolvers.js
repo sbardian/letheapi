@@ -143,6 +143,19 @@ const resolvers = {
           payload.invitationAdded.invitee === user.id,
       ),
     },
+    invitationDeleted: {
+      resolve: (payload, args, { models: { Invitation }, user }, info) => {
+        if (user) {
+          return payload.invitationDeleted;
+        }
+        return new AuthenticationError('Authentication failed.');
+      },
+      subscribe: withFilter(
+        () => pubsub.asyncIterator([`INVITATION_DELETED`]),
+        (payload, variables, { user }, info) =>
+          payload.invitationDeleted.invitee === user.id,
+      ),
+    },
   },
 };
 
