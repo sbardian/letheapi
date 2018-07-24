@@ -7,9 +7,11 @@ import {
   insertMockItems,
 } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
+import { pubsub as mockPubsub } from '../../../server/server';
 
 jest.setTimeout(10000);
 jest.mock('../checkAuth');
+jest.mock('../../../server/server');
 
 let server;
 let toUpdate;
@@ -42,6 +44,7 @@ afterEach(async () => {
 describe('updateList tests', () => {
   it('Should update an item, isAdmin', async () => {
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     await updateItem(
       'root',
       { itemId: toUpdate.id, title: 'NEW TITLE' },
@@ -51,6 +54,7 @@ describe('updateList tests', () => {
   });
   it('Should update an item, is user of list', async () => {
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => true);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     await updateItem(
       'root',
       { itemId: toUpdate.id, title: 'NEW TITLE' },
@@ -61,6 +65,7 @@ describe('updateList tests', () => {
   it('Should return an error', async () => {
     expect.assertions(1);
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     try {
       await updateItem(
         'root',

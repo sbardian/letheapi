@@ -1,7 +1,11 @@
 import express from 'express';
 import { ApolloEngine } from 'apollo-engine';
 // import { ApolloServer } from 'apollo-server-express';
-import { ApolloServer, PubSub, AuthenticationError } from 'apollo-server';
+import {
+  ApolloServer,
+  PubSub,
+  AuthenticationError,
+} from 'apollo-server-express';
 import jwt from 'express-jwt';
 import { createServer } from 'http';
 import { connectDB } from '../database';

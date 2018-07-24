@@ -3,9 +3,11 @@ import { deleteList } from './';
 import { User, List } from '../../../database/models';
 import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
+import { pubsub as mockPubsub } from '../../../server/server';
 
 jest.setTimeout(10000);
 jest.mock('../checkAuth');
+jest.mock('../../../server/server');
 
 let server;
 let toUpdate;
@@ -37,6 +39,7 @@ afterEach(async () => {
 describe('deleteList test', () => {
   it('Returns deleted list, owner', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     await deleteList(
       'root',
       { listId: toUpdate.id },
@@ -49,6 +52,7 @@ describe('deleteList test', () => {
   });
   it('Returns deleted list, isAdmin', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     await deleteList(
       'root',
       { listId: toUpdate.id },
@@ -61,6 +65,7 @@ describe('deleteList test', () => {
   });
   it('Returns an error', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     try {
       await deleteList(
         'root',

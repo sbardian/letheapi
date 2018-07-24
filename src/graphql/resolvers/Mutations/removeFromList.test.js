@@ -1,5 +1,5 @@
 import { testDatabase } from '../../../database/testDatabase';
-import { removeFromList } from './';
+import { removeFromList } from './removeFromList';
 import { User, List } from '../../../database/models';
 import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';

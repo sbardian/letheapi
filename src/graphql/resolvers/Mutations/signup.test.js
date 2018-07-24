@@ -1,4 +1,4 @@
-import { signup } from './';
+import { signup } from './signup';
 import mockUser from '../../../database/models/User';
 
 jest.mock('../../../database/models/User');

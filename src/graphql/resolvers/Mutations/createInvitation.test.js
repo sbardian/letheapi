@@ -4,9 +4,11 @@ import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import { createInvitation } from './createInvitation';
 import { returnInvitations } from '../../../database/utils';
 import * as mockCheckAuth from '../checkAuth';
+import { pubsub as mockPubsub } from '../../../server/server';
 
 jest.setTimeout(10000);
 jest.mock('../checkAuth');
+jest.mock('../../../server/server');
 
 let server;
 let userToUse;
@@ -40,6 +42,7 @@ afterEach(async () => {
 describe('createInvitation test', () => {
   it('Returns error', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     try {
       await createInvitation(
         'root',
@@ -61,6 +64,7 @@ describe('createInvitation test', () => {
   });
   it('Returns created invitation, isAdmin', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     expect(
       returnInvitations(
         await createInvitation(
@@ -80,18 +84,22 @@ describe('createInvitation test', () => {
           },
         ),
       ),
-    ).toEqual(
-      expect.objectContaining({
+    ).toEqual({
+      id: expect.any(String),
+      title: 'InvitationTitle',
+      list: listToUse.id,
+      invitee: userToUse.id,
+      inviter: expect.objectContaining({
         id: expect.any(String),
-        title: 'InvitationTitle',
-        list: listToUse.id,
-        invitee: userToUse.id,
-        inviter: userToUse.username,
+        profileImageUrl: null,
+        email: expect.any(String),
+        username: expect.any(String),
       }),
-    );
+    });
   });
   it('Returns created invitation, ownerOfList', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     expect(
       returnInvitations(
         await createInvitation(
@@ -117,7 +125,12 @@ describe('createInvitation test', () => {
         title: 'InvitationTitle',
         list: listToUse.id,
         invitee: userToUse.id,
-        inviter: userToUse.username,
+        inviter: expect.objectContaining({
+          id: expect.any(String),
+          profileImageUrl: null,
+          email: expect.any(String),
+          username: expect.any(String),
+        }),
       }),
     );
   });

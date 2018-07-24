@@ -7,9 +7,11 @@ import {
 } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
 import { deleteItem } from './deleteItem';
+import { pubsub as mockPubsub } from '../../../server/server';
 
 jest.setTimeout(10000);
 jest.mock('../checkAuth');
+jest.mock('../../../server/server');
 
 let server;
 
@@ -40,6 +42,7 @@ afterEach(async () => {
 describe('Returns deleted item, user of list', () => {
   it('Returns nothing', async () => {
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => true);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     const items = await Item.find();
     expect(
       await deleteItem(
@@ -51,6 +54,7 @@ describe('Returns deleted item, user of list', () => {
   });
   it('Returns deleted item, isAdmin', async () => {
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     const items = await Item.find();
     expect(
       await deleteItem(
@@ -63,6 +67,7 @@ describe('Returns deleted item, user of list', () => {
   it('Returns an error', async () => {
     expect.assertions(1);
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     const items = await Item.find();
     try {
       await deleteItem(

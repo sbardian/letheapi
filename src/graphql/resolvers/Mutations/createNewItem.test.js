@@ -4,9 +4,11 @@ import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import { createNewItem } from './createNewItem';
 import { returnItems } from '../../../database/utils';
 import * as mockCheckAuth from '../checkAuth';
+import { pubsub as mockPubsub } from '../../../server/server';
 
 jest.setTimeout(10000);
 jest.mock('../checkAuth');
+jest.mock('../../../server/server');
 
 let server;
 let userToUse;
@@ -40,6 +42,7 @@ afterEach(async () => {
 describe('createNewItem tests', () => {
   it('Returns an error', async () => {
     mockCheckAuth.userOfListByListId.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     expect.assertions(1);
     try {
       await createNewItem(
@@ -58,6 +61,7 @@ describe('createNewItem tests', () => {
   });
   it('Returns new item, isAdmin', async () => {
     mockCheckAuth.userOfListByListId.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     expect(
       returnItems(
         await createNewItem(
@@ -80,6 +84,7 @@ describe('createNewItem tests', () => {
   });
   it('Returns new item, userOfListByListId', async () => {
     mockCheckAuth.userOfListByListId.mockImplementationOnce(() => true);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     expect(
       returnItems(
         await createNewItem(

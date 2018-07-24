@@ -2,14 +2,17 @@ import { deleteInvitation } from './';
 import mockInvitation from '../../../database/models/Invitation';
 import mockList from '../../../database/models/List';
 import * as mockCheckAuth from '../checkAuth';
+import { pubsub as mockPubsub } from '../../../server/server';
 
 jest.mock('../../../database/models/Invitation');
 jest.mock('../../../database/models/List');
 jest.mock('../checkAuth');
+jest.mock('../../../server/server');
 
 describe('deleteInvitation Tests', () => {
   it('Returns a deleted invitation, is Admin', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     mockInvitation.findById.mockImplementationOnce(() => [
       {
         id: 'someInvitationId',
@@ -47,6 +50,7 @@ describe('deleteInvitation Tests', () => {
   });
   it('Returns a deleted invitation, is owner of list', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     mockInvitation.findById.mockImplementationOnce(() => [
       {
         id: 'someInvitationId',
@@ -84,6 +88,7 @@ describe('deleteInvitation Tests', () => {
   });
   it('Returns a deleted invitation, is invitee', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     mockInvitation.findById.mockImplementationOnce(() => ({
       id: 'someInvitationId',
       title: 'someInvitationTitle',
@@ -120,6 +125,7 @@ describe('deleteInvitation Tests', () => {
   it('Returns an error', async () => {
     expect.assertions(1);
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     mockInvitation.findById.mockImplementationOnce(() => ({
       id: 'someInvitationId',
       title: 'someInvitationTitle',
