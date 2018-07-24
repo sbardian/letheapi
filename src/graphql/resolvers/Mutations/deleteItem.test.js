@@ -9,7 +9,7 @@ import * as mockCheckAuth from '../checkAuth';
 import { deleteItem } from './deleteItem';
 import { pubsub as mockPubsub } from '../../../server/server';
 
-jest.setTimeout(10000);
+jest.setTimeout(15000);
 jest.mock('../checkAuth');
 jest.mock('../../../server/server');
 

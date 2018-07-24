@@ -4,7 +4,7 @@ import { User, List } from '../../../database/models';
 import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
 
-jest.setTimeout(10000);
+jest.setTimeout(15000);
 jest.mock('../checkAuth');
 
 let server;
