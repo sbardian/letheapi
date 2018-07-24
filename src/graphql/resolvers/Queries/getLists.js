@@ -17,7 +17,8 @@ export const getLists = async (
       }),
     }).limit(limit);
     return lists.map(list => getListsLoader.load(list.id));
-  } else if (getOnlySelf(user, userId) || !userId) {
+  }
+  if (getOnlySelf(user, userId) || !userId) {
     lists = await List.find({
       users: user.id,
       ...(contains_title && {
