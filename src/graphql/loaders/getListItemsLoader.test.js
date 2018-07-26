@@ -1,5 +1,5 @@
 import { testDatabase } from '../../database/testDatabase';
-import { getListItemsLoader } from './';
+import { getListItemsLoader } from './getListItemsLoader';
 import { returnItems } from '../../database/utils';
 import { User, List, Item } from '../../database/models';
 import {

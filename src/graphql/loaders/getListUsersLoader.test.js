@@ -1,10 +1,10 @@
 import { testDatabase } from '../../database/testDatabase';
-import { getListUsersLoader } from './';
+import { getListUsersLoader } from './getListUsersLoader';
 import { returnUsers } from '../../database/utils';
 import { User, List } from '../../database/models';
 import { insertMockLists, insertMockUsers } from '../../database/mocks';
 
-jest.setTimeout(12000);
+jest.setTimeout(15000);
 
 let server;
 let mockUsers;

@@ -1,5 +1,5 @@
 import { testDatabase } from '../../database/testDatabase';
-import { getListsLoader } from './';
+import { getListsLoader } from './getListsLoader';
 import { returnLists } from '../../database/utils';
 import { User, List } from '../../database/models';
 import { insertMockLists, insertMockUsers } from '../../database/mocks';

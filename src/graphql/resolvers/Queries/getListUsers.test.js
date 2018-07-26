@@ -1,4 +1,4 @@
-import { getListUsers } from './';
+import { getListUsers } from './getListUsers';
 import mockGetListUsersLoader from '../../loaders';
 
 jest.mock('../../loaders');

@@ -1,4 +1,4 @@
-import { deleteInvitation } from './';
+import { deleteInvitation } from './deleteInvitation';
 
 export const declineInvitation = async (
   root,

@@ -1,4 +1,4 @@
-import { getMyInfo } from './';
+import { getMyInfo } from './getMyInfo';
 import mockGetMyInfoLoader from '../../loaders';
 
 jest.mock('../../loaders');

@@ -1,11 +1,11 @@
 import { testDatabase } from '../../../database/testDatabase';
-import { deleteList } from './';
+import { deleteList } from './deleteList';
 import { User, List } from '../../../database/models';
 import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
 import { pubsub as mockPubsub } from '../../../server/server';
 
-jest.setTimeout(15000);
+jest.setTimeout(25000);
 jest.mock('../checkAuth');
 jest.mock('../../../server/server');
 

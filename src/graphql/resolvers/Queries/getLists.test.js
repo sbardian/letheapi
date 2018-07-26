@@ -1,8 +1,9 @@
-import { getLists } from './';
+import { getLists } from './getLists';
 import mockUser from '../../../database/models/User';
 import mockList from '../../../database/models/List';
 import mockGetListsLoader from '../../loaders';
 
+jest.setTimeout(15000);
 jest.mock('../../../database/models/User');
 jest.mock('../../../database/models/List');
 jest.mock('../../loaders');

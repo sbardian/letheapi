@@ -1,4 +1,4 @@
-import { getUserInvitations } from './';
+import { getUserInvitations } from './getUserInvitations';
 import mockGetUserInvitationsLoader from '../../loaders';
 
 jest.mock('../../../database/models/Invitation');

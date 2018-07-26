@@ -1,4 +1,4 @@
-import { deleteInvitation } from './';
+import { deleteInvitation } from './deleteInvitation';
 import mockInvitation from '../../../database/models/Invitation';
 import mockList from '../../../database/models/List';
 import * as mockCheckAuth from '../checkAuth';

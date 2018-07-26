@@ -1,4 +1,4 @@
-import { getUser } from './';
+import { getUser } from './getUser';
 import mockUser from '../../../database/models/User';
 import mockGetUserLoader from '../../loaders';
 

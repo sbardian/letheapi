@@ -1,5 +1,5 @@
 import { testDatabase } from '../../database/testDatabase';
-import { getListInvitationsLoader } from './';
+import { getListInvitationsLoader } from './getListInvitationsLoader';
 import { returnInvitations } from '../../database/utils';
 import { User, List, Invitation } from '../../database/models';
 import {
