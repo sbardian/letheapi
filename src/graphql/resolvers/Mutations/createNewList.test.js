@@ -3,7 +3,6 @@ import { testDatabase } from '../../../database/testDatabase';
 import { User, List } from '../../../database/models';
 import { insertMockUsers } from '../../../database/mocks';
 
-jest.setTimeout(25000);
 jest.mock('../checkAuth');
 
 let server;

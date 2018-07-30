@@ -8,13 +8,13 @@ import {
   insertMockItems,
 } from '../../database/mocks';
 
-jest.setTimeout(12000);
-
 let server;
 let mockUsers;
 let mockLists;
 let mockItems = [];
 let loaders;
+
+jest.setTimeout(25000);
 
 beforeAll(async done => {
   server = await testDatabase();

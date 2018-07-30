@@ -9,7 +9,6 @@ import {
 import { returnInvitations } from '../../../database/utils';
 import { acceptInvitation } from './acceptInvitation';
 
-jest.setTimeout(25000);
 jest.mock('../checkAuth');
 
 let server;
