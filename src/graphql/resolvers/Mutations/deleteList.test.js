@@ -5,7 +5,7 @@ import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
 import { pubsub as mockPubsub } from '../../../server/server';
 
-jest.setTimeout(25000);
+jest.setTimeout(35000);
 jest.mock('../checkAuth');
 jest.mock('../../../server/server');
 

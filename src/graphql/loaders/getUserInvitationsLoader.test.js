@@ -8,7 +8,7 @@ import {
   insertInvitationItems,
 } from '../../database/mocks';
 
-jest.setTimeout(20000);
+jest.setTimeout(35000);
 
 let server;
 let mockUsers;

@@ -4,7 +4,7 @@ import { returnUsers } from '../../database/utils';
 import { User, List } from '../../database/models';
 import { insertMockLists, insertMockUsers } from '../../database/mocks';
 
-jest.setTimeout(15000);
+jest.setTimeout(35000);
 
 let server;
 let mockUsers;
