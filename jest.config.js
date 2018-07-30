@@ -3,5 +3,5 @@ module.exports = {
   coverageDirectory: './coverage',
   coveragePathIgnorePatterns: ['dist', 'node_modules'],
   testPathIgnorePatterns: ['dist'],
-  timers: 'fake',
+  setupTestFrameworkScriptFile: '<rootDir>/src/setupTests.js',
 };
