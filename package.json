@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node dist/index.js",
     "pretest": "npm run clean",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "npm run test -- --coverage",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch --runInBand",
+    "test:coverage": "npm run test -- --coverage --runInBand",
     "dev": "cross-env NODE_ENV=development BABEL_DISABLE_CACHE=1 nodemon -e js,json,graphql --exec babel-node src/index.js | bunyan -o short -L",
     "lint": "eslint . ",
     "build": "npm run build:server",
