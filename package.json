@@ -48,7 +48,7 @@
     "mongodb-memory-server": "1.9.0",
     "mongoose": "5.2.6",
     "now-storage": "1.2.0",
-    "subscriptions-transport-ws": "0.9.13",
+    "subscriptions-transport-ws": "0.9.14",
     "yargs": "11.0.0"
   },
   "devDependencies": {
