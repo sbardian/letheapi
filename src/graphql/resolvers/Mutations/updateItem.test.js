@@ -61,6 +61,17 @@ describe('updateList tests', () => {
     );
     expect((await Item.findById(toUpdate.id)).title).toEqual('NEW TITLE');
   });
+  it('Should update an item status, is user of list', async () => {
+    mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => true);
+    mockPubsub.publish.mockImplementationOnce(() => false);
+    await updateItem(
+      'root',
+      { itemId: toUpdate.id, title: 'NEW TITLE', status: true },
+      { models: { Item, List, User }, user: { isAdmin: false } },
+    );
+    expect((await Item.findById(toUpdate.id)).title).toEqual('NEW TITLE');
+    expect((await Item.findById(toUpdate.id)).status).toEqual(true);
+  });
   it('Should return an error', async () => {
     expect.assertions(1);
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => false);

@@ -4,12 +4,12 @@ import { pubsub } from '../../../server/server';
 
 export const updateItem = async (
   root,
-  { itemId, title },
+  { itemId, title, status },
   { models: { Item, List, User }, user },
 ) => {
   if (userOfListByItemId(user, itemId, User, List) || user.isAdmin) {
     const editedItem = returnItems(
-      await Item.findByIdAndUpdate(itemId, { title }, { new: true }),
+      await Item.findByIdAndUpdate(itemId, { title, status }, { new: true }),
     );
     pubsub.publish(`ITEM_EDITED`, {
       itemEdited: {

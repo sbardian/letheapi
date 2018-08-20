@@ -3,6 +3,7 @@ export const returnItems = item => ({
   title: item.title,
   creator: item.creator,
   list: item.list,
+  status: item.status,
 });
 
 export const returnLists = list => ({

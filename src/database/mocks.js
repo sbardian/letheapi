@@ -16,6 +16,7 @@ export const insertMockItems = (count, list, user) =>
     title: faker.lorem.words(),
     list: list.id,
     creator: user[0].id,
+    status: false,
   }));
 
 export const insertMockLists = (count, users) =>

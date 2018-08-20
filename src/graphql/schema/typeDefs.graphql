@@ -3,6 +3,7 @@ type Item {
   title: String!
   creator: String!
   list: String!
+  status: Boolean!
 }
 
 type User {
@@ -95,7 +96,7 @@ type Mutation {
   # Updates a List. (Permissions: Admin/List Owner)
   updateList(listId: String!, title: String!): List
   # Updates a list item. (Permissions: Admin/List Owner/List User)
-  updateItem(itemId: String!, title: String!): Item
+  updateItem(itemId: String!, title: String!, status: Boolean!): Item
   # Uploads a user profile image
   profileImageUpload(file: Upload!): User!
 }
