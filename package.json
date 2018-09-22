@@ -42,7 +42,7 @@
     "express-jwt": "5.3.1",
     "faker": "4.1.0",
     "get-stream": "4.0.0",
-    "graphql": "0.13.2",
+    "graphql": "14.0.2",
     "http": "0.0.0",
     "jsonwebtoken": "8.3.0",
     "mongodb-memory-server": "2.2.0",
