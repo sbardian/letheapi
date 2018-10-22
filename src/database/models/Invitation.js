@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const InvitationSchema = new mongoose.Schema({
   inviter: {},
-  invitee: String,
+  invitee: {},
   title: String,
   list: String,
 });

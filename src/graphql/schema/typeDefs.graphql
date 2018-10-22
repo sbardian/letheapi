@@ -27,7 +27,7 @@ type List {
 type Invitation {
   id: String
   inviter: User
-  invitee: String
+  invitee: User
   list: String
   title: String
 }
