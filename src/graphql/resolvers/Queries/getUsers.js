@@ -1,3 +1,4 @@
+// TODO: don't return a user's password property
 export const getUsers = async (
   root,
   args,
