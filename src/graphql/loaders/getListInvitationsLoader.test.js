@@ -77,8 +77,8 @@ describe('getListInvitationsLoader tests', () => {
         const invitations = await loaders.getListInvitationsLoader.load(
           list.id,
         );
-        expect(invitations.map(returnInvitations)).toEqual(
-          mockInvitations[list.id].map(returnInvitations),
+        expect(JSON.stringify(invitations.map(returnInvitations))).toEqual(
+          JSON.stringify(mockInvitations[list.id].map(returnInvitations)),
         );
       }),
     );

@@ -5,8 +5,8 @@ faker.seed(1337);
 
 export const insertInvitationItems = (count, list, user, invitee) =>
   Array.from(Array(count), () => ({
-    inviter: user.id,
-    invitee: invitee.id,
+    inviter: user,
+    invitee,
     title: faker.lorem.words(),
     list: list.id,
   }));

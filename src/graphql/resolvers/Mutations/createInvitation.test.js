@@ -87,7 +87,12 @@ describe('createInvitation test', () => {
       id: expect.any(String),
       title: 'InvitationTitle',
       list: listToUse.id,
-      invitee: userToUse.id,
+      invitee: expect.objectContaining({
+        id: expect.any(String),
+        profileImageUrl: null,
+        email: expect.any(String),
+        username: expect.any(String),
+      }),
       inviter: expect.objectContaining({
         id: expect.any(String),
         profileImageUrl: null,
@@ -123,7 +128,12 @@ describe('createInvitation test', () => {
         id: expect.any(String),
         title: 'InvitationTitle',
         list: listToUse.id,
-        invitee: userToUse.id,
+        invitee: expect.objectContaining({
+          id: expect.any(String),
+          profileImageUrl: null,
+          email: expect.any(String),
+          username: expect.any(String),
+        }),
         inviter: expect.objectContaining({
           id: expect.any(String),
           profileImageUrl: null,

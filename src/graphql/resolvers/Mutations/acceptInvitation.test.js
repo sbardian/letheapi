@@ -69,21 +69,23 @@ describe('acceptInvitation tests', () => {
   });
   it('Returns invitation, isAdmin', async () => {
     expect(
-      await acceptInvitation(
-        'root',
-        { invitationId: invitation[0].id },
-        {
-          models: {
-            Invitation,
-            User,
-            List,
+      JSON.stringify(
+        await acceptInvitation(
+          'root',
+          { invitationId: invitation[0].id },
+          {
+            models: {
+              Invitation,
+              User,
+              List,
+            },
+            user: {
+              id: userToUse.id,
+              isAdmin: true,
+            },
           },
-          user: {
-            id: userToUse.id,
-            isAdmin: true,
-          },
-        },
+        ),
       ),
-    ).toEqual(returnInvitations(invitation[0]));
+    ).toEqual(JSON.stringify(returnInvitations(invitation[0])));
   });
 });
