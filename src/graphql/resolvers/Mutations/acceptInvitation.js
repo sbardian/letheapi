@@ -6,19 +6,16 @@ export const acceptInvitation = async (
   { models: { Invitation, List, User }, user },
 ) => {
   const invitation = await Invitation.findById(invitationId);
-  console.log('invitation: ', invitation);
-  const test = await User.findById(invitation.invitee._id);
-  console.log('user = ', test);
-  if (invitation.invitee._id === user.id || user.isAdmin) {
+  if (invitation.invitee.id === user.id || user.isAdmin) {
     const [{ lists }, { users, id }] = await Promise.all([
-      User.findById(invitation.invitee._id),
+      User.findById(invitation.invitee.id),
       List.findById(invitation.list),
     ]);
     await User.findByIdAndUpdate(user.id, {
       lists: [...lists, invitation.list],
     });
     await List.findByIdAndUpdate(id, {
-      users: [...users, invitation.invitee._id],
+      users: [...users, invitation.invitee.id],
     });
     await Invitation.findByIdAndRemove(invitationId);
     return returnInvitations(invitation);
