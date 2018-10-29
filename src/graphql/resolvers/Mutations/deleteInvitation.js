@@ -11,7 +11,7 @@ export const deleteInvitation = async (
   if (
     (await ownerOfList(user, invitation.list, List)) ||
     user.isAdmin ||
-    user.id === invitation.invitee
+    user.id === invitation.invitee.id
   ) {
     const deletedInvitation = returnInvitations(
       await Invitation.findByIdAndRemove(invitationId),
