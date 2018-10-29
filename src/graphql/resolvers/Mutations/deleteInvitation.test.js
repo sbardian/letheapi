@@ -18,7 +18,9 @@ describe('deleteInvitation Tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: 'someInviteeId',
+        invitee: {
+          id: 'someInviteeId',
+        },
         list: 'someListId',
       },
     ]);
@@ -26,7 +28,9 @@ describe('deleteInvitation Tests', () => {
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: 'someInviteeId',
+      invitee: {
+        id: 'someInviteeId',
+      },
       list: 'someListId',
     }));
     expect(
@@ -43,7 +47,9 @@ describe('deleteInvitation Tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: 'someInviteeId',
+        invitee: {
+          id: 'someInviteeId',
+        },
         list: 'someListId',
       }),
     );
@@ -56,7 +62,9 @@ describe('deleteInvitation Tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: 'someInviteeId',
+        invitee: {
+          id: 'someInviteeId',
+        },
         list: 'someListId',
       },
     ]);
@@ -64,7 +72,9 @@ describe('deleteInvitation Tests', () => {
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: 'someInviteeId',
+      invitee: {
+        id: 'someInviteeId',
+      },
       list: 'someListId',
     }));
     expect(
@@ -81,7 +91,9 @@ describe('deleteInvitation Tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: 'someInviteeId',
+        invitee: {
+          id: 'someInviteeId',
+        },
         list: 'someListId',
       }),
     );
@@ -93,14 +105,18 @@ describe('deleteInvitation Tests', () => {
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: 'someInviteeId',
+      invitee: {
+        id: 'someInviteeId',
+      },
       list: 'someListId',
     }));
     mockInvitation.findByIdAndRemove.mockImplementationOnce(() => ({
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: 'someInviteeId',
+      invitee: {
+        id: 'someInviteeId',
+      },
       list: 'someListId',
     }));
     expect(
@@ -117,7 +133,9 @@ describe('deleteInvitation Tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: 'someInviteeId',
+        invitee: {
+          id: 'someInviteeId',
+        },
         list: 'someListId',
       }),
     );
@@ -130,7 +148,9 @@ describe('deleteInvitation Tests', () => {
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: 'someInviteeId',
+      invitee: {
+        id: 'someInviteeId',
+      },
       list: 'someListId',
     }));
     try {

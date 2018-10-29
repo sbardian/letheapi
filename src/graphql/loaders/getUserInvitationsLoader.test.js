@@ -1,76 +1,74 @@
-import { testDatabase } from '../../database/testDatabase';
+/* eslint-disable import/no-duplicates */
 import { getUserInvitationsLoader } from './getUserInvitationsLoader';
-import { returnInvitations } from '../../database/utils';
-import { User, List, Invitation } from '../../database/models';
-import {
-  insertMockLists,
-  insertMockUsers,
-  insertInvitationItems,
-} from '../../database/mocks';
+import mockInvitation from '../../database/models/Invitation';
+import Invitation from '../../database/models/Invitation';
 
-let server;
-let mockUsers;
-let mockLists;
-let mockInvitations = {};
-let loaders;
-
-jest.setTimeout(25000);
-
-beforeAll(async done => {
-  server = await testDatabase();
-  done();
-});
-
-afterAll(() => {
-  server.mongoose.disconnect();
-  server.mongoServer.stop();
-});
-
-beforeEach(async () => {
-  mockUsers = await User.insertMany(insertMockUsers(9));
-  mockLists = await List.insertMany(insertMockLists(2, mockUsers));
-  await Promise.all(
-    mockUsers.map(async user =>
-      User.findByIdAndUpdate(user.id, {
-        lists: mockLists.map(list => list.id),
-      }),
-    ),
-  );
-
-  await Promise.all(
-    mockUsers.map(async user => {
-      const invites = await Invitation.insertMany(
-        insertInvitationItems(10, mockLists[0], mockUsers[0], user),
-      );
-      mockInvitations = {
-        ...mockInvitations,
-        [user.id]: invites,
-      };
-    }),
-  );
-
-  loaders = {
-    getUserInvitationsLoader: getUserInvitationsLoader({ Invitation }),
-  };
-});
-
-afterEach(async () => {
-  await User.remove();
-  await List.remove();
-});
+jest.mock('../../database/models/Invitation');
 
 describe('getUserInvitationsLoader tests', () => {
   it('DataLoader returns users invitations', async () => {
-    expect.assertions(9);
-    return Promise.all(
-      mockUsers.map(async user => {
-        const invitations = await loaders.getUserInvitationsLoader.load(
-          user.id,
-        );
-        expect(invitations.map(returnInvitations)).toEqual(
-          mockInvitations[user.id].map(returnInvitations),
-        );
-      }),
-    );
+    mockInvitation.find.mockImplementationOnce(() => [
+      {
+        id: 'someInvitationId',
+        title: 'someInvitationTitle',
+        inviter: 'someInviterId',
+        invitee: {
+          id: 'someInviteeId',
+        },
+        list: 'someListId',
+      },
+      {
+        id: 'someInvitationId',
+        title: 'someInvitationTitle',
+        inviter: 'someInviterId',
+        invitee: {
+          id: 'someWrongInviteeId',
+        },
+        list: 'someListId',
+      },
+      {
+        id: 'someInvitationId',
+        title: 'someInvitationTitle',
+        inviter: 'someInviterId',
+        invitee: {
+          id: 'someOtherWrongInviteeId',
+        },
+        list: 'someListId',
+      },
+      {
+        id: 'someOtherInvitationId',
+        title: 'someOtherInvitationTitle',
+        inviter: 'someOtherInviterId',
+        invitee: {
+          id: 'someInviteeId',
+        },
+        list: 'someOtherListId',
+      },
+    ]);
+    const loaders = {
+      getUserInvitationsLoader: getUserInvitationsLoader({ Invitation }),
+    };
+    expect(
+      await loaders.getUserInvitationsLoader.load('someInviteeId'),
+    ).toEqual([
+      {
+        id: 'someInvitationId',
+        title: 'someInvitationTitle',
+        inviter: 'someInviterId',
+        invitee: {
+          id: 'someInviteeId',
+        },
+        list: 'someListId',
+      },
+      {
+        id: 'someOtherInvitationId',
+        title: 'someOtherInvitationTitle',
+        inviter: 'someOtherInviterId',
+        invitee: {
+          id: 'someInviteeId',
+        },
+        list: 'someOtherListId',
+      },
+    ]);
   });
 });
