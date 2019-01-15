@@ -9,7 +9,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "npm run test -- --coverage",
-    "dev": "cross-env NODE_ENV=development BABEL_DISABLE_CACHE=1 nodemon -e js,json,graphql --exec babel-node src/index.js | bunyan -o short -L",
+    "dev": "cross-env NODE_ENV=development BABEL_DISABLE_CACHE=1 npx nodemon -e js,json,graphql --exec babel-node src/index.js | bunyan -o short -L",
     "lint": "eslint . ",
     "build": "npm run build:server",
     "prebuild": "npm run clean",
