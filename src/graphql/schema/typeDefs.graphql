@@ -68,31 +68,31 @@ scalar Upload
 
 type Mutation {
   """
-   User login
+  User login
   """
   login(loginInput: LoginInput!): AuthResponse
   """
-   User Sign up
+  User Sign up
   """
   signup(signupInput: SignupInput!): AuthResponse
   """
-   Creates a new item in a list. (Permissions: Admin/List Owner/List User)
+  Creates a new item in a list. (Permissions: Admin/List Owner/List User)
   """
   createNewItem(ItemInfo: NewItem!): Item!
   """
-   Creates a new list for current user.
+  Creates a new list for current user.
   """
   createNewList(ListInfo: NewList!): List!
   """
-   Deletes an item in a list. (Permissions: Admin/List Owner/List User)
+  Deletes an item in a list. (Permissions: Admin/List Owner/List User)
   """
   deleteItem(itemId: String!): Item!
   """
-   Deletes a List. (Permissions: Admin/List Owner)
+  Deletes a List. (Permissions: Admin/List Owner)
   """
   deleteList(listId: String!): List!
   """
-   Creates an invitation to a list. (Permissions: Admin/List Owner)
+  Creates an invitation to a list. (Permissions: Admin/List Owner)
   """
   createInvitation(
     listId: String!
@@ -100,54 +100,54 @@ type Mutation {
     title: String!
   ): Invitation
   """
-   Deletes an invitation. (Permissions: Admin/Inviter/Invitee)
+  Deletes an invitation. (Permissions: Admin/Inviter/Invitee)
   """
   deleteInvitation(invitationId: String!): Invitation
   """
-   Declines and invitation. (Helper endpoint, calls deleteInvitation)
+  Declines and invitation. (Helper endpoint, calls deleteInvitation)
   """
   declineInvitation(invitationId: String!): Invitation
   """
-   Accepts an invitation. (Permissions: Admin/Invitee)
+  Accepts an invitation. (Permissions: Admin/Invitee)
   """
   acceptInvitation(invitationId: String!): Invitation
   """
-   Removes a user from a list. (Permissions: Admin/List Owner/Remove Self)
+  Removes a user from a list. (Permissions: Admin/List Owner/Remove Self)
   """
   removeFromList(listId: String!, userId: String): User
   """
-   Updates a List. (Permissions: Admin/List Owner)
+  Updates a List. (Permissions: Admin/List Owner)
   """
   updateList(listId: String!, title: String!): List
   """
-   Updates a list item. (Permissions: Admin/List Owner/List User)
+  Updates a list item. (Permissions: Admin/List Owner/List User)
   """
   updateItem(itemId: String!, title: String!, status: Boolean!): Item
   """
-   Uploads a user profile image
+  Uploads a user profile image
   """
   profileImageUpload(file: Upload!): User!
 }
 
 type Query {
   """
-   Gets the current users information
+  Gets the current users information
   """
   getMyInfo: User
   """
-   Administrators only
+  Administrators only
   """
   getUser(userId: String!): User
   """
-   Administrators only
+  Administrators only
   """
   getUsers: [User]
   """
-   Returns a users lists or a users specifc list based on title or id
+  Returns a users lists or a users specifc list based on title or id
   """
   getLists(
     """
-     userId is an Administrator only argument
+    userId is an Administrator only argument
     """
     userId: String
     limit: Int
