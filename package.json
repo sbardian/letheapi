@@ -63,7 +63,7 @@
     "cross-env": "5.2.0",
     "eslint": "5.14.1",
     "eslint-config-airbnb-base": "13.1.0",
-    "eslint-config-prettier": "4.0.0",
+    "eslint-config-prettier": "4.1.0",
     "eslint-plugin-import": "2.16.0",
     "jest": "24.1.0",
     "jest-environment-node": "24.0.0",
