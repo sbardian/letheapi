@@ -45,7 +45,7 @@
     "graphql": "14.1.1",
     "http": "0.0.0",
     "jsonwebtoken": "8.5.0",
-    "mongodb-memory-server": "3.1.2",
+    "mongodb-memory-server": "3.1.3",
     "mongoose": "5.4.18",
     "now-storage": "1.3.0",
     "subscriptions-transport-ws": "0.9.15",
