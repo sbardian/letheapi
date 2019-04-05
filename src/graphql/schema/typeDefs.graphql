@@ -163,4 +163,5 @@ type Subscription {
   listDeleted: List
   invitationAdded: Invitation
   invitationDeleted: Invitation
+  listSettingsUpdated(id_is: String!): [List]
 }

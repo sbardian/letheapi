@@ -156,6 +156,21 @@ const resolvers = {
           payload.invitationDeleted.invitee === user.id,
       ),
     },
+    listSettingsUpdated: {
+      resolve: (payload, { id_is }, { models: { User }, user }, info) => {
+        if (user) {
+          if (userOfListByListId(user, id_is, User) || user.isAdmin) {
+            return payload.listSettingsUpdated;
+          }
+        }
+        return new AuthenticationError('Authentication failed.');
+      },
+      subscribe: withFilter(
+        () => pubsub.asyncIterator([`LIST_SETTINGS_UPDATED`]),
+        (payload, variables) =>
+          payload.listSettingsUpdated.id === variables.listId,
+      ),
+    },
   },
 };
 
