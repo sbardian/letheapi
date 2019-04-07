@@ -19,7 +19,6 @@ export default async () => {
       },
     });
     const MONGO_MOCK_URI = await mongod.getConnectionString();
-    console.log('connection string = ', MONGO_MOCK_URI);
     mongoose.connect(MONGO_MOCK_URI);
     mongoose.set('debug', true);
     await User.insertMany(insertMockUsers(2));
