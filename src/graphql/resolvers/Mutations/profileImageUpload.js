@@ -20,6 +20,6 @@ export const profileImageUpload = async (
       }),
     );
   } catch (error) {
-    throw new Error('Failed to upload file', error);
+    throw new Error('Failed to upload file.');
   }
 };
