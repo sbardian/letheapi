@@ -19,11 +19,11 @@ export default async () => {
       },
     });
     const MONGO_MOCK_URI = await mongod.getConnectionString();
-    mongoose.connect(MONGO_MOCK_URI);
+    mongoose.connect(MONGO_MOCK_URI, { useNewUrlParser: true });
     mongoose.set('debug', true);
     await User.insertMany(insertMockUsers(2));
   } else {
-    mongoose.connect(databaseUrl);
+    mongoose.connect(databaseUrl, { useNewUrlParser: true });
   }
   const db = mongoose.connection;
   db.on('error', () => console.log(chalk.red('Database connection error')));
