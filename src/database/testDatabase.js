@@ -5,6 +5,11 @@ export const testDatabase = () => {
   const mongoServer = new MongodbMemoryServer();
   mongoServer
     .getConnectionString()
-    .then(mongoUri => mongoose.connect(mongoUri, { useNewUrlParser: true }));
+    .then(mongoUri =>
+      mongoose.connect(mongoUri, {
+        useCreateIndex: true,
+        useNewUrlParser: true,
+      }),
+    );
   return { mongoServer, mongoose };
 };

@@ -19,11 +19,17 @@ export default async () => {
       },
     });
     const MONGO_MOCK_URI = await mongod.getConnectionString();
-    mongoose.connect(MONGO_MOCK_URI, { useNewUrlParser: true });
+    mongoose.connect(MONGO_MOCK_URI, {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+    });
     mongoose.set('debug', true);
     await User.insertMany(insertMockUsers(2));
   } else {
-    mongoose.connect(databaseUrl, { useNewUrlParser: true });
+    mongoose.connect(databaseUrl, {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+    });
   }
   const db = mongoose.connection;
   db.on('error', () => console.log(chalk.red('Database connection error')));
