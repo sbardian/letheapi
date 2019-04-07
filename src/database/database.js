@@ -1,4 +1,4 @@
-import log from 'console';
+import chalk from 'chalk';
 import mongoose from 'mongoose';
 import MongodbMemoryServer from 'mongodb-memory-server';
 import { User } from './models';
@@ -19,7 +19,7 @@ export default async () => {
       },
     });
     const MONGO_MOCK_URI = await mongod.getConnectionString();
-    log('connection string = ', MONGO_MOCK_URI);
+    console.log('connection string = ', MONGO_MOCK_URI);
     mongoose.connect(MONGO_MOCK_URI);
     mongoose.set('debug', true);
     await User.insertMany(insertMockUsers(2));
@@ -27,6 +27,6 @@ export default async () => {
     mongoose.connect(databaseUrl);
   }
   const db = mongoose.connection;
-  db.on('error', log.bind(console, 'connection error:'));
-  db.once('open', () => log('Connected to the database!'));
+  db.on('error', () => console.log(chalk.red('Database connection error')));
+  db.once('open', () => console.log(chalk.green('Connected to the database!')));
 };
