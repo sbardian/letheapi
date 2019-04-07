@@ -51,8 +51,8 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  await User.remove();
-  await List.remove();
+  await User.deleteMany();
+  await List.deleteMany();
 });
 
 describe('getListItemsLoader test', () => {
