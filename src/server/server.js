@@ -1,6 +1,6 @@
+import log from 'console';
 import express from 'express';
 import { ApolloEngine } from 'apollo-engine';
-// import { ApolloServer } from 'apollo-server-express';
 import {
   ApolloServer,
   PubSub,
@@ -46,7 +46,7 @@ export default async () => {
     tracing: true,
     cacheControl: true,
     formatError: err => {
-      console.error(err);
+      log(err);
       return err;
     },
     playground: {
@@ -57,16 +57,16 @@ export default async () => {
     },
     subscriptions: {
       path: '/subscriptions',
-      onConnect: (connectionParams, webSocket, context) => {
+      onConnect: connectionParams => {
         if (connectionParams.token) {
-          console.log('onConnect called 📭');
+          log('onConnect called 📭');
           const decodedUser = verifyToken(connectionParams.token);
           return { user: decodedUser };
         }
         throw new AuthenticationError('Authentication failed.');
       },
-      onDisconnect: (webSocket, context) => {
-        console.log('onDisconnect called 📫');
+      onDisconnect: () => {
+        log('onDisconnect called 📫');
       },
     },
   });

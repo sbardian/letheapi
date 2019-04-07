@@ -1,3 +1,4 @@
+import log from 'console';
 import mongoose from 'mongoose';
 import MongodbMemoryServer from 'mongodb-memory-server';
 import { User } from './models';
@@ -18,18 +19,14 @@ export default async () => {
       },
     });
     const MONGO_MOCK_URI = await mongod.getConnectionString();
-    console.log('connection string = ', MONGO_MOCK_URI);
+    log('connection string = ', MONGO_MOCK_URI);
     mongoose.connect(MONGO_MOCK_URI);
     mongoose.set('debug', true);
-    const mockDB = mongoose.connection;
     await User.insertMany(insertMockUsers(2));
   } else {
     mongoose.connect(databaseUrl);
-    // mongoose.connect(
-    //   'mongodb+srv://lethe:lethe@lethemongodb-hmxj3.mongodb.net/test',
-    // );
   }
   const db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', () => console.log('Connected to the database!'));
+  db.on('error', log.bind(console, 'connection error:'));
+  db.once('open', () => log('Connected to the database!'));
 };

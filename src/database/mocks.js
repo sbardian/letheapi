@@ -30,7 +30,7 @@ export const insertMockLists = (count, users) =>
 export const insertMockUsers = count =>
   Array.from(Array(count), () => {
     // const password = faker.internet.password();
-    const password = 'fuck';
+    const password = 'password';
     const isAdmin = faker.random.boolean();
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
@@ -41,9 +41,9 @@ export const insertMockUsers = count =>
       isAdmin,
       profileImage: null,
     };
-    console.log(
-      `Email: ${user.email}, Username: ${user.username}, Password: ${password}`,
-    );
+    // console.log(
+    //   `Email: ${user.email}, Username: ${user.username}, Password: ${password}`,
+    // );
     return {
       ...user,
       password: hash,

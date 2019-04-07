@@ -5,7 +5,7 @@ export const testDatabase = () => {
   const mongoServer = new MongodbMemoryServer();
   mongoServer.getConnectionString().then(mongoUri =>
     mongoose.connect(mongoUri, err => {
-      if (err) done(err);
+      if (err) throw new Error(err);
     }),
   );
   return { mongoServer, mongoose };

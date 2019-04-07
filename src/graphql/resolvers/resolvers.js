@@ -63,7 +63,7 @@ const resolvers = {
   },
   Subscription: {
     itemAdded: {
-      resolve: (payload, { listId }, { models: { User }, user }, info) => {
+      resolve: (payload, { listId }, { models: { User }, user }) => {
         if (user) {
           if (userOfListByListId(user, listId, User) || user.isAdmin) {
             return payload.itemAdded;
@@ -80,7 +80,7 @@ const resolvers = {
       ),
     },
     itemDeleted: {
-      resolve: (payload, { listId }, { models: { User }, user }, info) => {
+      resolve: (payload, { listId }, { models: { User }, user }) => {
         if (user) {
           if (userOfListByListId(user, listId, User) || user.isAdmin) {
             return payload.itemDeleted;
@@ -97,7 +97,7 @@ const resolvers = {
       ),
     },
     itemEdited: {
-      resolve: (payload, { listId }, { models: { User }, user }, info) => {
+      resolve: (payload, { listId }, { models: { User }, user }) => {
         if (user) {
           if (userOfListByListId(user, listId, User) || user.isAdmin) {
             return payload.itemEdited;
@@ -114,7 +114,7 @@ const resolvers = {
       ),
     },
     listDeleted: {
-      resolve: (payload, args, { models: { User }, user }, info) => {
+      resolve: (payload, args, { models: { User }, user }) => {
         if (user) {
           if (
             userOfListByListId(user, payload.listDeleted.id, User) ||
@@ -131,7 +131,7 @@ const resolvers = {
       subscribe: () => pubsub.asyncIterator([`LIST_DELETED`]),
     },
     invitationAdded: {
-      resolve: (payload, args, { models: { Invitation }, user }, info) => {
+      resolve: (payload, args, { user }) => {
         if (user) {
           return payload.invitationAdded;
         }
@@ -139,12 +139,12 @@ const resolvers = {
       },
       subscribe: withFilter(
         () => pubsub.asyncIterator([`INVITATION_ADDED`]),
-        (payload, variables, { user }, info) =>
+        (payload, variables, { user }) =>
           payload.invitationAdded.invitee === user.id,
       ),
     },
     invitationDeleted: {
-      resolve: (payload, args, { models: { Invitation }, user }, info) => {
+      resolve: (payload, args, { user }) => {
         if (user) {
           return payload.invitationDeleted;
         }
@@ -152,12 +152,12 @@ const resolvers = {
       },
       subscribe: withFilter(
         () => pubsub.asyncIterator([`INVITATION_DELETED`]),
-        (payload, variables, { user }, info) =>
+        (payload, variables, { user }) =>
           payload.invitationDeleted.invitee === user.id,
       ),
     },
     listSettingsUpdated: {
-      resolve: (payload, { id_is }, { models: { User }, user }, info) => {
+      resolve: (payload, { id_is }, { models: { User }, user }) => {
         if (user) {
           if (userOfListByListId(user, id_is, User) || user.isAdmin) {
             return payload.listSettingsUpdated;
