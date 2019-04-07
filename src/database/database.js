@@ -8,6 +8,9 @@ import { insertMockUsers } from './mocks';
 export default async () => {
   const { mockMode, databaseUrl } = config;
   mongoose.promise = global.Promise;
+
+  // Make Mongoose use `findOneAndUpdate()` from MongoDB driver.
+  mongoose.set('useFindAndModify', false);
   if (mockMode) {
     const MONGO_DB_NAME = 'mockMongoDB';
     const MONGO_DB_PORT = '9088';
@@ -26,6 +29,7 @@ export default async () => {
     mongoose.set('debug', true);
     await User.insertMany(insertMockUsers(2));
   } else {
+    mongoose.set('useFindAndModify', false);
     mongoose.connect(databaseUrl, {
       useCreateIndex: true,
       useNewUrlParser: true,
