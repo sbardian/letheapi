@@ -1,7 +1,7 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "targets": {
           "node": "current"
@@ -9,5 +9,5 @@
       }
     ]
   ],
-  "plugins": ["inline-import", "transform-object-rest-spread"]
+  "plugins": ["inline-import"]
 }
