@@ -38,7 +38,7 @@ describe('Profile image upload tests', () => {
       url: PROFILE_IMAGE_URL,
     }));
     const imageStream = await fs.createReadStream(
-      '/Users/sbardian/stuff/dev/javascript/node/letheapi/src/test-assets/amazonicon.png',
+      'src/test-assets/amazonicon.png',
     );
     const userWithProfileImage = await profileImageUpload(
       {},
