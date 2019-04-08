@@ -14,10 +14,14 @@ export const profileImageUpload = async (
       name: rest.filename,
       content: buffer,
     });
-    return returnUsers(
-      await User.findByIdAndUpdate(user.id, {
-        profileImageUrl: url,
-      }),
+    return await returnUsers(
+      await User.findByIdAndUpdate(
+        user.id,
+        {
+          profileImageUrl: url,
+        },
+        { new: true },
+      ),
     );
   } catch (error) {
     throw new Error('Failed to upload file.');
