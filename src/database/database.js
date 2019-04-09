@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import MongodbMemoryServer from 'mongodb-memory-server';
+import MongoMemoryServer from 'mongodb-memory-server';
 import { User } from './models';
 import { config } from '../config';
 import { insertMockUsers } from './mocks';
@@ -12,21 +12,16 @@ export default async () => {
   mongoose.set('useFindAndModify', false);
 
   if (mockMode) {
-    const MONGO_DB_NAME = 'mockMongoDB';
-    const MONGO_DB_PORT = '9088';
-    const mongod = new MongodbMemoryServer({
-      instance: {
-        port: MONGO_DB_PORT,
-        dbName: MONGO_DB_NAME,
-        debug: true,
-      },
+    console.log('mockMode = true');
+    const mongod = new MongoMemoryServer({
+      // debug: true,
     });
     const MONGO_MOCK_URI = await mongod.getConnectionString();
+
     mongoose.connect(MONGO_MOCK_URI, {
-      useCreateIndex: true,
-      useNewUrlParser: true,
+      // useCreateIndex: true,
+      // useNewUrlParser: true,
     });
-    mongoose.set('debug', true);
     await User.insertMany(insertMockUsers(2));
   } else {
     mongoose.connect(databaseUrl, {
