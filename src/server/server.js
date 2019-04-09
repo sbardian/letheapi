@@ -1,4 +1,4 @@
-import log from 'console';
+// import log from 'console';
 import express from 'express';
 import { ApolloEngine } from 'apollo-engine';
 import {
@@ -9,6 +9,7 @@ import {
 import jwt from 'express-jwt';
 import { createServer } from 'http';
 import { connectDB } from '../database';
+import log from './logging';
 import schema from '../graphql/schema';
 import { Item, User, List, Invitation } from '../database/models';
 import { config } from '../config';
@@ -18,11 +19,16 @@ import { verifyToken } from './verifyToken';
 export const pubsub = new PubSub();
 
 export default async () => {
+  log.info('starting server...');
   const app = express();
 
-  // Configure mongo database connection
-  await connectDB();
+  // Configure and connect to mongo database
+  const mongoose = await connectDB();
+  const db = mongoose.connection;
+  db.on('error', () => log.error('Database connection failed 🙀'));
+  db.once('open', () => log.info('Connected to the database 😺'));
 
+  // Configure ApolloServer
   const apolloServer = new ApolloServer({
     schema,
     context: ({ req, connection }) => {
@@ -30,6 +36,7 @@ export default async () => {
         return {
           models: { User },
           user: connection.context.user,
+          log,
         };
       }
       return {
@@ -41,12 +48,13 @@ export default async () => {
         },
         user: req.user,
         loaders: createLoaders(),
+        log,
       };
     },
     tracing: true,
     cacheControl: true,
     formatError: err => {
-      log(err);
+      log.error(err);
       return err;
     },
     playground: {
@@ -59,14 +67,14 @@ export default async () => {
       path: '/subscriptions',
       onConnect: connectionParams => {
         if (connectionParams.token) {
-          log('onConnect called 📭');
+          log.info('onConnect called 📭');
           const decodedUser = verifyToken(connectionParams.token);
           return { user: decodedUser };
         }
         throw new AuthenticationError('Authentication failed.');
       },
       onDisconnect: () => {
-        log('onDisconnect called 📫');
+        log.info('onDisconnect called 📫');
       },
     },
   });

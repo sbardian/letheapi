@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import mongoose from 'mongoose';
 import MongodbMemoryServer from 'mongodb-memory-server';
 import { User } from './models';
@@ -35,7 +34,5 @@ export default async () => {
       useNewUrlParser: true,
     });
   }
-  const db = mongoose.connection;
-  db.on('error', () => console.log(chalk.red('Database connection error')));
-  db.once('open', () => console.log(chalk.green('Connected to the database!')));
+  return mongoose;
 };
