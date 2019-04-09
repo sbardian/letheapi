@@ -41,9 +41,9 @@ export const insertMockUsers = count =>
       isAdmin,
       profileImage: null,
     };
-    // console.log(
-    //   `Email: ${user.email}, Username: ${user.username}, Password: ${password}`,
-    // );
+    console.log(
+      `Email: ${user.email}, Username: ${user.username}, Password: ${password}`,
+    );
     return {
       ...user,
       password: hash,
