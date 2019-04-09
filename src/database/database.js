@@ -19,8 +19,8 @@ export default async () => {
     const MONGO_MOCK_URI = await mongod.getConnectionString();
 
     mongoose.connect(MONGO_MOCK_URI, {
-      // useCreateIndex: true,
-      // useNewUrlParser: true,
+      useCreateIndex: true,
+      useNewUrlParser: true,
     });
     await User.insertMany(insertMockUsers(2));
   } else {
