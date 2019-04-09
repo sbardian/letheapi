@@ -20,13 +20,19 @@ export const pubsub = new PubSub();
 
 export default async () => {
   log.info('starting server...');
+
   const app = express();
+
+  const { mockMode } = config;
 
   // Configure and connect to mongo database
   const mongoose = await connectDB();
-  const db = mongoose.connection;
-  db.on('error', () => log.error('Database connection failed 🙀'));
-  db.once('open', () => log.info('Connected to the database 😺'));
+  if (!mockMode) {
+    const db = mongoose.connection;
+
+    db.on('error', () => log.error('Database connection failed 🙀'));
+    db.once('open', () => log.info('Connected to the database 😺'));
+  }
 
   // Configure ApolloServer
   const apolloServer = new ApolloServer({
