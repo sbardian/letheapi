@@ -4,6 +4,11 @@ import mockUser from '../../../database/models/User';
 
 jest.mock('../../../database/models/User');
 
+/**
+ * TODO: inject a user into MongoMemoryDatabase and login with it.
+ *       this will extend test coverage on verifyToken.
+ * */
+
 describe('Login tests', () => {
   it('Returns a token', async () => {
     const passHash = await bcrypt.hash('bobspassword', 10);
