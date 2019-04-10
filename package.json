@@ -10,7 +10,7 @@
     "pretest": "yarn clean",
     "test": "SL_MOCK_MODE=true jest",
     "test:watch": "yarn test --watch",
-    "test:coverage": "yarn test -- --coverage",
+    "test:coverage": "yarn test --coverage",
     "dev": "cross-env NODE_ENV=development BABEL_DISABLE_CACHE=1 npx nodemon -e js,json,graphql --exec babel-node src/index.js | bunyan -o short -L",
     "lint": "eslint . ",
     "build": "yarn build:server",
