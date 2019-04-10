@@ -7,14 +7,14 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "pretest": "npm run clean",
+    "pretest": "yarn clean",
     "test": "SL_MOCK_MODE=true jest",
     "test:watch": "yarn test --watch",
-    "test:coverage": "npm run test -- --coverage",
+    "test:coverage": "yarn test -- --coverage",
     "dev": "cross-env NODE_ENV=development BABEL_DISABLE_CACHE=1 npx nodemon -e js,json,graphql --exec babel-node src/index.js | bunyan -o short -L",
     "lint": "eslint . ",
-    "build": "npm run build:server",
-    "prebuild": "npm run clean",
+    "build": "yarn build:server",
+    "prebuild": "yarn clean",
     "clean": "rimraf dist coverage",
     "build:server": "babel src -d dist --source-maps --ignore \"**/*.test.js\""
   },
