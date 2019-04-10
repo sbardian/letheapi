@@ -1,4 +1,4 @@
-import { testDatabase } from '../../../database/testDatabase';
+import createDB from '../../../database/database';
 import { updateItem } from './updateItem';
 import { User, List, Item } from '../../../database/models';
 import {
@@ -16,7 +16,7 @@ let server;
 let toUpdate;
 
 beforeAll(async done => {
-  server = await testDatabase();
+  server = await createDB();
   done();
 });
 

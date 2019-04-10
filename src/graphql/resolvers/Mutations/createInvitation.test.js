@@ -1,4 +1,4 @@
-import { testDatabase } from '../../../database/testDatabase';
+import createDB from '../../../database/database';
 import { User, Invitation, List } from '../../../database/models';
 import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import { createInvitation } from './createInvitation';
@@ -14,7 +14,7 @@ let userToUse;
 let listToUse;
 
 beforeAll(async done => {
-  server = await testDatabase();
+  server = await createDB();
   done();
 });
 

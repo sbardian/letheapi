@@ -1,4 +1,4 @@
-import { testDatabase } from '../../../database/testDatabase';
+import createDB from '../../../database/database';
 import { User, List, Item } from '../../../database/models';
 import {
   insertMockLists,
@@ -15,7 +15,7 @@ jest.mock('../../../server/server');
 let server;
 
 beforeAll(async done => {
-  server = await testDatabase();
+  server = await createDB();
   done();
 });
 

@@ -1,5 +1,5 @@
 import { createNewList } from './createNewList';
-import { testDatabase } from '../../../database/testDatabase';
+import createDB from '../../../database/database';
 import { User, List } from '../../../database/models';
 import { insertMockUsers } from '../../../database/mocks';
 
@@ -9,7 +9,7 @@ let server;
 let userToUse;
 
 beforeAll(async done => {
-  server = await testDatabase();
+  server = await createDB();
   done();
 });
 

@@ -2,8 +2,9 @@ import connectDB from './database';
 
 describe('Database connect tests', () => {
   it('Successfully connects to the database', async () => {
-    const mongoose = await connectDB();
-    expect(mongoose.connection.readyState).toEqual(1);
-    mongoose.connection.close();
+    const mongod = await connectDB();
+    expect(mongod.mongoose.connection.readyState).toEqual(1);
+    mongod.mongoServer.stop();
+    mongod.mongoose.connection.close();
   });
 });

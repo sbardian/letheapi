@@ -11,12 +11,12 @@ export default async () => {
   // Make Mongoose use `findOneAndUpdate()` from MongoDB driver.
   mongoose.set('useFindAndModify', false);
 
+  const mongoServer = new MongoMemoryServer({
+    // debug: true,
+  });
+
   if (mockMode) {
-    console.log('mockMode = true');
-    const mongod = new MongoMemoryServer({
-      // debug: true,
-    });
-    const MONGO_MOCK_URI = await mongod.getConnectionString();
+    const MONGO_MOCK_URI = await mongoServer.getConnectionString();
 
     mongoose.connect(MONGO_MOCK_URI, {
       useCreateIndex: true,
@@ -24,10 +24,11 @@ export default async () => {
     });
     await User.insertMany(insertMockUsers(2));
   } else {
+    mongoServer.stop();
     mongoose.connect(databaseUrl, {
       useCreateIndex: true,
       useNewUrlParser: true,
     });
   }
-  return mongoose;
+  return { mongoServer, mongoose };
 };

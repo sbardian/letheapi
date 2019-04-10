@@ -1,4 +1,4 @@
-import { testDatabase } from '../../database/testDatabase';
+import createDB from '../../database/database';
 import { getListItemsLoader } from './getListItemsLoader';
 import { returnItems } from '../../database/utils';
 import { User, List, Item } from '../../database/models';
@@ -17,7 +17,7 @@ let loaders;
 jest.setTimeout(25000);
 
 beforeAll(async done => {
-  server = await testDatabase();
+  server = await createDB();
   done();
 });
 

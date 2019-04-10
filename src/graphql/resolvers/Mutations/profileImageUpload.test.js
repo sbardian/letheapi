@@ -1,6 +1,6 @@
 import fs from 'fs';
 import mockedNow from 'now-storage';
-import { testDatabase } from '../../../database/testDatabase';
+import createDB from '../../../database/database';
 import { profileImageUpload } from './profileImageUpload';
 import User from '../../../database/models/User';
 import { insertMockUsers } from '../../../database/mocks';
@@ -14,7 +14,7 @@ let server;
 let toUpdate;
 
 beforeAll(async done => {
-  server = await testDatabase();
+  server = await createDB();
   done();
 });
 
