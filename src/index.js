@@ -1,5 +1,6 @@
 import { createServer } from './server';
 
-createServer().then(({ engine, httpServer }) =>
-  engine.listen({ port: 9999, httpServer }),
-);
+(async () => {
+  const { engine, httpServer } = await createServer();
+  engine.listen({ port: 9999, httpServer });
+})();
