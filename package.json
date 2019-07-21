@@ -67,7 +67,7 @@
     "babel-plugin-inline-import": "3.0.0",
     "babel-plugin-source-map-support": "2.1.1",
     "cross-env": "5.2.0",
-    "eslint": "6.0.1",
+    "eslint": "6.1.0",
     "eslint-config-airbnb-base": "13.2.0",
     "eslint-config-prettier": "6.0.0",
     "eslint-plugin-import": "2.18.2",
