@@ -8,7 +8,8 @@ export const profileImageUpload = async (
   { models: { User }, user },
 ) => {
   try {
-    const { stream, ...rest } = await file;
+    const { createReadStream, ...rest } = await file;
+    const stream = createReadStream();
     const buffer = await getStream.buffer(stream);
     const { url } = await upload(process.env.NOW_TOKEN, {
       name: rest.filename,
