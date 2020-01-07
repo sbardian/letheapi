@@ -22,9 +22,12 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            # saving old package.json checksum for cache
+            # - v1-dependencies-{{ checksum "package.json" }}
+            # using CACHE_VERSION env variable. f
+            - v1-dependencies-{{ .Environment.CACHE_VERSION }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            # - v1-dependencies-
 
       - run: yarn install
 
