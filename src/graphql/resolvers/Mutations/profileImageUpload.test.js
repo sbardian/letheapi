@@ -37,14 +37,15 @@ describe('Profile image upload tests', () => {
     spyUpload.mockImplementationOnce(() => ({
       url: PROFILE_IMAGE_URL,
     }));
-    const imageStream = await fs.createReadStream(
-      'src/test-assets/amazonicon.png',
-    );
+    const imageStream = fs.createReadStream('src/test-assets/amazonicon.png');
+
     const userWithProfileImage = await profileImageUpload(
       {},
-      { file: { stream: imageStream } },
+      { file: { createReadStream: () => imageStream } },
       { models: { User }, user: returnUsers(toUpdate) },
     );
+    console.log('TCL: userWithProfileImage', userWithProfileImage);
+
     expect(userWithProfileImage).toEqual({
       ...returnUsers(toUpdate),
       profileImageUrl: PROFILE_IMAGE_URL,
