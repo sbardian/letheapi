@@ -58,10 +58,10 @@
     "yargs": "15.1.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.7.7",
-    "@babel/core": "7.7.7",
-    "@babel/node": "7.7.7",
-    "@babel/preset-env": "7.7.7",
+    "@babel/cli": "7.8.0",
+    "@babel/core": "7.8.0",
+    "@babel/node": "7.8.0",
+    "@babel/preset-env": "7.8.0",
     "babel-eslint": "10.0.3",
     "babel-jest": "24.9.0",
     "babel-plugin-inline-import": "3.0.0",
