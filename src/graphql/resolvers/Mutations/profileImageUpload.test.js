@@ -20,7 +20,7 @@ beforeAll(async done => {
 
 afterAll(() => {
   server.mongoose.disconnect();
-  server.mongoServer.stop();
+  // server.mongoServer.stop();
 });
 
 beforeEach(async () => {
@@ -44,8 +44,6 @@ describe('Profile image upload tests', () => {
       { file: { createReadStream: () => imageStream } },
       { models: { User }, user: returnUsers(toUpdate) },
     );
-    console.log('TCL: userWithProfileImage', userWithProfileImage);
-
     expect(userWithProfileImage).toEqual({
       ...returnUsers(toUpdate),
       profileImageUrl: PROFILE_IMAGE_URL,

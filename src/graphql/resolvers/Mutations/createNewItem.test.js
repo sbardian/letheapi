@@ -20,7 +20,7 @@ beforeAll(async done => {
 
 afterAll(() => {
   server.mongoose.disconnect();
-  server.mongoServer.stop();
+  // server.mongoServer.stop();
 });
 
 beforeEach(async () => {

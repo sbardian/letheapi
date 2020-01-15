@@ -31,6 +31,7 @@ export default () =>
     },
     tracing: true,
     cacheControl: true,
+    introspection: true,
     formatError: err => {
       log.error(err);
       return err;

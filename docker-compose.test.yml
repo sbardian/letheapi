@@ -1,0 +1,9 @@
+version: '2.4'
+services:
+  test:
+    build: .
+    volumes:
+      - ./src:/app/src
+    ports:
+      - '80:9999'
+    command: yarn test

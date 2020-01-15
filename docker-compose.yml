@@ -1,0 +1,95 @@
+version: '2.4'
+services:
+  # Mongo DB server
+  mongo:
+    image: mongo
+    restart: always
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+    volumes:
+      - mongo_vol:/data/db
+    networks:
+      - lethe-network
+
+  # Development server
+  dev:
+    image: letheapi_dev
+    build:
+      context: .
+      target: dev
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - SL_APOLLO_ENGINE_API_KEY=${SL_APOLLO_ENGINE_API_KEY}
+      - SL_DATABASE_URL='mongodb://mongo:27017/dev'
+    ports:
+      - '8080:9999'
+    command: yarn dev
+    networks:
+      - lethe-network
+    labels:
+      - traefik.http.routers.develop.rule=Host(`develop.localhost`)
+
+  # Development tests
+  test:
+    image: letheapi_test
+    build:
+      context: .
+      target: test
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment:
+      - SL_DATABASE_URL='mongodb://mongo:27017/test'
+    networks:
+      - lethe-network
+    command: yarn test
+
+  # Reverse Proxy
+  traefik:
+    image: traefik:2.1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '80:80'
+    command:
+      - --api.insecure
+      - --entrypoints.web.address=:80
+      - --providers.docker
+    labels:
+      - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
+    networks:
+      - lethe-network
+
+  # CI tests
+  test_ci:
+    image: letheapi_test_ci
+    build:
+      context: .
+      target: test
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment:
+      - SL_DATABASE_URL='mongodb://mongo:27017/test'
+    networks:
+      - lethe-network
+    command: yarn test
+
+volumes:
+  mongo_vol:
+  node_modules:
+networks:
+  lethe-network:

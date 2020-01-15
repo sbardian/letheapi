@@ -8,11 +8,6 @@ export const config = yargs
     default: 'thisIsSuperSecret',
     type: 'string',
   })
-  .option('mock-mode', {
-    describe: 'Use mock data',
-    default: false,
-    type: 'boolean',
-  })
   .option('database-url', {
     describe: 'URL for to the database',
     default: 'mongodb://localhost/shoppinglist',

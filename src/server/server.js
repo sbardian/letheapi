@@ -12,13 +12,11 @@ import log from './logging';
 export const pubsub = new PubSub();
 
 export default async () => {
-  const { mockMode } = config;
-
   const app = express();
   const mongo = await connectDB();
 
   // TODO: hack because MongoMemoryServer never returns. . .
-  if (!mockMode) {
+  if (process.env.NODE_ENV !== 'test') {
     const db = mongo.mongoose.connection;
     db.on('error', () => log.error('Database connection failed 🙀'));
     db.once('open', () => log.info('Connected to the database 😺'));

@@ -4,7 +4,6 @@ describe('Database connect tests', () => {
   it('Successfully connects to the database', async () => {
     const mongod = await connectDB();
     expect(mongod.mongoose.connection.readyState).toEqual(1);
-    mongod.mongoServer.stop();
     mongod.mongoose.connection.close();
   });
 });

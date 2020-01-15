@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+apollo-api-key.txt
+prod-database-url.txt
+docker-compose*.yml
+.dockerignore
+.gitignore
+README.md
+LICENSE
+.vscode
+.env

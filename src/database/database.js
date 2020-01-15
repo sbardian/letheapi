@@ -1,35 +1,30 @@
 import mongoose from 'mongoose';
-import MongoMemoryServer from 'mongodb-memory-server';
-import { User } from './models';
+// import MongoMemoryServer from 'mongodb-memory-server';
+// import { User } from './models';
 import { config } from '../config';
-import { insertMockUsers } from './mocks';
+// import { insertMockUsers } from './mocks';
 
 export default async () => {
-  const { mockMode, databaseUrl } = config;
+  const { databaseUrl } = config;
   mongoose.promise = global.Promise;
 
   // Make Mongoose use `findOneAndUpdate()` from MongoDB driver.
   mongoose.set('useFindAndModify', false);
 
-  const mongoServer = new MongoMemoryServer({
-    // debug: true,
+  console.log('MONGO DB >>>> ', databaseUrl);
+
+  await mongoose.connect(databaseUrl, {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   });
-
-  if (mockMode) {
-    const MONGO_MOCK_URI = await mongoServer.getConnectionString();
-
-    mongoose.connect(MONGO_MOCK_URI, {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-    });
-    await User.insertMany(insertMockUsers(2));
-  } else {
-    mongoServer.stop();
-    mongoose.connect(databaseUrl, {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-  }
-  return { mongoServer, mongoose };
+  // if (process.env.NODE_ENV === 'test') {
+  //   await User.find({}, (err, docs) => {
+  //     if (!err && docs.length <= 0) {
+  //       console.log('************ attempting to insert users *************');
+  //       User.insertMany(insertMockUsers(2));
+  //     }
+  //   });
+  // }
+  return { mongoose };
 };

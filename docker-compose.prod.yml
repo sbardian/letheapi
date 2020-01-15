@@ -1,0 +1,66 @@
+# Production
+version: '3.7'
+
+services:
+  lethe:
+    image: letheapi_prod:0.0.4
+    entrypoint: /app/production-entrypoint.sh
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      labels:
+        - traefik.http.routers.lethe.rule=Host(`lethe.localhost`)
+        - traefik.http.services.lethe.loadbalancer.server.port=9999
+    environment:
+      - SL_DATABASE_URL
+      - SL_APOLLO_ENGINE_API_KEY
+      - NOW_TOKEN
+    secrets:
+      - apollo_api_key
+      - prod_database_url
+      - now_token
+    command: node /app/dist/index.js
+    networks:
+      - lethe-network
+
+  # Reverse Proxy
+  traefik:
+    image: traefik:2.1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '80:80'
+    command:
+      - --entrypoints.web.address=:80
+      - --ping
+      - --providers.docker.swarmMode=true
+      # - --traefik.wss.protocol=http
+    healthcheck:
+      test: traefik healthcheck --ping
+    deploy:
+      mode: global
+      update_config:
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
+        - traefik.http.services.traefik.loadbalancer.server.port=8080
+    networks:
+      - lethe-network
+
+networks:
+  lethe-network:
+    name: lethe-network
+
+secrets:
+  apollo_api_key:
+    external: true
+  prod_database_url:
+    external: true
+  now_token:
+    external: true
