@@ -28,6 +28,7 @@ export default async () => {
     mongoose.connect(databaseUrl, {
       useCreateIndex: true,
       useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
   }
   return { mongoServer, mongoose };
