@@ -38,7 +38,6 @@ services:
       - --entrypoints.web.address=:80
       - --ping
       - --providers.docker.swarmMode=true
-      # - --traefik.wss.protocol=http
     healthcheck:
       test: traefik healthcheck --ping
     deploy:
@@ -47,6 +46,9 @@ services:
         failure_action: rollback
       restart_policy:
         condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
       labels:
         - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
         - traefik.http.services.traefik.loadbalancer.server.port=8080
