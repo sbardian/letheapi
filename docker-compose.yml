@@ -21,7 +21,7 @@ services:
       mongo:
         condition: service_healthy
     volumes:
-      - .:/app
+      - .:/app:delegated
       - node_modules:/app/node_modules
     environment:
       - NODE_ENV=development
@@ -45,7 +45,7 @@ services:
       mongo:
         condition: service_healthy
     volumes:
-      - .:/app
+      - .:/app:delegated
       - node_modules:/app/node_modules
     environment:
       - SL_DATABASE_URL='mongodb://mongo:27017/test'
@@ -80,7 +80,7 @@ services:
       mongo:
         condition: service_healthy
     volumes:
-      - .:/app
+      - .:/app:delegated
       - node_modules:/app/node_modules
     environment:
       - SL_DATABASE_URL='mongodb://mongo:27017/test'
