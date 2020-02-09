@@ -2,11 +2,8 @@
 FROM node:10-alpine as base
 EXPOSE 9999
 ENV PATH=/app/node_modules/.bin:$PATH
-ENV NODE_ENV=production
 WORKDIR /app
-COPY package*.json yarn.lock /app/
-# install curl for health checks
-RUN apk add --no-cache curl
+
 
 # development image
 FROM base as dev
@@ -18,27 +15,19 @@ ENV NODE_ENV=test
 # install git for jest watch
 RUN apk add --no-cache git 
 
+# Builder for production
+FROM base as prod-builder
+ENV NODE_ENV=production
+COPY package*.json yarn.lock /app/
+RUN apk add --no-cache python make g++
+RUN yarn install --frozen-lockfile && yarn cache clean
+
+# Production image build
 FROM base as prod
 ENV NODE_ENV=production
-RUN apk add --no-cache --virtual builds-deps build-base python
-RUN yarn install && yarn cache clean
+COPY --from=prod-builder /app/node_modules /app/node_modules
 COPY ./dist /app/dist
-COPY ./production-entrypoint.sh /app
+COPY production-entrypoint.sh package.json /app/
 RUN chmod +x /app/production-entrypoint.sh
 USER node
 CMD ["node", "/app/dist/index.js"]
-
-
-
-# FROM node:10-stretch as test
-# ENV NODE_ENV=test
-# WORKDIR /app
-# COPY package*.json yarn.lock ./
-# RUN yarn install \
-#     && yarn cache clean
-# RUN apt-get install git -y
-# COPY . .
-# CMD ["yarn", "test", "--watch", "--onlyChanged", "--runInBand"]
-
-# FROM base as prod
-# CMD ["sh", "-c", "yarn", "build", "node", "/app/dist/index.js"]
