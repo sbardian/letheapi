@@ -83,7 +83,9 @@ services:
       - .:/app:delegated
       - node_modules:/app/node_modules
     environment:
+      - NODE_ENV=development
       - SL_DATABASE_URL='mongodb://mongo:27017/test'
+      - SL_APOLLO_ENGINE_API_KEY=${SL_APOLLO_ENGINE_API_KEY}
     networks:
       - lethe-network
     command: yarn test
