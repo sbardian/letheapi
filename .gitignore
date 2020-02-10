@@ -261,5 +261,3 @@ pm2.json
 
 ### Packagers ###
 # These can cause more harm than good when working with multiple contributors.
-package-lock.json
-yarn.lock
