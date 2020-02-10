@@ -8,6 +8,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "test": "jest --runInBand",
+    "test:ci": "jest",
     "test:watch": "yarn test --watch",
     "test:coverage": "yarn test --coverage",
     "dev": "cross-env NODE_ENV=development BABEL_DISABLE_CACHE=1 npx nodemon -e js,json,graphql --exec babel-node src/index.js | bunyan -o short -L",
