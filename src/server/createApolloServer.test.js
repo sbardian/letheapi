@@ -7,7 +7,4 @@ describe('Apollo Server tests', () => {
     expect(testApolloServer).toHaveProperty('applyMiddleware');
     expect(testApolloServer).toHaveProperty('installSubscriptionHandlers');
   });
-  it('Should pass or fail', () => {
-    expect(true).toBe(true);
-  });
 });
