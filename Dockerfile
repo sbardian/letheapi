@@ -4,7 +4,6 @@ EXPOSE 9999
 ENV PATH=/app/node_modules/.bin:$PATH
 WORKDIR /app
 
-
 # development image
 FROM base as dev
 ENV NODE_ENV=development
@@ -14,6 +13,8 @@ FROM base as test
 ENV NODE_ENV=test
 # install git for jest watch
 RUN apk add --no-cache git 
+
+FROM test as test_ci
 
 # Builder for production
 FROM base as prod-builder
