@@ -72,18 +72,15 @@ services:
 
   # CI tests
   test_ci:
-    image: letheapi_test_ci
+    image: test_ci:latest
     build:
       context: .
-      target: test
+      target: ci
     depends_on:
       mongo:
         condition: service_healthy
-    volumes:
-      - .:/app:delegated
-      - node_modules:/app/node_modules
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=test
       - SL_DATABASE_URL='mongodb://mongo:27017/test'
       - SL_APOLLO_ENGINE_API_KEY=${SL_APOLLO_ENGINE_API_KEY}
     networks:

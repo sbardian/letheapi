@@ -15,9 +15,9 @@ jobs:
       - setup_remote_docker
       - docker/build:
           step-name: Build Test CI image
-          image: letheapi_ci
+          image: test_ci
           tag: latest
-          extra_build_args: --target test_ci
+          extra_build_args: --target ci
       - run:
           name: Lint
           command: docker-compose run test_ci yarn lint

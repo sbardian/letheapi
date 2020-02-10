@@ -15,6 +15,8 @@ export default async () => {
   const app = express();
   const mongo = await connectDB();
 
+  console.log('>>>>> ', process.env.NODE_ENV);
+
   // TODO: hack because MongoMemoryServer never returns. . .
   if (process.env.NODE_ENV !== 'test') {
     const db = mongo.mongoose.connection;
