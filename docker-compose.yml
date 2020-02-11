@@ -35,6 +35,23 @@ services:
     labels:
       - traefik.http.routers.develop.rule=Host(`develop.localhost`)
 
+  # Reverse Proxy
+  traefik:
+    image: traefik:2.1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '80:80'
+    command:
+      - --api.insecure
+      - --entrypoints.web.address=:80
+      - --providers.docker
+    labels:
+      - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
+    networks:
+      - lethe-network
+
   # Development tests
   test:
     image: letheapi_test
@@ -53,23 +70,6 @@ services:
     networks:
       - lethe-network
     command: yarn test
-
-  # Reverse Proxy
-  traefik:
-    image: traefik:2.1
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - '80:80'
-    command:
-      - --api.insecure
-      - --entrypoints.web.address=:80
-      - --providers.docker
-    labels:
-      - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
-      - traefik.http.services.traefik.loadbalancer.server.port=8080
-    networks:
-      - lethe-network
 
   # CI tests
   test_ci:
