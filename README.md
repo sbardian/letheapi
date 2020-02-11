@@ -11,7 +11,13 @@ This is a GraphQL Api that is used with the Lethe React Native application.
 ## Development:
 
 ```
-docker-compose up
+docker-compose up --detach --build
+```
+
+Update dependencies
+
+```
+docker-compose run --rm dev yarn install && yarn cache clean
 ```
 
 - graphql playground will be available at http://develop.localhost/graphql
