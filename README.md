@@ -16,7 +16,7 @@ docker-compose up
 
 - graphql playground will be available at http://develop.localhost/graphql
 - traefik dashboard will be available at http://traefik.localhost/
-  > these sites will only work in Chrome
+  > these sites will only route in Chrome
 
 ## Test:
 
@@ -24,10 +24,10 @@ docker-compose up
 docker-compose run test yarn test:watch
 ```
 
-## Dependancies
+### Dependancies
 
 If you need to add a dependency you will need to add it to the local host for
-tooling and also to the container
+tooling and to the container.
 
 ### Local host
 
@@ -35,8 +35,28 @@ tooling and also to the container
 yarn add <dependancy>
 ```
 
+> Failing to install the dependancy on the host could cause local tooling to not
+> work.
+
 ### Container
 
 ```
 docker-compose run dev yarn add <dependancy>
+```
+
+> Installing the dependancy in the container is most important, failure to do so
+> will cause the app to fail on use of a new dependancy
+
+## Production
+
+Build image
+
+```
+docker build --label letheapi --tag letheapi_prod:0.0.4 --target prod .
+```
+
+Deploy stack to swarm
+
+```
+docker stack deploy --compose-file docker-compose.prod.yml lethe-prod
 ```
