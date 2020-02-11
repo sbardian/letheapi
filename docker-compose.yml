@@ -48,6 +48,7 @@ services:
       - .:/app:delegated
       - node_modules:/app/node_modules
     environment:
+      - TEST=true
       - SL_DATABASE_URL='mongodb://mongo:27017/test'
     networks:
       - lethe-network
@@ -80,7 +81,7 @@ services:
       mongo:
         condition: service_healthy
     environment:
-      - NODE_ENV=test
+      - TEST=true
       - SL_DATABASE_URL='mongodb://mongo:27017/test'
       - SL_APOLLO_ENGINE_API_KEY=${SL_APOLLO_ENGINE_API_KEY}
     networks:

@@ -23,7 +23,6 @@ RUN yarn install --frozen-lockfile && yarn cache clean
 
 # CI tests
 FROM test as ci
-ENV NODE_ENV=test
 COPY --from=ci-builder /app/package.json /app/yarn.lock /app/
 COPY --from=ci-builder /app/node_modules /app/node_modules
 COPY . .
