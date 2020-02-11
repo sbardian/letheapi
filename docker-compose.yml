@@ -69,7 +69,6 @@ services:
       - SL_DATABASE_URL='mongodb://mongo:27017/test'
     networks:
       - lethe-network
-    command: yarn test
 
   # CI tests
   test_ci:
@@ -86,7 +85,6 @@ services:
       - SL_APOLLO_ENGINE_API_KEY=${SL_APOLLO_ENGINE_API_KEY}
     networks:
       - lethe-network
-    command: yarn test
 
 volumes:
   mongo_vol:
