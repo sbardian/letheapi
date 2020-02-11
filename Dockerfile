@@ -8,9 +8,9 @@ WORKDIR /app
 FROM base as dev
 ENV NODE_ENV=development
 
-# development tests and ci image
+# development tests
 FROM base as test
-ENV NODE_ENV=test
+ENV NODE_ENV=development
 # install git for jest watch
 RUN apk add --no-cache git 
 
