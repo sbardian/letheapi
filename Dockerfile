@@ -1,18 +1,20 @@
 # base image 
-FROM node:10-alpine as base
+FROM node:12-alpine as base
 EXPOSE 9999
+ENV NODE_ENV=development
 ENV PATH=/app/node_modules/.bin:$PATH
 WORKDIR /app
 
 # development image
 FROM base as dev
 ENV NODE_ENV=development
+RUN apk add --no-cache python make g++
 
 # development tests
 FROM base as test
-ENV NODE_ENV=development
 # install git for jest watch
 RUN apk add --no-cache git 
+RUN apk add --no-cache python make g++
 
 # Builder for ci
 FROM base as ci-builder
