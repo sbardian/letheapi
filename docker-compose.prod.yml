@@ -3,7 +3,7 @@ version: '3.7'
 
 services:
   lethe:
-    image: letheapi_prod:0.0.4
+    image: letheapi_prod:0.0.1
     entrypoint: /app/production-entrypoint.sh
     deploy:
       replicas: 2
