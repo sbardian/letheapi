@@ -71,7 +71,7 @@
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-config-prettier": "6.10.0",
     "eslint-plugin-import": "2.20.1",
-    "husky": "4.2.2",
+    "husky": "4.2.3",
     "jest": "25.1.0",
     "jest-environment-node": "25.1.0",
     "prettier": "1.19.1"
