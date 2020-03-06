@@ -140,7 +140,7 @@ const resolvers = {
       subscribe: withFilter(
         () => pubsub.asyncIterator([`INVITATION_ADDED`]),
         (payload, variables, { user }) =>
-          payload.invitationAdded.invitee === user.id,
+          payload.invitationAdded.invitee.id === user.id,
       ),
     },
     invitationDeleted: {
@@ -153,7 +153,7 @@ const resolvers = {
       subscribe: withFilter(
         () => pubsub.asyncIterator([`INVITATION_DELETED`]),
         (payload, variables, { user }) =>
-          payload.invitationDeleted.invitee === user.id,
+          payload.invitationDeleted.invitee.id === user.id,
       ),
     },
     listSettingsUpdated: {
