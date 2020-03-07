@@ -26,6 +26,7 @@ services:
     environment:
       - NODE_ENV=development
       - SL_APOLLO_ENGINE_API_KEY=${SL_APOLLO_ENGINE_API_KEY}
+      - PORT=${PORT}
       - SL_DATABASE_URL='mongodb://mongo:27017/dev'
     ports:
       - '8080:9999'
