@@ -5,7 +5,7 @@ import { pubsub } from '../../../server/server';
 export const deleteList = async (
   root,
   { listId },
-  { models: { User, List }, user },
+  { models: { User, List, Item }, user },
 ) => {
   if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
     const usersToUpdate = await User.find({ lists: listId });
@@ -16,6 +16,7 @@ export const deleteList = async (
       });
     });
     const deletedList = returnLists(await List.findByIdAndRemove(listId));
+    await Item.deleteMany({ list: listId });
     pubsub.publish(`LIST_DELETED`, {
       listDeleted: {
         ...deletedList,
