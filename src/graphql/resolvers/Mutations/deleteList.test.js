@@ -1,6 +1,6 @@
 import createDB from '../../../database/database';
 import { deleteList } from './deleteList';
-import { User, List } from '../../../database/models';
+import { User, List, Item } from '../../../database/models';
 import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
 import { pubsub as mockPubsub } from '../../../server/server';
@@ -43,7 +43,7 @@ describe('deleteList test', () => {
       'root',
       { listId: toUpdate.id },
       {
-        models: { User, List },
+        models: { User, List, Item },
         user: { id: toUpdate.users[0], isAdmin: false },
       },
     );
@@ -56,7 +56,7 @@ describe('deleteList test', () => {
       'root',
       { listId: toUpdate.id },
       {
-        models: { User, List },
+        models: { User, List, Item },
         user: { id: toUpdate.users[0], isAdmin: true },
       },
     );
@@ -70,7 +70,7 @@ describe('deleteList test', () => {
         'root',
         { listId: toUpdate.id },
         {
-          models: { User, List },
+          models: { User, List, Item },
           user: { id: 'someAdminId', isAdmin: false },
         },
       );
