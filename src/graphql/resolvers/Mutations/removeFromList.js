@@ -7,6 +7,7 @@ export const removeFromList = async (
   { models: { User, List }, user },
 ) => {
   let userToRemove;
+  // TODO: errors when user removes themselves. . . should we allow?
   if (!userId || userId === user.id) {
     userToRemove = user.id;
   } else if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
