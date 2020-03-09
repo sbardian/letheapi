@@ -8,13 +8,24 @@ This is a GraphQL Api that is used with the Lethe React Native application.
   https://circleci.com/gh/sbardian/letheapi/tree/master.svg?style=shield&circle-token=1dcd6a2e19c580387624fe712bb94c0eb19480af
 [build-url-master]: https://circleci.com/gh/sbardian/letheapi/tree/master
 
+- PORT
+
 ## Development:
+
+### Environment Variables
+
+- NODE_ENV=development
+- SL_APOLLO_ENGINE_API_KEY='your Apollo Engine API Key here'
+- SL_DATABASE_URL='mongodb://mongo:27017/dev'
+- PORT=9999
+
+### Build
 
 ```
 docker-compose up --detach --build
 ```
 
-Update dependencies
+### Update dependencies
 
 ```
 docker-compose run --rm dev yarn install && yarn cache clean
@@ -55,13 +66,20 @@ docker-compose run dev yarn add <dependancy>
 
 ## Production
 
-Build image
+### Secrets
+
+- apollo_api_key
+- sl_database_url
+- now_token
+- port
+
+### Build image
 
 ```
 docker build --label letheapi --tag letheapi_prod:0.0.4 --target prod .
 ```
 
-Deploy stack to swarm
+### Deploy stack to swarm
 
 ```
 docker stack deploy --compose-file docker-compose.prod.yml lethe-prod

@@ -19,10 +19,12 @@ services:
       - SL_DATABASE_URL
       - SL_APOLLO_ENGINE_API_KEY
       - NOW_TOKEN
+      - PORT
     secrets:
       - apollo_api_key
-      - prod_database_url
+      - sl_database_url
       - now_token
+      - port
     command: node /app/dist/index.js
     networks:
       - lethe-network
@@ -62,7 +64,9 @@ networks:
 secrets:
   apollo_api_key:
     external: true
-  prod_database_url:
+  sl_database_url:
     external: true
   now_token:
+    external: true
+  port:
     external: true
