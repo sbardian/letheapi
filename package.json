@@ -61,7 +61,7 @@
     "@babel/node": "7.8.7",
     "@babel/preset-env": "7.9.0",
     "babel-eslint": "10.1.0",
-    "babel-jest": "25.2.4",
+    "babel-jest": "25.2.6",
     "babel-plugin-inline-import": "3.0.0",
     "babel-plugin-source-map-support": "2.1.1",
     "cross-env": "7.0.2",
@@ -70,8 +70,8 @@
     "eslint-config-prettier": "6.10.1",
     "eslint-plugin-import": "2.20.2",
     "husky": "4.2.3",
-    "jest": "25.2.4",
-    "jest-environment-node": "25.2.4",
+    "jest": "25.2.6",
+    "jest-environment-node": "25.2.6",
     "prettier": "2.0.2"
   }
 }
