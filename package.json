@@ -70,7 +70,7 @@
     "eslint-config-prettier": "6.10.1",
     "eslint-plugin-import": "2.20.2",
     "husky": "4.2.3",
-    "jest": "25.2.6",
+    "jest": "25.2.7",
     "jest-environment-node": "25.2.6",
     "prettier": "2.0.2"
   }
