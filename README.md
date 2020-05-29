@@ -8,28 +8,36 @@ This is a GraphQL Api that is used with the Lethe React Native application.
   https://circleci.com/gh/sbardian/letheapi/tree/master.svg?style=shield&circle-token=1dcd6a2e19c580387624fe712bb94c0eb19480af
 [build-url-master]: https://circleci.com/gh/sbardian/letheapi/tree/master
 
-- PORT
-
 ## Development:
 
 ### Environment Variables
 
+You must have the following environment variables set to run development
+containers.
+
 - NODE_ENV=development
 - SL_APOLLO_ENGINE_API_KEY='your Apollo Engine API Key here'
 - SL_DATABASE_URL='mongodb://mongo:27017/dev'
+  - use whatever mongo server you like, this will be the local mongo container.
 - PORT=9999
 
-### Build
+### Build and run development environment
 
 ```
 docker-compose up --detach --build
 ```
 
+> Feel free to drop the --build, but use it for a fresh start on the images.
+
 ### Update dependencies
+
+This command will update the dev environments dependancies.
 
 ```
 docker-compose run --rm dev yarn install && yarn cache clean
 ```
+
+### Once development environment is up, you can find check it at the following URL's
 
 - graphql playground will be available at http://develop.localhost/graphql
 - traefik dashboard will be available at http://traefik.localhost/
@@ -37,11 +45,13 @@ docker-compose run --rm dev yarn install && yarn cache clean
 
 ## Test:
 
+Run tests and watch
+
 ```
 docker-compose run test yarn test:watch
 ```
 
-### Dependancies
+## Dependancies
 
 If you need to add a dependency you will need to add it to the local host for
 tooling and to the container.
@@ -67,6 +77,8 @@ docker-compose run dev yarn add <dependancy>
 ## Production
 
 ### Secrets
+
+You will need the following secrets defined in your swarm
 
 - apollo_api_key
 - sl_database_url
