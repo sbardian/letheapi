@@ -35,8 +35,8 @@
   },
   "dependencies": {
     "apollo-engine": "1.1.2",
-    "apollo-server": "2.14.4",
-    "apollo-server-express": "2.14.4",
+    "apollo-server": "2.14.5",
+    "apollo-server-express": "2.14.5",
     "bcrypt": "5.0.0",
     "bunyan": "1.8.12",
     "common-tags": "1.8.0",
