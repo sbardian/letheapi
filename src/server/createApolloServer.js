@@ -2,6 +2,7 @@ import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import { Item, User, List, Invitation } from '../database/models';
 import createLoaders from '../graphql/loaders/createLoaders';
 import { verifyToken } from './verifyToken';
+import { config } from '../config';
 import schema from '../graphql/schema';
 import log from './logging';
 
@@ -31,8 +32,9 @@ export default () =>
     },
     tracing: true,
     cacheControl: true,
+    engine: config.apolloEngineApiKey,
     introspection: true,
-    formatError: err => {
+    formatError: (err) => {
       log.error(err);
       return err;
     },
@@ -44,7 +46,7 @@ export default () =>
     },
     subscriptions: {
       path: '/subscriptions',
-      onConnect: connectionParams => {
+      onConnect: (connectionParams) => {
         if (connectionParams.token) {
           log.info('onConnect called 📭');
           const decodedUser = verifyToken(connectionParams.token);

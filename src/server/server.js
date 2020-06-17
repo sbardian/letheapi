@@ -1,6 +1,5 @@
 // import log from 'console';
 import express from 'express';
-import { ApolloEngine } from 'apollo-engine';
 import { PubSub } from 'apollo-server-express';
 import jwt from 'express-jwt';
 import { createServer } from 'http';
@@ -34,11 +33,11 @@ export default async () => {
 
   apolloServer.applyMiddleware({ app });
   const httpServer = createServer(app);
-  const engine = new ApolloEngine({
-    apiKey: config.apolloEngineApiKey,
-  });
+  // const engine = new ApolloEngine({
+  //   apiKey: config.apolloEngineApiKey,
+  // });
 
   apolloServer.installSubscriptionHandlers(httpServer);
 
-  return { engine, httpServer };
+  return { httpServer };
 };
