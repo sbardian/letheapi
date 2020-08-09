@@ -28,6 +28,7 @@ export default async () => {
     jwt({
       secret: config.sessionSecret,
       credentialsRequired: false,
+      algorithms: ['HS256'],
     }),
   );
 
