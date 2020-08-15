@@ -2,6 +2,7 @@
 import express from 'express';
 import { PubSub } from 'apollo-server-express';
 import jwt from 'express-jwt';
+import cors from 'cors';
 import { createServer } from 'http';
 import { connectDB } from '../database';
 import { config } from '../config';
@@ -22,6 +23,13 @@ export default async () => {
   }
 
   const apolloServer = createApolloServer();
+
+  const corsOptions = {
+    origin: ['https://lethe.netlify.app', 'http://localhost:3000'],
+    optionsSuccessStatus: 200,
+  };
+
+  app.use(cors(corsOptions));
 
   app.use(
     '/graphql',
