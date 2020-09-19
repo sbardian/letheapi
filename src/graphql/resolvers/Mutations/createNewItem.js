@@ -1,17 +1,17 @@
 import { returnItems } from '../../../database/utils';
 import { userOfListByListId } from '../checkAuth';
-import { pubsub } from '../../../server/server';
+import { ITEM_ADDED } from '../../events';
 
 export const createNewItem = async (
   root,
   { ItemInfo },
-  { models: { Item, User }, user },
+  { models: { Item, User }, user, pubsub },
 ) => {
   if (userOfListByListId(user, ItemInfo.list, User) || user.isAdmin) {
     const newItem = returnItems(
       await Item.create({ ...ItemInfo, creator: user.id, status: false }),
     );
-    pubsub.publish(`ITEM_ADDED`, {
+    pubsub.publish(ITEM_ADDED, {
       itemAdded: {
         ...newItem,
         __typename: 'Item',

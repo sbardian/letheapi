@@ -1,6 +1,5 @@
 // import log from 'console';
 import express from 'express';
-import { PubSub } from 'apollo-server-express';
 import jwt from 'express-jwt';
 import cors from 'cors';
 import { createServer } from 'http';
@@ -8,8 +7,6 @@ import { connectDB } from '../database';
 import { config } from '../config';
 import createApolloServer from './createApolloServer';
 import log from './logging';
-
-export const pubsub = new PubSub();
 
 export default async () => {
   const app = express();

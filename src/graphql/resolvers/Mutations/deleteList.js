@@ -1,23 +1,23 @@
 import { returnLists } from '../../../database/utils';
 import { ownerOfList } from '../checkAuth';
-import { pubsub } from '../../../server/server';
+import { LIST_DELETED } from '../../events';
 
 export const deleteList = async (
   root,
   { listId },
-  { models: { User, List, Item }, user },
+  { models: { User, List, Item }, user, pubsub },
 ) => {
   if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
     const usersToUpdate = await User.find({ lists: listId });
-    usersToUpdate.forEach(async currentUser => {
+    usersToUpdate.forEach(async (currentUser) => {
       const { lists } = currentUser;
       await User.findByIdAndUpdate(currentUser.id, {
-        lists: lists.filter(l => l !== listId),
+        lists: lists.filter((l) => l !== listId),
       });
     });
     const deletedList = returnLists(await List.findByIdAndRemove(listId));
     await Item.deleteMany({ list: listId });
-    pubsub.publish(`LIST_DELETED`, {
+    pubsub.publish(LIST_DELETED, {
       listDeleted: {
         ...deletedList,
         __typename: 'List',

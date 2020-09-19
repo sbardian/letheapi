@@ -1,15 +1,15 @@
 import { returnItems } from '../../../database/utils';
 import { userOfListByItemId } from '../checkAuth';
-import { pubsub } from '../../../server/server';
+import { ITEM_DELETED } from '../../events';
 
 export const deleteItem = async (
   root,
   { itemId },
-  { models: { Item, User, List }, user },
+  { models: { Item, User, List }, user, pubsub },
 ) => {
   if (userOfListByItemId(user, itemId, User, List) || user.isAdmin) {
     const deletedItem = returnItems(await Item.findByIdAndRemove(itemId));
-    pubsub.publish(`ITEM_DELETED`, {
+    pubsub.publish(ITEM_DELETED, {
       itemDeleted: {
         ...deletedItem,
         __typename: 'Item',

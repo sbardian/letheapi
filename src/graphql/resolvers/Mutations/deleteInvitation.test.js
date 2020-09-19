@@ -2,12 +2,12 @@ import { deleteInvitation } from './deleteInvitation';
 import mockInvitation from '../../../database/models/Invitation';
 import mockList from '../../../database/models/List';
 import * as mockCheckAuth from '../checkAuth';
-import { pubsub as mockPubsub } from '../../../server/server';
+import { pubsub as mockPubsub } from '../../../server/createApolloServer';
 
 jest.mock('../../../database/models/Invitation');
 jest.mock('../../../database/models/List');
 jest.mock('../checkAuth');
-jest.mock('../../../server/server');
+jest.mock('../../../server/createApolloServer');
 
 describe('deleteInvitation Tests', () => {
   it('Returns a deleted invitation, is Admin', async () => {

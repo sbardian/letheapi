@@ -1,9 +1,10 @@
 import { returnInvitations } from '../../../database/utils';
+import { INVITATION_DELETED } from '../../events';
 
 export const acceptInvitation = async (
   root,
   { invitationId },
-  { models: { Invitation, List, User }, user },
+  { models: { Invitation, List, User }, user, pubsub },
 ) => {
   const invitation = await Invitation.findById(invitationId);
   if (invitation.invitee.id === user.id || user.isAdmin) {
@@ -17,8 +18,16 @@ export const acceptInvitation = async (
     await List.findByIdAndUpdate(id, {
       users: [...users, invitation.invitee.id],
     });
-    await Invitation.findByIdAndRemove(invitationId);
-    return returnInvitations(invitation);
+    const acceptedInvitation = returnInvitations(
+      await Invitation.findByIdAndRemove(invitationId),
+    );
+    pubsub.publish(INVITATION_DELETED, {
+      invitationDeleted: {
+        ...acceptedInvitation,
+        __typename: 'Invitation',
+      },
+    });
+    return acceptedInvitation;
   }
   throw new Error('You do not have permission to accept this invitation');
 };

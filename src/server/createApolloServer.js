@@ -1,4 +1,8 @@
-import { ApolloServer, AuthenticationError } from 'apollo-server-express';
+import {
+  ApolloServer,
+  AuthenticationError,
+  PubSub,
+} from 'apollo-server-express';
 import { Item, User, List, Invitation } from '../database/models';
 import createLoaders from '../graphql/loaders/createLoaders';
 import { verifyToken } from './verifyToken';
@@ -6,6 +10,7 @@ import { config } from '../config';
 import schema from '../graphql/schema';
 import log from './logging';
 
+export const pubsub = new PubSub();
 // Configure ApolloServer
 export default () =>
   new ApolloServer({
@@ -26,13 +31,14 @@ export default () =>
           Invitation,
         },
         user: req.user,
+        pubsub,
         loaders: createLoaders(),
         log,
       };
     },
     tracing: true,
     cacheControl: true,
-    engine: config.apolloEngineApiKey,
+    ...(config.apolloEngineApiKey && { engine: config.apolloEngineApiKey }),
     introspection: true,
     formatError: (err) => {
       log.error(err);

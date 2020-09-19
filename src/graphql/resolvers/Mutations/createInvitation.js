@@ -1,11 +1,11 @@
-import { pubsub } from '../../../server/server';
 import { returnInvitations, returnUsers } from '../../../database/utils';
 import { ownerOfList } from '../checkAuth';
+import { INVITATION_ADDED } from '../../events';
 
 export const createInvitation = async (
   root,
   { listId, invitee, title },
-  { models: { Invitation, List, User }, user },
+  { models: { Invitation, List, User }, user, pubsub },
 ) => {
   if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
     const invitedUser = returnUsers(
@@ -33,7 +33,7 @@ export const createInvitation = async (
         { new: true, upsert: true },
       ),
     );
-    pubsub.publish(`INVITATION_ADDED`, {
+    pubsub.publish(INVITATION_ADDED, {
       invitationAdded: {
         ...invitation,
         __typename: 'Invitation',

@@ -1,17 +1,17 @@
 import { userOfListByItemId } from '../checkAuth';
 import { returnItems } from '../../../database/utils';
-import { pubsub } from '../../../server/server';
+import { ITEM_EDITED } from '../../events';
 
 export const updateItem = async (
   root,
   { itemId, title, status },
-  { models: { Item, List, User }, user },
+  { models: { Item, List, User }, user, pubsub },
 ) => {
   if (userOfListByItemId(user, itemId, User, List) || user.isAdmin) {
     const editedItem = returnItems(
       await Item.findByIdAndUpdate(itemId, { title, status }, { new: true }),
     );
-    pubsub.publish(`ITEM_EDITED`, {
+    pubsub.publish(ITEM_EDITED, {
       itemEdited: {
         ...editedItem,
         __typename: 'Item',

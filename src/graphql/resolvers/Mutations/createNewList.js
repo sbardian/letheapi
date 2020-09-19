@@ -1,25 +1,34 @@
 import { returnLists } from '../../../database/utils';
+import { LIST_ADDED } from '../../events';
 
 export const createNewList = async (
   root,
   { ListInfo: { title } },
-  { models: { List, User }, user },
+  { models: { List, User }, user, pubsub },
 ) => {
   if (user) {
     if (!title) {
       throw new Error('A title is required.');
     }
-    const newList = await List.create({
-      title,
-      owner: user.id,
-      users: [user.id],
-      items: [],
-    });
+    const newList = returnLists(
+      await List.create({
+        title,
+        owner: user.id,
+        users: [user.id],
+        items: [],
+      }),
+    );
     const userfound = await User.findById(user.id);
     const { lists } = userfound;
     const { id } = newList;
     await User.findByIdAndUpdate(user.id, { lists: [...lists, id] });
-    return returnLists(newList);
+    pubsub.publish(LIST_ADDED, {
+      listAdded: {
+        ...newList,
+        __typename: 'List',
+      },
+    });
+    return newList;
   }
   throw new Error('You must be logged in to create a list.');
 };

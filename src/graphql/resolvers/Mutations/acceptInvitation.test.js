@@ -2,18 +2,18 @@ import { acceptInvitation } from './acceptInvitation';
 import mockInvitation from '../../../database/models/Invitation';
 import mockList from '../../../database/models/List';
 import mockUser from '../../../database/models/User';
-// import { pubsub as mockPubsub } from '../../../server/server';
+import { pubsub as mockPubsub } from '../../../server/createApolloServer';
 
 jest.mock('../../../database/models/Invitation');
 jest.mock('../../../database/models/List');
 jest.mock('../../../database/models/User');
 jest.mock('../checkAuth');
-jest.mock('../../../server/server');
+jest.mock('../../../server/createApolloServer');
 
 describe('acceptInvitation tests', () => {
   it('Returns error', async () => {
     expect.assertions(1);
-    // mockPubsub.publish.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     mockInvitation.findById.mockImplementationOnce(() => ({
       id: 'someInvitationId',
       title: 'someInvitationTitle',
@@ -43,7 +43,7 @@ describe('acceptInvitation tests', () => {
     }
   });
   it('Returns accepted invitation, isAdmin', async () => {
-    // mockPubsub.publish.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     mockInvitation.findById.mockImplementationOnce(() => ({
       id: 'someInvitationId',
       title: 'someInvitationTitle',
@@ -90,7 +90,7 @@ describe('acceptInvitation tests', () => {
   });
 
   it('Returns accepted invitation, is invitee', async () => {
-    // mockPubsub.publish.mockImplementationOnce(() => false);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     mockInvitation.findById.mockImplementationOnce(() => ({
       id: 'someInvitationId',
       title: 'someInvitationTitle',

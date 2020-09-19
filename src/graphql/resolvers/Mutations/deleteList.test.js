@@ -3,15 +3,15 @@ import { deleteList } from './deleteList';
 import { User, List, Item } from '../../../database/models';
 import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
-import { pubsub as mockPubsub } from '../../../server/server';
+import { pubsub as mockPubsub } from '../../../server/createApolloServer';
 
 jest.mock('../checkAuth');
-jest.mock('../../../server/server');
+jest.mock('../../../server/createApolloServer');
 
 let server;
 let toUpdate;
 
-beforeAll(async done => {
+beforeAll(async (done) => {
   server = await createDB();
   done();
 });

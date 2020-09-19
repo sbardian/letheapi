@@ -1,11 +1,11 @@
-import { pubsub } from '../../../server/server';
 import { returnInvitations } from '../../../database/utils';
 import { ownerOfList } from '../checkAuth';
+import { INVITATION_DELETED } from '../../events';
 
 export const deleteInvitation = async (
   root,
   { invitationId },
-  { models: { Invitation, List }, user },
+  { models: { Invitation, List }, user, pubsub },
 ) => {
   const invitation = await Invitation.findById(invitationId);
   if (
@@ -16,7 +16,7 @@ export const deleteInvitation = async (
     const deletedInvitation = returnInvitations(
       await Invitation.findByIdAndRemove(invitationId),
     );
-    pubsub.publish(`INVITATION_DELETED`, {
+    pubsub.publish(INVITATION_DELETED, {
       invitationDeleted: {
         ...deletedInvitation,
         __typename: 'Invitation',

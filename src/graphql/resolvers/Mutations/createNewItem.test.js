@@ -4,16 +4,16 @@ import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import { createNewItem } from './createNewItem';
 import { returnItems } from '../../../database/utils';
 import * as mockCheckAuth from '../checkAuth';
-import { pubsub as mockPubsub } from '../../../server/server';
+import { pubsub as mockPubsub } from '../../../server/createApolloServer';
 
 jest.mock('../checkAuth');
-jest.mock('../../../server/server');
+jest.mock('../../../server/createApolloServer');
 
 let server;
 let userToUse;
 let listToUse;
 
-beforeAll(async done => {
+beforeAll(async (done) => {
   server = await createDB();
   done();
 });
