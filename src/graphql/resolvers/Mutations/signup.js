@@ -13,6 +13,7 @@ export const signup = async (
       email,
       username,
       password: passHash,
+      isAdmin: false,
     });
     const token = jwt.sign({ id, email }, config.sessionSecret);
     return { token };
