@@ -1,12 +1,16 @@
+import { AuthenticationError } from 'apollo-server';
 import { returnInvitations, returnUsers } from '../../../database/utils';
-import { ownerOfList } from '../checkAuth';
+import { ownerOfList, isTokenValid } from '../checkAuth';
 import { INVITATION_ADDED } from '../../events';
 
 export const createInvitation = async (
   root,
   { listId, invitee, title },
-  { models: { Invitation, List, User }, user, pubsub },
+  { models: { Invitation, List, User, BlacklistedToken }, user, pubsub, token },
 ) => {
+  if (!(await isTokenValid(token, BlacklistedToken))) {
+    throw new AuthenticationError('Invalid token');
+  }
   if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
     const invitedUser = returnUsers(
       await User.findOne({

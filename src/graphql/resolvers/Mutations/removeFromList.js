@@ -1,11 +1,15 @@
+import { AuthenticationError } from 'apollo-server';
 import { returnUsers } from '../../../database/utils';
-import { ownerOfList } from '../checkAuth';
+import { ownerOfList, isTokenValid } from '../checkAuth';
 
 export const removeFromList = async (
   root,
   { listId, userId },
-  { models: { User, List }, user },
+  { models: { User, List, BlacklistedToken }, user, token },
 ) => {
+  if (!(await isTokenValid(token, BlacklistedToken))) {
+    throw new AuthenticationError('Invalid token');
+  }
   let userToRemove;
   // TODO: errors when user removes themselves. . . should we allow?
   if (!userId || userId === user.id) {
@@ -22,10 +26,10 @@ export const removeFromList = async (
     await List.findById(listId),
   ]);
   await User.findByIdAndUpdate(userToRemove, {
-    lists: lists.filter(l => l !== listId),
+    lists: lists.filter((l) => l !== listId),
   });
   await List.findByIdAndUpdate(listId, {
-    users: users.filter(u => u !== userToRemove),
+    users: users.filter((u) => u !== userToRemove),
   });
   return returnUsers(await User.findById(userToRemove));
 };

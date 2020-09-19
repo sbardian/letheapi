@@ -1,12 +1,16 @@
+import { AuthenticationError } from 'apollo-server';
 import { returnInvitations } from '../../../database/utils';
-import { ownerOfList } from '../checkAuth';
+import { ownerOfList, isTokenValid } from '../checkAuth';
 import { INVITATION_DELETED } from '../../events';
 
 export const deleteInvitation = async (
   root,
   { invitationId },
-  { models: { Invitation, List }, user, pubsub },
+  { models: { Invitation, List, BlacklistedToken }, user, pubsub, token },
 ) => {
+  if (!(await isTokenValid(token, BlacklistedToken))) {
+    throw new AuthenticationError('Invalid token');
+  }
   const invitation = await Invitation.findById(invitationId);
   if (
     (await ownerOfList(user, invitation.list, List)) ||

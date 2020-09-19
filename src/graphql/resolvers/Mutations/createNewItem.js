@@ -1,12 +1,16 @@
+import { AuthenticationError } from 'apollo-server';
 import { returnItems } from '../../../database/utils';
-import { userOfListByListId } from '../checkAuth';
+import { userOfListByListId, isTokenValid } from '../checkAuth';
 import { ITEM_ADDED } from '../../events';
 
 export const createNewItem = async (
   root,
   { ItemInfo },
-  { models: { Item, User }, user, pubsub },
+  { models: { Item, User, BlacklistedToken }, user, pubsub, token },
 ) => {
+  if (!(await isTokenValid(token, BlacklistedToken))) {
+    throw new AuthenticationError('Invalid token');
+  }
   if (userOfListByListId(user, ItemInfo.list, User) || user.isAdmin) {
     const newItem = returnItems(
       await Item.create({ ...ItemInfo, creator: user.id, status: false }),

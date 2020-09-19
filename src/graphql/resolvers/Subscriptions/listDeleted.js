@@ -1,10 +1,17 @@
 import { AuthenticationError } from 'apollo-server';
 import { pubsub } from '../../../server/createApolloServer';
-import { userOfListByListId } from '../checkAuth';
+import { userOfListByListId, isTokenValid } from '../checkAuth';
 import { LIST_DELETED } from '../../events';
 
 export default {
-  resolve: (payload, args, { models: { User }, user }) => {
+  resolve: async (
+    payload,
+    args,
+    { models: { User, BlacklistedToken }, user, token },
+  ) => {
+    if (!(await isTokenValid(token, BlacklistedToken))) {
+      throw new AuthenticationError('Invalid token');
+    }
     if (user) {
       if (
         userOfListByListId(user, payload.listDeleted.id, User) ||

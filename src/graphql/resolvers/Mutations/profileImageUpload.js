@@ -1,12 +1,17 @@
+import { AuthenticationError } from 'apollo-server';
 import getStream from 'get-stream';
 import { upload } from 'now-storage';
 import { returnUsers } from '../../../database/utils';
+import { isTokenValid } from '../checkAuth';
 
 export const profileImageUpload = async (
   root,
   { file },
-  { models: { User }, user },
+  { models: { User, BlacklistedToken }, user, token },
 ) => {
+  if (!(await isTokenValid(token, BlacklistedToken))) {
+    throw new AuthenticationError('Invalid token');
+  }
   try {
     const { createReadStream, ...rest } = await file;
     const stream = createReadStream();

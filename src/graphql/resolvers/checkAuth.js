@@ -25,3 +25,12 @@ export const ownerOfList = async (user, listId, List) => {
   }
   return false;
 };
+
+export const isTokenValid = async (token, BlacklistedToken) => {
+  const result = await BlacklistedToken.find({ token });
+
+  if (result.length) {
+    return false;
+  }
+  return true;
+};

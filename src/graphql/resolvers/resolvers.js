@@ -1,5 +1,6 @@
 import {
   login,
+  logout,
   signup,
   createNewItem,
   createNewList,
@@ -46,6 +47,7 @@ const resolvers = {
   },
   Mutation: {
     login,
+    logout,
     signup,
     createNewItem,
     createNewList,

@@ -1,9 +1,17 @@
 import { AuthenticationError, withFilter } from 'apollo-server';
 import { pubsub } from '../../../server/createApolloServer';
+import { isTokenValid } from '../checkAuth';
 import { INVITATION_DELETED } from '../../events';
 
 export default {
-  resolve: (payload, args, { user }) => {
+  resolve: async (
+    payload,
+    args,
+    { models: { BlacklistedToken }, user, token },
+  ) => {
+    if (!(await isTokenValid(token, BlacklistedToken))) {
+      throw new AuthenticationError('Invalid token');
+    }
     if (user) {
       return payload.invitationDeleted;
     }

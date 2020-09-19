@@ -1,4 +1,5 @@
 export { login } from './login';
+export { logout } from './logout';
 export { signup } from './signup';
 export { createNewItem } from './createNewItem';
 export { createNewList } from './createNewList';

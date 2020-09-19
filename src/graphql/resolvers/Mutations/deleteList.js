@@ -1,12 +1,16 @@
+import { AuthenticationError } from 'apollo-server';
 import { returnLists } from '../../../database/utils';
-import { ownerOfList } from '../checkAuth';
+import { ownerOfList, isTokenValid } from '../checkAuth';
 import { LIST_DELETED } from '../../events';
 
 export const deleteList = async (
   root,
   { listId },
-  { models: { User, List, Item }, user, pubsub },
+  { models: { User, List, Item, BlacklistedToken }, user, pubsub, token },
 ) => {
+  if (!(await isTokenValid(token, BlacklistedToken))) {
+    throw new AuthenticationError('Invalid token');
+  }
   if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
     const usersToUpdate = await User.find({ lists: listId });
     usersToUpdate.forEach(async (currentUser) => {

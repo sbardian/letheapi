@@ -1,10 +1,17 @@
 import { withFilter, AuthenticationError } from 'apollo-server';
 import { pubsub } from '../../../server/createApolloServer';
-import { userOfListByListId } from '../checkAuth';
+import { userOfListByListId, isTokenValid } from '../checkAuth';
 import { ITEM_EDITED } from '../../events';
 
 export default {
-  resolve: (payload, { listId }, { models: { User }, user }) => {
+  resolve: async (
+    payload,
+    { listId },
+    { models: { User, BlacklistedToken }, user, token },
+  ) => {
+    if (!(await isTokenValid(token, BlacklistedToken))) {
+      throw new AuthenticationError('Invalid token');
+    }
     if (user) {
       if (userOfListByListId(user, listId, User) || user.isAdmin) {
         return payload.itemEdited;

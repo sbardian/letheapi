@@ -44,6 +44,10 @@ type getUserLists {
   lists: [List]
 }
 
+type BlacklistedToken {
+  token: String!
+}
+
 input LoginInput {
   username: String!
   password: String!
@@ -127,6 +131,10 @@ type Mutation {
   Uploads a user profile image
   """
   profileImageUpload(file: Upload!): User!
+  """
+  Blacklist tokens on logout
+  """
+  logout(token: String!): BlacklistedToken
 }
 
 type Query {

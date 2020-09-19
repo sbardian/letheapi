@@ -3,7 +3,13 @@ import {
   AuthenticationError,
   PubSub,
 } from 'apollo-server-express';
-import { Item, User, List, Invitation } from '../database/models';
+import {
+  Item,
+  User,
+  List,
+  Invitation,
+  BlacklistedToken,
+} from '../database/models';
 import createLoaders from '../graphql/loaders/createLoaders';
 import { verifyToken } from './verifyToken';
 import { config } from '../config';
@@ -16,6 +22,8 @@ export default () =>
   new ApolloServer({
     schema,
     context: ({ req, connection }) => {
+      const { authorization } = req.headers;
+      const token = authorization.replace('Bearer ', '');
       if (connection) {
         return {
           models: { User },
@@ -29,9 +37,11 @@ export default () =>
           User,
           List,
           Invitation,
+          BlacklistedToken,
         },
         user: req.user,
         pubsub,
+        token,
         loaders: createLoaders(),
         log,
       };
@@ -54,14 +64,14 @@ export default () =>
       path: '/subscriptions',
       onConnect: (connectionParams) => {
         if (connectionParams.token) {
-          log.info('onConnect called 📭');
+          // log.info('onConnect called 📭');
           const decodedUser = verifyToken(connectionParams.token);
           return { user: decodedUser };
         }
         throw new AuthenticationError('Authentication failed.');
       },
       onDisconnect: () => {
-        log.info('onDisconnect called 📫');
+        // log.info('onDisconnect called 📫');
       },
     },
   });

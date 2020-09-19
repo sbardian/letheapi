@@ -17,6 +17,7 @@ export const login = async (
         isAdmin: u.isAdmin,
       },
       config.sessionSecret,
+      { expiresIn: '1d' },
     );
     return { token };
   }
