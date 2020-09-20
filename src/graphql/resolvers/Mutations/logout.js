@@ -4,7 +4,6 @@ export const logout = async (
   { models: { BlacklistedToken }, token },
 ) => {
   if (token) {
-    console.log('token in logout: ', token);
     const blacklistedToken = await BlacklistedToken.create({
       token,
     });
