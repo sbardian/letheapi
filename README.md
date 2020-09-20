@@ -15,13 +15,15 @@ This is a GraphQL Api that is used with the Lethe React Native application.
 You must have the following environment variables set to run development
 containers.
 
-- NODE_ENV=development
-- SL_APOLLO_ENGINE_API_KEY='your Apollo Engine API Key here'
 - SL_DATABASE_URL='mongodb://mongo:27017/dev'
   - use whatever mongo server you like, this will be the local mongo container.
   - use the following command to connect to the mongo container
     - `docker exec -it letheapi_mongo_1 mongo`
-- PORT=9999
+
+Optional environment variables
+
+- SL_APOLLO_ENGINE_API_KEY='your Apollo Engine API Key here'
+- PORT=9999 (default port is 9999)
 
 ### Build and run development environment
 
