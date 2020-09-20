@@ -134,7 +134,7 @@ type Mutation {
   """
   Blacklist tokens on logout
   """
-  logout(token: String!): BlacklistedToken
+  logout: BlacklistedToken
 }
 
 type Query {
