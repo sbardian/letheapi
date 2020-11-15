@@ -12,7 +12,8 @@ jobs:
     <<: *use-docker-executor
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.13
       - docker/build:
           step-name: Build Test CI image
           image: test_ci
