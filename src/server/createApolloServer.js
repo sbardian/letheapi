@@ -24,7 +24,7 @@ export default () =>
     context: ({ req, connection }) => {
       if (connection) {
         return {
-          models: { User },
+          models: { User, BlacklistedToken },
           user: connection.context.user,
           log,
         };

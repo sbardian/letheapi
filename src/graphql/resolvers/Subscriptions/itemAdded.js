@@ -9,7 +9,6 @@ export default {
     { listId },
     { models: { User, BlacklistedToken }, user, token },
   ) => {
-    console.log('>>>>>> : ', User);
     if (!(await isTokenValid(token, BlacklistedToken))) {
       throw new AuthenticationError('Invalid token');
     }
