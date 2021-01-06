@@ -41,38 +41,53 @@ afterEach(async () => {
 describe('Returns deleted item, user of list', () => {
   it('Returns nothing', async () => {
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => true);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     const items = await Item.find();
     expect(
       await deleteItem(
         'root',
         { itemId: items[0].id },
-        { models: { Item, User, List }, user: { isAdmin: false } },
+        {
+          models: { Item, User, List },
+          user: { isAdmin: false },
+          pubsub: mockPubsub,
+        },
       ),
     ).toEqual(expect.objectContaining({ id: items[0].id }));
   });
   it('Returns deleted item, isAdmin', async () => {
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     const items = await Item.find();
     expect(
       await deleteItem(
         'root',
         { itemId: items[0].id },
-        { models: { Item, User, List }, user: { isAdmin: true } },
+        {
+          models: { Item, User, List },
+          user: { isAdmin: true },
+          pubsub: mockPubsub,
+        },
       ),
     ).toEqual(expect.objectContaining({ id: items[0].id }));
   });
   it('Returns an error', async () => {
     expect.assertions(1);
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     const items = await Item.find();
     try {
       await deleteItem(
         'root',
         { itemId: items[0].id },
-        { models: { Item, User, List }, user: { isAdmin: false } },
+        {
+          models: { Item, User, List },
+          user: { isAdmin: false },
+          pubsub: mockPubsub,
+        },
       );
     } catch (err) {
       expect(err.message).toMatch(

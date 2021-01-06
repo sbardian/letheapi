@@ -43,31 +43,46 @@ afterEach(async () => {
 describe('updateList tests', () => {
   it('Should update an item, isAdmin', async () => {
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     await updateItem(
       'root',
       { itemId: toUpdate.id, title: 'NEW TITLE' },
-      { models: { Item, List, User }, user: { isAdmin: true } },
+      {
+        models: { Item, List, User },
+        user: { isAdmin: true },
+        pubsub: mockPubsub,
+      },
     );
     expect((await Item.findById(toUpdate.id)).title).toEqual('NEW TITLE');
   });
   it('Should update an item, is user of list', async () => {
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => true);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     await updateItem(
       'root',
       { itemId: toUpdate.id, title: 'NEW TITLE' },
-      { models: { Item, List, User }, user: { isAdmin: false } },
+      {
+        models: { Item, List, User },
+        user: { isAdmin: false },
+        pubsub: mockPubsub,
+      },
     );
     expect((await Item.findById(toUpdate.id)).title).toEqual('NEW TITLE');
   });
   it('Should update an item status, is user of list', async () => {
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => true);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     await updateItem(
       'root',
       { itemId: toUpdate.id, title: 'NEW TITLE', status: true },
-      { models: { Item, List, User }, user: { isAdmin: false } },
+      {
+        models: { Item, List, User },
+        user: { isAdmin: false },
+        pubsub: mockPubsub,
+      },
     );
     expect((await Item.findById(toUpdate.id)).title).toEqual('NEW TITLE');
     expect((await Item.findById(toUpdate.id)).status).toEqual(true);
@@ -75,12 +90,17 @@ describe('updateList tests', () => {
   it('Should return an error', async () => {
     expect.assertions(1);
     mockCheckAuth.userOfListByItemId.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     try {
       await updateItem(
         'root',
         { itemId: toUpdate.id, title: 'NEW TITLE' },
-        { models: { Item, List, User }, user: { isAdmin: false } },
+        {
+          models: { Item, List, User },
+          user: { isAdmin: false },
+          pubsub: mockPubsub,
+        },
       );
     } catch (err) {
       expect(err.message).toMatch(

@@ -41,6 +41,7 @@ afterEach(async () => {
 describe('createNewItem tests', () => {
   it('Returns an error', async () => {
     mockCheckAuth.userOfListByListId.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     expect.assertions(1);
     try {
@@ -60,6 +61,7 @@ describe('createNewItem tests', () => {
   });
   it('Returns new item, isAdmin', async () => {
     mockCheckAuth.userOfListByListId.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     expect(
       returnItems(
@@ -69,6 +71,7 @@ describe('createNewItem tests', () => {
           {
             models: { User, List, Item },
             user: { id: userToUse.id, isAdmin: true },
+            pubsub: mockPubsub,
           },
         ),
       ),
@@ -83,6 +86,7 @@ describe('createNewItem tests', () => {
   });
   it('Returns new item, userOfListByListId', async () => {
     mockCheckAuth.userOfListByListId.mockImplementationOnce(() => true);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     expect(
       returnItems(
@@ -92,6 +96,7 @@ describe('createNewItem tests', () => {
           {
             models: { User, List, Item },
             user: { id: userToUse.id, isAdmin: false },
+            pubsub: mockPubsub,
           },
         ),
       ),

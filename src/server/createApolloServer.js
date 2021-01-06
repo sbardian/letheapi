@@ -22,14 +22,17 @@ export default () =>
   new ApolloServer({
     schema,
     context: ({ req, connection }) => {
-      const { authorization } = req.headers;
-      const token = authorization.replace('Bearer ', '');
       if (connection) {
         return {
           models: { User },
           user: connection.context.user,
           log,
         };
+      }
+      let token;
+      if (req?.headers?.authorization) {
+        const { authorization } = req.headers;
+        token = authorization.replace('Bearer ', '');
       }
       return {
         models: {
@@ -63,9 +66,14 @@ export default () =>
     subscriptions: {
       path: '/subscriptions',
       onConnect: (connectionParams) => {
-        if (connectionParams.token) {
+        let token;
+        if (connectionParams?.Authorization) {
+          const { Authorization } = connectionParams;
+          token = Authorization.replace('Bearer ', '');
+        }
+        if (token) {
           // log.info('onConnect called 📭');
-          const decodedUser = verifyToken(connectionParams.token);
+          const decodedUser = verifyToken(token);
           return { user: decodedUser };
         }
         throw new AuthenticationError('Authentication failed.');

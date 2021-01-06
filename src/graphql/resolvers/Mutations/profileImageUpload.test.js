@@ -5,15 +5,18 @@ import { profileImageUpload } from './profileImageUpload';
 import User from '../../../database/models/User';
 import { insertMockUsers } from '../../../database/mocks';
 import { returnUsers } from '../../../database/utils';
+import * as mockCheckAuth from '../checkAuth';
 
 const PROFILE_IMAGE_URL = 'http://someFakeUrl.com/amazonicon.png';
 
 const spyUpload = jest.spyOn(mockedNow, 'upload');
 
+jest.mock('../checkAuth');
+
 let server;
 let toUpdate;
 
-beforeAll(async done => {
+beforeAll(async (done) => {
   server = await createDB();
   done();
 });
@@ -34,6 +37,7 @@ afterEach(async () => {
 
 describe('Profile image upload tests', () => {
   it('should upload an image', async () => {
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     spyUpload.mockImplementationOnce(() => ({
       url: PROFILE_IMAGE_URL,
     }));
@@ -51,6 +55,7 @@ describe('Profile image upload tests', () => {
   });
 
   it('should fail to upload an image', async () => {
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     try {
       await profileImageUpload(
         {},

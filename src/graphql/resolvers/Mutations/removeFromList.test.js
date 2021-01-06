@@ -9,7 +9,7 @@ jest.mock('../checkAuth');
 let server;
 let toUpdate;
 
-beforeAll(async done => {
+beforeAll(async (done) => {
   server = await createDB();
   done();
 });
@@ -35,6 +35,7 @@ afterEach(async () => {
 
 describe('removeFromList tests', () => {
   it('Removes user from list, returns empty list users array, self', async () => {
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     await removeFromList(
       'root',
       { listId: toUpdate.lists[0], userId: toUpdate.id },
@@ -47,6 +48,7 @@ describe('removeFromList tests', () => {
     expect(updatedList.users).toHaveLength(0);
   });
   it('Removes user from list, returns empty list users array, admin', async () => {
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     await removeFromList(
       'root',
       { listId: toUpdate.lists[0], userId: toUpdate.id },
@@ -60,6 +62,7 @@ describe('removeFromList tests', () => {
   });
   it('Removes user from list, returns empty list users array, owner', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     await removeFromList(
       'root',
       { listId: toUpdate.lists[0], userId: toUpdate.id },
@@ -73,6 +76,7 @@ describe('removeFromList tests', () => {
   });
   it('Returns an error', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     try {
       await removeFromList(
         'root',

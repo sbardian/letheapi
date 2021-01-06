@@ -1,26 +1,23 @@
 import { AuthenticationError } from 'apollo-server';
 import { pubsub } from '../../../server/createApolloServer';
-import { userOfListByListId, isTokenValid } from '../checkAuth';
+import { ownerOfList, isTokenValid } from '../checkAuth';
 import { LIST_ADDED } from '../../events';
 
 export default {
   resolve: async (
     payload,
     args,
-    { models: { User, BlacklistedToken }, user, token },
+    { models: { List, BlacklistedToken }, user, token },
   ) => {
     if (!(await isTokenValid(token, BlacklistedToken))) {
       throw new AuthenticationError('Invalid token');
     }
     if (user) {
-      if (
-        userOfListByListId(user, payload.listAdded.id, User) ||
-        user.isAdmin
-      ) {
+      if (ownerOfList(user, payload.listAdded.id, List) || user.isAdmin) {
         return payload.listAdded;
       }
       return new AuthenticationError(
-        'You must be a member of the list to subscribe.',
+        'You must be the owner of the list to subscribe.',
       );
     }
     return new AuthenticationError('Authentication failed.');

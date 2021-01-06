@@ -12,4 +12,5 @@ const BlacklistedToken = mongoose.model(
   'BlacklistedToken',
   BlacklistedTokenSchema,
 );
+
 export default BlacklistedToken;

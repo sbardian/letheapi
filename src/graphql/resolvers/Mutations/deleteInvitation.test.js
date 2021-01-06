@@ -12,7 +12,7 @@ jest.mock('../../../server/createApolloServer');
 describe('deleteInvitation Tests', () => {
   it('Returns a deleted invitation, is Admin', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
-    mockPubsub.publish.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockInvitation.findById.mockImplementationOnce(() => [
       {
         id: 'someInvitationId',
@@ -39,6 +39,7 @@ describe('deleteInvitation Tests', () => {
         { invitationId: 'someInvitationId' },
         {
           models: { Invitation: mockInvitation, List: mockList },
+          pubsub: mockPubsub,
           user: { id: 'someOtherInvitee', isAdmin: true },
         },
       ),
@@ -56,6 +57,7 @@ describe('deleteInvitation Tests', () => {
   });
   it('Returns a deleted invitation, is owner of list', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     mockInvitation.findById.mockImplementationOnce(() => [
       {
@@ -83,6 +85,7 @@ describe('deleteInvitation Tests', () => {
         { invitationId: 'someInvitationId' },
         {
           models: { Invitation: mockInvitation, List: mockList },
+          pubsub: mockPubsub,
           user: { id: 'someOtherInvitee', isAdmin: false },
         },
       ),
@@ -100,6 +103,7 @@ describe('deleteInvitation Tests', () => {
   });
   it('Returns a deleted invitation, is invitee', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     mockInvitation.findById.mockImplementationOnce(() => ({
       id: 'someInvitationId',
@@ -125,6 +129,7 @@ describe('deleteInvitation Tests', () => {
         { invitationId: 'someInvitationId' },
         {
           models: { Invitation: mockInvitation, List: mockList },
+          pubsub: mockPubsub,
           user: { id: 'someInviteeId', isAdmin: false },
         },
       ),
@@ -143,6 +148,7 @@ describe('deleteInvitation Tests', () => {
   it('Returns an error', async () => {
     expect.assertions(1);
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     mockInvitation.findById.mockImplementationOnce(() => ({
       id: 'someInvitationId',
@@ -159,6 +165,7 @@ describe('deleteInvitation Tests', () => {
         { invitationId: 'someInvitationId' },
         {
           models: { Invitation: mockInvitation, List: mockList },
+          pubsub: mockPubsub,
           user: { id: 'someWrongInviteeId', isAdmin: false },
         },
       );

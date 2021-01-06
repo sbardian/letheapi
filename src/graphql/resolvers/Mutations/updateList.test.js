@@ -9,7 +9,7 @@ jest.mock('../checkAuth');
 let server;
 let toUpdate;
 
-beforeAll(async done => {
+beforeAll(async (done) => {
   server = await createDB();
   done();
 });
@@ -36,6 +36,7 @@ afterEach(async () => {
 describe('updateList tests', () => {
   it('Should update a list name, isAdmin', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     await updateList(
       'root',
       { listId: toUpdate.id, title: 'NEW TITLE' },
@@ -45,6 +46,7 @@ describe('updateList tests', () => {
   });
   it('Should update a list name, owner of list', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     await updateList(
       'root',
       { listId: toUpdate.id, title: 'NEW TITLE' },
@@ -55,6 +57,7 @@ describe('updateList tests', () => {
   it('Should return an error', async () => {
     expect.assertions(1);
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     try {
       await updateList(
         'root',

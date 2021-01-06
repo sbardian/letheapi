@@ -38,12 +38,14 @@ afterEach(async () => {
 describe('deleteList test', () => {
   it('Returns deleted list, owner', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     await deleteList(
       'root',
       { listId: toUpdate.id },
       {
         models: { User, List, Item },
+        pubsub: mockPubsub,
         user: { id: toUpdate.users[0], isAdmin: false },
       },
     );
@@ -51,12 +53,14 @@ describe('deleteList test', () => {
   });
   it('Returns deleted list, isAdmin', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     await deleteList(
       'root',
       { listId: toUpdate.id },
       {
         models: { User, List, Item },
+        pubsub: mockPubsub,
         user: { id: toUpdate.users[0], isAdmin: true },
       },
     );
@@ -64,6 +68,7 @@ describe('deleteList test', () => {
   });
   it('Returns an error', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     try {
       await deleteList(
@@ -71,6 +76,7 @@ describe('deleteList test', () => {
         { listId: toUpdate.id },
         {
           models: { User, List, Item },
+          pubsub: mockPubsub,
           user: { id: 'someAdminId', isAdmin: false },
         },
       );

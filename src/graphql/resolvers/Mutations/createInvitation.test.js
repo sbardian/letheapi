@@ -41,6 +41,7 @@ afterEach(async () => {
 describe('createInvitation test', () => {
   it('Returns error', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     try {
       await createInvitation(
@@ -63,6 +64,7 @@ describe('createInvitation test', () => {
   });
   it('Returns created invitation, isAdmin', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     expect(
       returnInvitations(
@@ -80,6 +82,7 @@ describe('createInvitation test', () => {
               username: userToUse.username,
               isAdmin: true,
             },
+            pubsub: mockPubsub,
           },
         ),
       ),
@@ -103,6 +106,7 @@ describe('createInvitation test', () => {
   });
   it('Returns created invitation, ownerOfList', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
     expect(
       returnInvitations(
@@ -120,6 +124,7 @@ describe('createInvitation test', () => {
               username: userToUse.username,
               isAdmin: false,
             },
+            pubsub: mockPubsub,
           },
         ),
       ),

@@ -2,6 +2,7 @@ import { acceptInvitation } from './acceptInvitation';
 import mockInvitation from '../../../database/models/Invitation';
 import mockList from '../../../database/models/List';
 import mockUser from '../../../database/models/User';
+import * as mockCheckAuth from '../checkAuth';
 import { pubsub as mockPubsub } from '../../../server/createApolloServer';
 
 jest.mock('../../../database/models/Invitation');
@@ -14,6 +15,7 @@ describe('acceptInvitation tests', () => {
   it('Returns error', async () => {
     expect.assertions(1);
     mockPubsub.publish.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockInvitation.findById.mockImplementationOnce(() => ({
       id: 'someInvitationId',
       title: 'someInvitationTitle',
@@ -44,7 +46,19 @@ describe('acceptInvitation tests', () => {
   });
   it('Returns accepted invitation, isAdmin', async () => {
     mockPubsub.publish.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockInvitation.findById.mockImplementationOnce(() => ({
+      id: 'someInvitationId',
+      title: 'someInvitationTitle',
+      inviter: 'someInviterId',
+      invitee: {
+        id: 'someInviteeId',
+        lists: [],
+      },
+      list: 'someListId',
+    }));
+
+    mockInvitation.findByIdAndRemove.mockImplementationOnce(() => ({
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
@@ -75,6 +89,7 @@ describe('acceptInvitation tests', () => {
             User: mockUser,
           },
           user: { id: 'someWrongInviteeId', isAdmin: true },
+          pubsub: mockPubsub,
         },
       ),
     ).toEqual({
@@ -91,7 +106,19 @@ describe('acceptInvitation tests', () => {
 
   it('Returns accepted invitation, is invitee', async () => {
     mockPubsub.publish.mockImplementationOnce(() => false);
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockInvitation.findById.mockImplementationOnce(() => ({
+      id: 'someInvitationId',
+      title: 'someInvitationTitle',
+      inviter: 'someInviterId',
+      invitee: {
+        id: 'someInviteeId',
+        lists: [],
+      },
+      list: 'someListId',
+    }));
+
+    mockInvitation.findByIdAndRemove.mockImplementationOnce(() => ({
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
@@ -122,6 +149,7 @@ describe('acceptInvitation tests', () => {
             User: mockUser,
           },
           user: { id: 'someInviteeId', isAdmin: false },
+          pubsub: mockPubsub,
         },
       ),
     ).toEqual({
