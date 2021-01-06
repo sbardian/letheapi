@@ -46,7 +46,7 @@
     "express-jwt": "6.0.0",
     "faker": "5.1.0",
     "get-stream": "6.0.0",
-    "graphql": "15.3.0",
+    "graphql": "15.4.0",
     "http": "0.0.0",
     "jsonwebtoken": "8.5.1",
     "mongodb-memory-server": "6.7.6",
