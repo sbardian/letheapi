@@ -3,6 +3,7 @@ import createDB from '../../../database/database';
 import { User, List } from '../../../database/models';
 import * as mockCheckAuth from '../checkAuth';
 import { insertMockUsers } from '../../../database/mocks';
+import { returnUsers } from '../../../database/utils/utils';
 import { pubsub as mockPubsub } from '../../../server/createApolloServer';
 
 jest.mock('../checkAuth');
@@ -64,13 +65,14 @@ describe('ceateNewList tests', () => {
   });
   it('Returns a list', async () => {
     mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
+    const mockUser = returnUsers(userToUse);
     expect(
       await createNewList(
         'root',
         { ListInfo: { title: 'someListTitle' } },
         {
           models: { List, User },
-          user: { id: userToUse.id },
+          user: mockUser,
           pubsub: mockPubsub,
         },
       ),
@@ -78,7 +80,7 @@ describe('ceateNewList tests', () => {
       expect.objectContaining({
         id: expect.any(String),
         title: 'someListTitle',
-        owner: userToUse.id,
+        owner: mockUser,
       }),
     );
   });

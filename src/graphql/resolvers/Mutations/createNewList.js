@@ -18,7 +18,7 @@ export const createNewList = async (
     const newList = returnLists(
       await List.create({
         title,
-        owner: user.id,
+        owner: user,
         users: [user.id],
         items: [],
       }),
