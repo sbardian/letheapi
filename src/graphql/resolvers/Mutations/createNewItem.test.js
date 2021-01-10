@@ -2,7 +2,7 @@ import createDB from '../../../database/database';
 import { User, List, Item } from '../../../database/models';
 import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import { createNewItem } from './createNewItem';
-import { returnItems } from '../../../database/utils';
+import { returnItems, returnUsers } from '../../../database/utils';
 import * as mockCheckAuth from '../checkAuth';
 import { pubsub as mockPubsub } from '../../../server/createApolloServer';
 
@@ -43,6 +43,7 @@ describe('createNewItem tests', () => {
     mockCheckAuth.userOfListByListId.mockImplementationOnce(() => false);
     mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
+    const mockUser = returnUsers(userToUse);
     expect.assertions(1);
     try {
       await createNewItem(
@@ -50,7 +51,7 @@ describe('createNewItem tests', () => {
         { ItemInfo: { title: 'newItemTitle', list: listToUse.id } },
         {
           models: { User, List, Item },
-          user: { id: userToUse.id, isAdmin: false },
+          user: { ...mockUser, isAdmin: false },
         },
       );
     } catch (err) {
@@ -63,6 +64,7 @@ describe('createNewItem tests', () => {
     mockCheckAuth.userOfListByListId.mockImplementationOnce(() => false);
     mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
+    const mockUser = returnUsers(userToUse);
     expect(
       returnItems(
         await createNewItem(
@@ -70,7 +72,7 @@ describe('createNewItem tests', () => {
           { ItemInfo: { title: 'newItemTitle', list: listToUse.id } },
           {
             models: { User, List, Item },
-            user: { id: userToUse.id, isAdmin: true },
+            user: { ...mockUser, isAdmin: true },
             pubsub: mockPubsub,
           },
         ),
@@ -79,7 +81,7 @@ describe('createNewItem tests', () => {
       expect.objectContaining({
         id: expect.any(String),
         title: 'newItemTitle',
-        creator: userToUse.id,
+        creator: { ...mockUser, isAdmin: true },
         list: listToUse.id,
       }),
     );
@@ -88,6 +90,7 @@ describe('createNewItem tests', () => {
     mockCheckAuth.userOfListByListId.mockImplementationOnce(() => true);
     mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
+    const mockUser = returnUsers(userToUse);
     expect(
       returnItems(
         await createNewItem(
@@ -95,7 +98,7 @@ describe('createNewItem tests', () => {
           { ItemInfo: { title: 'newItemTitle', list: listToUse.id } },
           {
             models: { User, List, Item },
-            user: { id: userToUse.id, isAdmin: false },
+            user: { ...mockUser, isAdmin: false },
             pubsub: mockPubsub,
           },
         ),
@@ -104,7 +107,7 @@ describe('createNewItem tests', () => {
       expect.objectContaining({
         id: expect.any(String),
         title: 'newItemTitle',
-        creator: userToUse.id,
+        creator: { ...mockUser, isAdmin: false },
         list: listToUse.id,
       }),
     );
