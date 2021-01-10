@@ -13,7 +13,7 @@ export const createNewItem = async (
   }
   if (userOfListByListId(user, ItemInfo.list, User) || user.isAdmin) {
     const newItem = returnItems(
-      await Item.create({ ...ItemInfo, creator: user.id, status: false }),
+      await Item.create({ ...ItemInfo, creator: user, status: false }),
     );
     pubsub.publish(ITEM_ADDED, {
       itemAdded: {

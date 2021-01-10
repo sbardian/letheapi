@@ -1,7 +1,7 @@
 type Item {
   id: String!
   title: String!
-  creator: String!
+  creator: User
   list: String!
   status: Boolean!
 }
