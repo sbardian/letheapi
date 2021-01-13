@@ -2,7 +2,7 @@ import createDB from '../../../database/database';
 import { User, Invitation, List } from '../../../database/models';
 import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import { createInvitation } from './createInvitation';
-import { returnInvitations } from '../../../database/utils';
+import { returnInvitations, returnLists } from '../../../database/utils';
 import * as mockCheckAuth from '../checkAuth';
 import { pubsub as mockPubsub } from '../../../server/createApolloServer';
 
@@ -66,12 +66,13 @@ describe('createInvitation test', () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
     mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
+    const mockList = returnLists(listToUse);
     expect(
       returnInvitations(
         await createInvitation(
           'root',
           {
-            listId: listToUse.id,
+            listId: mockList.id,
             invitee: userToUse.username,
             title: 'InvitationTitle',
           },
@@ -89,7 +90,7 @@ describe('createInvitation test', () => {
     ).toEqual({
       id: expect.any(String),
       title: 'InvitationTitle',
-      list: listToUse.id,
+      list: mockList,
       invitee: expect.objectContaining({
         id: expect.any(String),
         profileImageUrl: null,
@@ -108,12 +109,13 @@ describe('createInvitation test', () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
     mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     mockPubsub.publish.mockImplementationOnce(() => false);
+    const mockList = returnLists(listToUse);
     expect(
       returnInvitations(
         await createInvitation(
           'root',
           {
-            listId: listToUse.id,
+            listId: mockList.id,
             invitee: userToUse.username,
             title: 'InvitationTitle',
           },
@@ -132,7 +134,7 @@ describe('createInvitation test', () => {
       expect.objectContaining({
         id: expect.any(String),
         title: 'InvitationTitle',
-        list: listToUse.id,
+        list: mockList,
         invitee: expect.objectContaining({
           id: expect.any(String),
           profileImageUrl: null,

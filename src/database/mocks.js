@@ -8,7 +8,7 @@ export const insertInvitationItems = (count, list, user, invitee) =>
     inviter: user,
     invitee,
     title: faker.lorem.words(),
-    list: list.id,
+    list,
   }));
 
 export const insertMockItems = (count, list, user) =>
@@ -23,11 +23,11 @@ export const insertMockLists = (count, users) =>
   Array.from(Array(count), () => ({
     title: faker.company.companyName(),
     owner: users[0].id,
-    users: users.map(user => user.id),
+    users: users.map((user) => user.id),
     items: [],
   }));
 
-export const insertMockUsers = count =>
+export const insertMockUsers = (count) =>
   Array.from(Array(count), () => {
     // const password = faker.internet.password();
     const password = 'password';

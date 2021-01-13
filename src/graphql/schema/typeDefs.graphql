@@ -28,7 +28,7 @@ type Invitation {
   id: String
   inviter: User
   invitee: User
-  list: String
+  list: List
   title: String
 }
 
