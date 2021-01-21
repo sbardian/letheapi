@@ -20,7 +20,7 @@ export const getOnlySelf = (user, userId) => user.id === userId;
 export const ownerOfList = async (user, listId, List) => {
   const list = await List.findById(listId);
   const { owner } = list;
-  if (owner === user.id) {
+  if (owner.id === user.id) {
     return true;
   }
   return false;
