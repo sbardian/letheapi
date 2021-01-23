@@ -36,6 +36,15 @@ afterEach(async () => {
 });
 
 describe('Profile image upload tests', () => {
+  it('should upload a file', async () => {
+    mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
+    const imageStream = fs.createReadStream('src/test-assets/amazonicon.png');
+    await profileImageUpload(
+      {},
+      { file: { createReadStream: () => imageStream } },
+      { models: { User }, user: returnUsers(toUpdate) },
+    );
+  });
   it('should upload an image', async () => {
     mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
     spyUpload.mockImplementationOnce(() => ({

@@ -3,6 +3,7 @@ import {
   AuthenticationError,
   PubSub,
 } from 'apollo-server-express';
+import * as admin from 'firebase-admin';
 import {
   Item,
   User,
@@ -17,6 +18,16 @@ import schema from '../graphql/schema';
 import log from './logging';
 
 export const pubsub = new PubSub();
+
+// eslint-disable-next-line
+const serviceAccount = require('../../firebase_api_key.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: 'letheapi.appspot.com',
+});
+
+const bucket = admin.storage().bucket();
 // Configure ApolloServer
 export default () =>
   new ApolloServer({
@@ -43,6 +54,7 @@ export default () =>
           BlacklistedToken,
         },
         user: req.user,
+        bucket,
         pubsub,
         token,
         loaders: createLoaders(),

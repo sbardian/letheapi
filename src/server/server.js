@@ -2,6 +2,7 @@
 import express from 'express';
 import jwt from 'express-jwt';
 import cors from 'cors';
+// import * as admin from 'firebase-admin';
 import { createServer } from 'http';
 import { connectDB } from '../database';
 import { config } from '../config';
@@ -11,6 +12,16 @@ import log from './logging';
 export default async () => {
   const app = express();
   const mongo = await connectDB();
+
+  // // eslint-disable-next-line
+  // const serviceAccount = require('../../firebase_api_key.json');
+
+  // admin.initializeApp({
+  //   credential: admin.credential.cert(serviceAccount),
+  //   storageBucket: 'letheapi.appspot.com',
+  // });
+
+  // const bucket = admin.storage().bucket();
 
   // TODO: hack because MongoMemoryServer never returns. . .
   if (process.env.TEST !== 'true') {
