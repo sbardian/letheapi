@@ -34,8 +34,7 @@ export const profileImageUpload = async (
         });
 
         stream.on('finish', () => {
-          const url = `https://${bucket.name}/${fileUpload.name}`;
-          resolve(url);
+          resolve(newFilename);
         });
       });
 
