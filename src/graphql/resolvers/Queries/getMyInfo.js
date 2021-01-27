@@ -9,5 +9,8 @@ export const getMyInfo = async (
   if (!(await isTokenValid(token, BlacklistedToken))) {
     throw new AuthenticationError('Invalid token');
   }
-  return getMyInfoLoader.load(user.id);
+  if (user) {
+    return getMyInfoLoader.load(user.id);
+  }
+  return null;
 };
