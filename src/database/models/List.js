@@ -5,6 +5,7 @@ const ListSchema = new mongoose.Schema({
   owner: {},
   users: Array,
   items: Array,
+  listImageUrl: String,
 });
 
 const List = mongoose.model('List', ListSchema);

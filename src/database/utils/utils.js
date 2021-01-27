@@ -10,6 +10,7 @@ export const returnLists = (list) => ({
   id: list.id,
   title: list.title,
   owner: list.owner,
+  listImageUrl: list.listImageUrl,
 });
 
 export const returnUsers = (user) => ({
