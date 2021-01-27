@@ -3,6 +3,7 @@ import { returnInvitations } from '../../../database/utils';
 import { INVITATION_DELETED } from '../../events';
 import { isTokenValid } from '../checkAuth';
 
+// TODO - this is crashing
 export const acceptInvitation = async (
   root,
   { invitationId },
@@ -15,10 +16,10 @@ export const acceptInvitation = async (
   if (invitation.invitee.id === user.id || user.isAdmin) {
     const [{ lists }, { users, id }] = await Promise.all([
       User.findById(invitation.invitee.id),
-      List.findById(invitation.list),
+      List.findById(invitation.list.id),
     ]);
     await User.findByIdAndUpdate(user.id, {
-      lists: [...lists, invitation.list],
+      lists: [...lists, invitation.list.id],
     });
     await List.findByIdAndUpdate(id, {
       users: [...users, invitation.invitee.id],
