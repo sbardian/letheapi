@@ -21,6 +21,6 @@ export default {
   },
   subscribe: withFilter(
     () => pubsub.asyncIterator([LIST_SETTINGS_UPDATED]),
-    (payload, variables) => payload.listSettingsUpdated.id === variables.listId,
+    (payload, variables) => payload.listSettingsUpdated.id === variables.id_is,
   ),
 };
