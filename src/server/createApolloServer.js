@@ -1,6 +1,6 @@
 import {
   ApolloServer,
-  AuthenticationError,
+  // AuthenticationError,
   PubSub,
 } from 'apollo-server-express';
 import * as admin from 'firebase-admin';
@@ -35,7 +35,7 @@ export default () =>
     context: ({ req, connection }) => {
       if (connection) {
         return {
-          models: { User, BlacklistedToken },
+          models: { User, List, BlacklistedToken },
           user: connection.context.user,
           log,
         };
@@ -86,9 +86,12 @@ export default () =>
         if (token) {
           // log.info('onConnect called 📭');
           const decodedUser = verifyToken(token);
-          return { user: decodedUser };
+          return {
+            user: decodedUser,
+          };
         }
-        throw new AuthenticationError('Authentication failed.');
+        return null;
+        // throw new AuthenticationError('Authentication failed.');
       },
       onDisconnect: () => {
         // log.info('onDisconnect called 📫');
