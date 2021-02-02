@@ -2,11 +2,12 @@ import { AuthenticationError } from 'apollo-server';
 import { v4 as uuidv4 } from 'uuid';
 import { returnLists } from '../../../database/utils/utils';
 import { ownerOfList, isTokenValid } from '../checkAuth';
+import { LIST_EDITED } from '../../events';
 
 export const updateList = async (
   root,
   { listId, title, file },
-  { models: { List, BlacklistedToken }, bucket, user, token },
+  { models: { List, BlacklistedToken }, bucket, user, token, pubsub },
 ) => {
   if (!(await isTokenValid(token, BlacklistedToken))) {
     throw new AuthenticationError('Invalid token');
@@ -42,24 +43,40 @@ export const updateList = async (
 
         const listImageUrl = await uploadFile();
 
-        return returnLists(
+        const listImageEdited = returnLists(
           await List.findByIdAndUpdate(
             listId,
             { title: title || orgList.title, listImageUrl },
             { new: true },
           ),
         );
+
+        pubsub.publish(LIST_EDITED, {
+          listEdited: {
+            ...listImageEdited,
+            __typename: 'List',
+          },
+        });
+
+        return listImageEdited;
       } catch (error) {
         throw new Error('Failed to upload file.');
       }
     } else if (title) {
-      return returnLists(
+      const listEdited = returnLists(
         await List.findByIdAndUpdate(
           listId,
           { title, listImageUrl: orgList.listImageUrl },
           { new: true },
         ),
       );
+      pubsub.publish(LIST_EDITED, {
+        listEdited: {
+          ...listEdited,
+          __typename: 'List',
+        },
+      });
+      return listEdited;
     }
   }
 

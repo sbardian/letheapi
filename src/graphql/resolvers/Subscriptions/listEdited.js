@@ -9,9 +9,11 @@ export default {
     { listId },
     { models: { User, BlacklistedToken }, user, token },
   ) => {
+    console.log('payload.listEdited: ', payload.listEdited);
     if (!(await isTokenValid(token, BlacklistedToken))) {
       throw new AuthenticationError('Invalid token');
     }
+    console.log('in there boy');
     if (user) {
       if (userOfListByListId(user, listId, User) || user.isAdmin) {
         return payload.listEdited;
@@ -24,6 +26,6 @@ export default {
   },
   subscribe: withFilter(
     () => pubsub.asyncIterator([LIST_EDITED]),
-    (payload, variables) => payload.listEdited.list === variables.listId,
+    (payload, variables) => payload.listEdited.id === variables.listId,
   ),
 };
