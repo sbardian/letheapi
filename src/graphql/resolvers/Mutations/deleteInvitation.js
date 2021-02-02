@@ -11,9 +11,9 @@ export const deleteInvitation = async (
   if (!(await isTokenValid(token, BlacklistedToken))) {
     throw new AuthenticationError('Invalid token');
   }
-  const invitation = await Invitation.findById(invitationId);
+  const invitation = returnInvitations(await Invitation.findById(invitationId));
   if (
-    (await ownerOfList(user, invitation.list, List)) ||
+    (await ownerOfList(user, invitation.list.id, List)) ||
     user.isAdmin ||
     user.id === invitation.invitee.id
   ) {

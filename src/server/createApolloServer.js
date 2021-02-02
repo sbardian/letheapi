@@ -1,6 +1,6 @@
 import {
   ApolloServer,
-  // AuthenticationError,
+  AuthenticationError,
   PubSub,
 } from 'apollo-server-express';
 import * as admin from 'firebase-admin';
@@ -35,7 +35,7 @@ export default () =>
     context: ({ req, connection }) => {
       if (connection) {
         return {
-          models: { User, List, BlacklistedToken },
+          models: { User, List, BlacklistedToken, Invitation, Item },
           user: connection.context.user,
           log,
         };
@@ -77,12 +77,7 @@ export default () =>
     },
     subscriptions: {
       path: '/subscriptions',
-      onConnect: (connectionParams) => {
-        let token;
-        if (connectionParams?.Authorization) {
-          const { Authorization } = connectionParams;
-          token = Authorization.replace('Bearer ', '');
-        }
+      onConnect: ({ token }) => {
         if (token) {
           // log.info('onConnect called 📭');
           const decodedUser = verifyToken(token);
@@ -90,8 +85,7 @@ export default () =>
             user: decodedUser,
           };
         }
-        return null;
-        // throw new AuthenticationError('Authentication failed.');
+        throw new AuthenticationError('Authentication failed.');
       },
       onDisconnect: () => {
         // log.info('onDisconnect called 📫');
