@@ -8,11 +8,15 @@ export default async () => {
   // Make Mongoose use `findOneAndUpdate()` from MongoDB driver.
   mongoose.set('useFindAndModify', false);
 
-  await mongoose.connect(databaseUrl, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose
+    .connect(databaseUrl, {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .catch((error) => {
+      throw new Error('Unable to connect to database: ', error);
+    });
 
   return { mongoose };
 };
