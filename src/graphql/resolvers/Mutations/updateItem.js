@@ -15,12 +15,16 @@ export const updateItem = async (
     const editedItem = returnItems(
       await Item.findByIdAndUpdate(itemId, { title, status }, { new: true }),
     );
+
+    console.log({ editedItem });
+
     pubsub.publish(ITEM_EDITED, {
       itemEdited: {
         ...editedItem,
         __typename: 'Item',
       },
     });
+
     return editedItem;
   }
   throw new Error('You do not have permission to update this item.');

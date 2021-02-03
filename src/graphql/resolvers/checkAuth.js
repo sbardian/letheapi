@@ -15,7 +15,7 @@ export const userOfListByListId = async (user, listId, User) => {
   return false;
 };
 
-export const getOnlySelf = (user, userId) => user.id === userId;
+export const getOnlySelf = (user, userId = 'noMatch') => user.id === userId;
 
 export const ownerOfList = async (user, listId, List) => {
   const list = await List.findById(listId);
