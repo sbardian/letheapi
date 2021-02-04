@@ -4,6 +4,7 @@ type Item {
   creator: User
   list: String!
   status: Boolean!
+  # maker: [User]
 }
 
 type User {
