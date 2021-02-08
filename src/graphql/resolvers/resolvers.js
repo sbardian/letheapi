@@ -16,6 +16,7 @@ import {
   profileImageUpload,
 } from './Mutations';
 import {
+  getItemCreator,
   getMyInfo,
   getUser,
   getUsers,
@@ -70,6 +71,9 @@ const resolvers = {
   User: {
     lists: getUserLists,
     invitations: getUserInvitations,
+  },
+  Item: {
+    creator: getItemCreator,
   },
   Subscription: {
     itemAdded,

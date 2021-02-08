@@ -1,7 +1,7 @@
 type Item {
   id: String!
   title: String!
-  creator: User
+  creator: User!
   list: String!
   status: Boolean!
   # maker: [User]

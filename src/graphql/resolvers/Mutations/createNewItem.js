@@ -12,9 +12,9 @@ export const createNewItem = async (
     throw new AuthenticationError('Invalid token');
   }
   if (userOfListByListId(user, ItemInfo.list, User) || user.isAdmin) {
-    const creator = returnUsers(await User.findById(user.id));
+    const { id: creatorId } = returnUsers(await User.findById(user.id));
     const newItem = returnItems(
-      await Item.create({ ...ItemInfo, creator, status: false }),
+      await Item.create({ ...ItemInfo, creator: creatorId, status: false }),
     );
     pubsub.publish(ITEM_ADDED, {
       itemAdded: {

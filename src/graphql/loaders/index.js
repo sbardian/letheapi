@@ -6,3 +6,4 @@ export { getListUsersLoader } from './getListUsersLoader';
 export { getMyInfoLoader } from './getMyInfoLoader';
 export { getListInvitationsLoader } from './getListInvitationsLoader';
 export { getListsLoader } from './getListsLoader';
+export { getItemCreatorLoader } from './getItemCreatorLoader';

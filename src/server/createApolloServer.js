@@ -36,6 +36,7 @@ export default () =>
       if (connection) {
         return {
           models: { User, List, BlacklistedToken, Invitation, Item },
+          loaders: createLoaders(),
           user: connection.context.user,
           log,
         };
