@@ -7,6 +7,9 @@ import { getMyInfoLoader } from './getMyInfoLoader';
 import { getListInvitationsLoader } from './getListInvitationsLoader';
 import { getListsLoader } from './getListsLoader';
 import { getItemCreatorLoader } from './getItemCreatorLoader';
+import { getInvitationInviteeLoader } from './getInvitationInviteeLoader';
+import { getInvitationInviterLoader } from './getInvitationInviterLoader';
+import { getInvitationListLoader } from './getInvitationListLoader';
 import { Item, User, List, Invitation } from '../../database/models';
 
 export default () => ({
@@ -19,4 +22,7 @@ export default () => ({
   getListInvitationsLoader: getListInvitationsLoader({ Invitation }),
   getListsLoader: getListsLoader({ List }),
   getItemCreatorLoader: getItemCreatorLoader({ User }),
+  getInvitationInviteeLoader: getInvitationInviteeLoader({ User }),
+  getInvitationInviterLoader: getInvitationInviterLoader({ User }),
+  getInvitationListLoader: getInvitationListLoader({ List }),
 });

@@ -1,9 +1,5 @@
 import { AuthenticationError } from 'apollo-server';
-import {
-  returnInvitations,
-  returnUsers,
-  returnLists,
-} from '../../../database/utils';
+import { returnInvitations, returnUsers } from '../../../database/utils';
 import { ownerOfList, isTokenValid } from '../checkAuth';
 import { INVITATION_ADDED } from '../../events';
 
@@ -21,23 +17,17 @@ export const createInvitation = async (
         $or: [{ email: invitee }, { username: invitee }],
       }),
     );
-    const invitingUser = returnUsers(
-      await User.findOne({
-        _id: user.id,
-      }),
-    );
-    const list = returnLists(await List.findById(listId));
     const invitation = returnInvitations(
       await Invitation.findOneAndUpdate(
         {
           invitee: invitedUser.id,
-          list: list.id,
+          list: listId,
         },
         {
-          inviter: invitingUser,
-          invitee: invitedUser,
+          inviter: user.id,
+          invitee: invitedUser.id,
           title,
-          list,
+          list: listId,
         },
         { new: true, upsert: true },
       ),

@@ -9,3 +9,6 @@ export { getListInvitations } from './getListInvitations';
 export { getUserInvitations } from './getUserInvitations';
 export { getMessages } from './getMessages';
 export { getItemCreator } from './getItemCreator';
+export { getInvitationInvitee } from './getInvitationInvitee';
+export { getInvitationInviter } from './getInvitationInviter';
+export { getInvitationList } from './getInvitationList';

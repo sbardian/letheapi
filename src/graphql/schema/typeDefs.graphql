@@ -28,8 +28,8 @@ type List {
 
 type Invitation {
   id: String
-  inviter: User
-  invitee: User
+  inviter: User!
+  invitee: User!
   list: List
   title: String
 }

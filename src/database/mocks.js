@@ -5,10 +5,10 @@ faker.seed(1337);
 
 export const insertInvitationItems = (count, list, user, invitee) =>
   Array.from(Array(count), () => ({
-    inviter: user,
+    inviter: user.id,
     invitee,
     title: faker.lorem.words(),
-    list,
+    list: list.id,
   }));
 
 export const insertMockItems = (count, list, user) =>

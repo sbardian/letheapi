@@ -13,7 +13,7 @@ export const deleteInvitation = async (
   }
   const invitation = returnInvitations(await Invitation.findById(invitationId));
   if (
-    (await ownerOfList(user, invitation.list.id, List)) ||
+    (await ownerOfList(user, invitation.list, List)) ||
     user.isAdmin ||
     user.id === invitation.invitee.id
   ) {

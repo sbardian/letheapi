@@ -15,14 +15,14 @@ export const acceptInvitation = async (
   const invitation = await Invitation.findById(invitationId);
   if (invitation.invitee.id === user.id || user.isAdmin) {
     const [{ lists }, { users, id }] = await Promise.all([
-      User.findById(invitation.invitee.id),
+      User.findById(invitation.invitee),
       List.findById(invitation.list.id),
     ]);
     await User.findByIdAndUpdate(user.id, {
-      lists: [...lists, invitation.list.id],
+      lists: [...lists, invitation.list],
     });
     await List.findByIdAndUpdate(id, {
-      users: [...users, invitation.invitee.id],
+      users: [...users, invitation.invitee],
     });
     const acceptedInvitation = returnInvitations(
       await Invitation.findByIdAndRemove(invitationId),

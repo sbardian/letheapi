@@ -26,6 +26,9 @@ import {
   getListUsers,
   getListInvitations,
   getUserInvitations,
+  getInvitationInvitee,
+  getInvitationInviter,
+  getInvitationList,
 } from './Queries';
 import {
   itemAdded,
@@ -74,6 +77,11 @@ const resolvers = {
   },
   Item: {
     creator: getItemCreator,
+  },
+  Invitation: {
+    invitee: getInvitationInvitee,
+    inviter: getInvitationInviter,
+    list: getInvitationList,
   },
   Subscription: {
     itemAdded,

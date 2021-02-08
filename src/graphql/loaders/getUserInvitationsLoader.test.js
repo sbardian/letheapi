@@ -12,36 +12,28 @@ describe('getUserInvitationsLoader tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: {
-          id: 'someInviteeId',
-        },
+        invitee: 'someInviteeId',
         list: 'someListId',
       },
       {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: {
-          id: 'someWrongInviteeId',
-        },
+        invitee: 'someWrongInviteeId',
         list: 'someListId',
       },
       {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: {
-          id: 'someOtherWrongInviteeId',
-        },
+        invitee: 'someOtherWrongInviteeId',
         list: 'someListId',
       },
       {
         id: 'someOtherInvitationId',
         title: 'someOtherInvitationTitle',
         inviter: 'someOtherInviterId',
-        invitee: {
-          id: 'someInviteeId',
-        },
+        invitee: 'someInviteeId',
         list: 'someOtherListId',
       },
     ]);
@@ -55,18 +47,14 @@ describe('getUserInvitationsLoader tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: {
-          id: 'someInviteeId',
-        },
+        invitee: 'someInviteeId',
         list: 'someListId',
       },
       {
         id: 'someOtherInvitationId',
         title: 'someOtherInvitationTitle',
         inviter: 'someOtherInviterId',
-        invitee: {
-          id: 'someInviteeId',
-        },
+        invitee: 'someInviteeId',
         list: 'someOtherListId',
       },
     ]);

@@ -20,6 +20,6 @@ export default {
   subscribe: withFilter(
     () => pubsub.asyncIterator([INVITATION_ADDED]),
     (payload, variables, { user }) =>
-      payload.invitationAdded.invitee.id === user.id,
+      payload.invitationAdded.invitee === user.id,
   ),
 };

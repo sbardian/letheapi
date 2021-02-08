@@ -83,7 +83,7 @@ describe('getListInvitationsLoader tests', () => {
         console.log(
           'query: ',
           await Invitation.find({
-            'list.id': list.id,
+            list: list,
           }),
         );
         console.log('invitation from loader: ', invitations);

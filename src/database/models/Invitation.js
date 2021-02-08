@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 const InvitationSchema = new mongoose.Schema({
-  inviter: {},
-  invitee: {},
+  inviter: String,
+  invitee: String,
   title: String,
-  list: {},
+  list: String,
 });
 
 const Invitation = mongoose.model('Invitation', InvitationSchema);
