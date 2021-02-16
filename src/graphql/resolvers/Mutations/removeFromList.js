@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError, ForbiddenError } from 'apollo-server';
 import { returnUsers } from '../../../database/utils';
 import { ownerOfList, isTokenValid } from '../checkAuth';
 
@@ -12,9 +12,14 @@ export const removeFromList = async (
   }
   let userToRemove;
   // TODO: errors when user removes themselves. . . should we allow?
+  if (await ownerOfList(user, listId, List)) {
+    throw new ForbiddenError(
+      'You are the owner of this list and cannot be removed, delete the list instead.',
+    );
+  }
   if (!userId || userId === user.id) {
     userToRemove = user.id;
-  } else if ((await ownerOfList(user, listId, List)) || user.isAdmin) {
+  } else if (user.isAdmin) {
     userToRemove = userId;
   } else {
     throw new Error(
