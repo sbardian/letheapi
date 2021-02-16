@@ -12,3 +12,4 @@ export { getItemCreator } from './getItemCreator';
 export { getInvitationInvitee } from './getInvitationInvitee';
 export { getInvitationInviter } from './getInvitationInviter';
 export { getInvitationList } from './getInvitationList';
+export { getListOwner } from './getListOwner';

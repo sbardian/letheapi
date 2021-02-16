@@ -22,6 +22,7 @@ import {
   getUsers,
   getUserLists,
   getLists,
+  getListOwner,
   getListItems,
   getListUsers,
   getListInvitations,
@@ -69,6 +70,7 @@ const resolvers = {
   List: {
     users: getListUsers,
     items: getListItems,
+    owner: getListOwner,
     invitations: getListInvitations,
   },
   User: {

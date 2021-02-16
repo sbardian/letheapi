@@ -10,3 +10,4 @@ export { getItemCreatorLoader } from './getItemCreatorLoader';
 export { getInvitationInviteeLoader } from './getInvitationInviteeLoader';
 export { getInvitationInviterLoader } from './getInvitationInviterLoader';
 export { getInvitationListLoader } from './getInvitationListLoader';
+export { getListOwnerLoader } from './getListOwnerLoader';

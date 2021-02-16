@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const ListSchema = new mongoose.Schema({
   title: String,
-  owner: {},
+  owner: String,
   users: Array,
   items: Array,
   listImageUrl: String,
