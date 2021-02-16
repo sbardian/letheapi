@@ -1,9 +1,8 @@
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError, ForbiddenError } from 'apollo-server';
 import { returnInvitations } from '../../../database/utils';
 import { INVITATION_DELETED } from '../../events';
 import { isTokenValid } from '../checkAuth';
 
-// TODO - this is crashing
 export const acceptInvitation = async (
   root,
   { invitationId },
@@ -13,10 +12,10 @@ export const acceptInvitation = async (
     throw new AuthenticationError('Invalid token');
   }
   const invitation = await Invitation.findById(invitationId);
-  if (invitation.invitee.id === user.id || user.isAdmin) {
+  if (invitation.invitee === user.id || user.isAdmin) {
     const [{ lists }, { users, id }] = await Promise.all([
       User.findById(invitation.invitee),
-      List.findById(invitation.list.id),
+      List.findById(invitation.list),
     ]);
     await User.findByIdAndUpdate(user.id, {
       lists: [...lists, invitation.list],
@@ -35,5 +34,7 @@ export const acceptInvitation = async (
     });
     return acceptedInvitation;
   }
-  throw new Error('You do not have permission to accept this invitation');
+  throw new ForbiddenError(
+    'You do not have permission to accept this invitation',
+  );
 };
