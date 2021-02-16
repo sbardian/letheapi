@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError, ForbiddenError } from 'apollo-server';
 import { isTokenValid } from '../checkAuth';
 
 export const getUser = async (
@@ -10,7 +10,7 @@ export const getUser = async (
     throw new AuthenticationError('Invalid token');
   }
   if (!user.isAdmin) {
-    throw new Error(
+    throw new ForbiddenError(
       'This is an Admin only function, please use getMyInfo query.',
     );
   }
