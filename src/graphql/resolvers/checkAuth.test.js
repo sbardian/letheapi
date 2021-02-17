@@ -51,7 +51,7 @@ describe('checkAuth tests', () => {
   });
   it('Returns true, ownerOfList', async () => {
     mockList.findById.mockImplementationOnce(() => ({
-      owner: { id: 'someUserId' },
+      owner: 'someUserId',
     }));
     expect(
       await ownerOfList({ id: 'someUserId' }, 'listId', mockList),
