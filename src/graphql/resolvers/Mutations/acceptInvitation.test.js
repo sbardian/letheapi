@@ -111,10 +111,7 @@ describe('acceptInvitation tests', () => {
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: {
-        id: 'someInviteeId',
-        lists: [],
-      },
+      invitee: 'someInviteeId',
       list: 'someListId',
     }));
 

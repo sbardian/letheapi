@@ -16,8 +16,6 @@ export const updateItem = async (
       await Item.findByIdAndUpdate(itemId, { title, status }, { new: true }),
     );
 
-    console.log({ editedItem });
-
     pubsub.publish(ITEM_EDITED, {
       itemEdited: {
         ...editedItem,

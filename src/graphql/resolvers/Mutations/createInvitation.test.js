@@ -48,7 +48,7 @@ describe('createInvitation test', () => {
         'root',
         {
           listId: listToUse.id,
-          invitee: userToUse.id,
+          invitee: userToUse.username,
           title: 'InvitationTitle',
         },
         {
@@ -90,19 +90,9 @@ describe('createInvitation test', () => {
     ).toEqual({
       id: expect.any(String),
       title: 'InvitationTitle',
-      list: mockList,
-      invitee: expect.objectContaining({
-        id: expect.any(String),
-        profileImageUrl: null,
-        email: expect.any(String),
-        username: expect.any(String),
-      }),
-      inviter: expect.objectContaining({
-        id: expect.any(String),
-        profileImageUrl: null,
-        email: expect.any(String),
-        username: expect.any(String),
-      }),
+      list: mockList.id,
+      invitee: userToUse.id,
+      inviter: userToUse.id,
     });
   });
   it('Returns created invitation, ownerOfList', async () => {
@@ -134,19 +124,9 @@ describe('createInvitation test', () => {
       expect.objectContaining({
         id: expect.any(String),
         title: 'InvitationTitle',
-        list: mockList,
-        invitee: expect.objectContaining({
-          id: expect.any(String),
-          profileImageUrl: null,
-          email: expect.any(String),
-          username: expect.any(String),
-        }),
-        inviter: expect.objectContaining({
-          id: expect.any(String),
-          profileImageUrl: null,
-          email: expect.any(String),
-          username: expect.any(String),
-        }),
+        list: mockList.id,
+        invitee: userToUse.id,
+        inviter: userToUse.id,
       }),
     );
   });

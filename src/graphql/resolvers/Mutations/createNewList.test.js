@@ -80,7 +80,7 @@ describe('ceateNewList tests', () => {
       expect.objectContaining({
         id: expect.any(String),
         title: 'someListTitle',
-        owner: mockUser,
+        owner: mockUser.id,
       }),
     );
   });

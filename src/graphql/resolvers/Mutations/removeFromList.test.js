@@ -60,19 +60,23 @@ describe('removeFromList tests', () => {
     const updatedList = await List.findById(toUpdate.lists[0]);
     expect(updatedList.users).toHaveLength(0);
   });
-  it('Removes user from list, returns empty list users array, owner', async () => {
+  it('Fails to remove user from list, returns ForbiddenError, owner of list', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => true);
     mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
-    await removeFromList(
-      'root',
-      { listId: toUpdate.lists[0], userId: toUpdate.id },
-      {
-        models: { User, List },
-        user: { id: 'someAdminId', isAdmin: false },
-      },
-    );
-    const updatedList = await List.findById(toUpdate.lists[0]);
-    expect(updatedList.users).toHaveLength(0);
+    try {
+      await removeFromList(
+        'root',
+        { listId: toUpdate.lists[0], userId: toUpdate.id },
+        {
+          models: { User, List },
+          user: { id: 'someAdminId', isAdmin: false },
+        },
+      );
+    } catch (err) {
+      expect(err.message).toMatch(
+        'You are the owner of this list and cannot be removed, delete the list instead.',
+      );
+    }
   });
   it('Returns an error', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);

@@ -11,7 +11,7 @@ export const updateList = async (
 ) => {
   if (!(await isTokenValid(token, BlacklistedToken))) {
     throw new AuthenticationError('Invalid token');
-  } else if (ownerOfList(user, listId, List)) {
+  } else if (ownerOfList(user, listId, List) || user.isAdmin) {
     const orgList = returnLists(await List.findById(listId));
     if (file) {
       try {

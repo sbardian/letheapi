@@ -3,8 +3,10 @@ import { updateList } from './updateList';
 import { User, List } from '../../../database/models';
 import { insertMockUsers, insertMockLists } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
+import { pubsub as mockPubsub } from '../../../server/createApolloServer';
 
 jest.mock('../checkAuth');
+jest.mock('../../../server/createApolloServer');
 
 let server;
 let toUpdate;
@@ -37,10 +39,11 @@ describe('updateList tests', () => {
   it('Should update a list name, isAdmin', async () => {
     mockCheckAuth.ownerOfList.mockImplementationOnce(() => false);
     mockCheckAuth.isTokenValid.mockImplementationOnce(() => true);
+    mockPubsub.publish.mockImplementationOnce(() => false);
     await updateList(
       'root',
       { listId: toUpdate.id, title: 'NEW TITLE' },
-      { models: { List }, user: { isAdmin: true } },
+      { models: { List }, user: { isAdmin: true }, pubsub: mockPubsub },
     );
     expect((await List.findById(toUpdate.id)).title).toEqual('NEW TITLE');
   });
@@ -50,7 +53,7 @@ describe('updateList tests', () => {
     await updateList(
       'root',
       { listId: toUpdate.id, title: 'NEW TITLE' },
-      { models: { List }, user: { isAdmin: false } },
+      { models: { List }, user: { isAdmin: false }, pubsub: mockPubsub },
     );
     expect((await List.findById(toUpdate.id)).title).toEqual('NEW TITLE');
   });

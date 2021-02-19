@@ -81,7 +81,7 @@ describe('createNewItem tests', () => {
       expect.objectContaining({
         id: expect.any(String),
         title: 'newItemTitle',
-        creator: { ...mockUser, isAdmin: true },
+        creator: mockUser.id,
         list: listToUse.id,
       }),
     );
@@ -107,7 +107,7 @@ describe('createNewItem tests', () => {
       expect.objectContaining({
         id: expect.any(String),
         title: 'newItemTitle',
-        creator: { ...mockUser, isAdmin: false },
+        creator: mockUser.id,
         list: listToUse.id,
       }),
     );
