@@ -37,7 +37,7 @@
     "apollo-engine": "1.1.2",
     "apollo-server": "2.21.0",
     "apollo-server-express": "2.21.0",
-    "bcrypt": "5.0.0",
+    "bcrypt": "5.0.1",
     "bunyan": "1.8.15",
     "common-tags": "1.8.0",
     "cors": "2.8.5",
