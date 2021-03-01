@@ -10,22 +10,29 @@ export const removeFromList = async (
   if (!(await isTokenValid(token, BlacklistedToken))) {
     throw new AuthenticationError('Invalid token');
   }
-  let userToRemove;
-  // TODO: errors when user removes themselves. . . should we allow?
-  if (await ownerOfList(user, listId, List)) {
+  // requesting user is owner trying to remove themselves
+  if (user.id === userId && (await ownerOfList(user, listId, List))) {
     throw new ForbiddenError(
       'You are the owner of this list and cannot be removed, delete the list instead.',
     );
   }
-  if (!userId || userId === user.id) {
-    userToRemove = user.id;
-  } else if (user.isAdmin) {
-    userToRemove = userId;
-  } else {
+  // requesting user is not admin or owner of the list
+  if (
+    !user.isAdmin &&
+    !(await ownerOfList(user, listId, List)) &&
+    userId !== user.id
+  ) {
     throw new Error(
       'You do not have permission to remove this user from the list.',
     );
   }
+  // user to remove is owner
+  console.log('> ', await ownerOfList({ id: userId }, listId, List));
+  if (await ownerOfList({ id: userId }, listId, List)) {
+    throw new ForbiddenError('The owner of a list cannot be removed.');
+  }
+  const userToRemove = userId;
+
   const [{ lists }, { users }] = await Promise.all([
     await User.findById(userToRemove),
     await List.findById(listId),
