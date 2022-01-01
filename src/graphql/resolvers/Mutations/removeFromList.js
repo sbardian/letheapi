@@ -27,7 +27,6 @@ export const removeFromList = async (
     );
   }
   // user to remove is owner
-  console.log('> ', await ownerOfList({ id: userId }, listId, List));
   if (await ownerOfList({ id: userId }, listId, List)) {
     throw new ForbiddenError('The owner of a list cannot be removed.');
   }
