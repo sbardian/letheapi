@@ -8,19 +8,19 @@ WORKDIR /app
 # development image
 FROM base as dev
 ENV NODE_ENV=development
-RUN apk add --no-cache python make g++
+RUN apk add --no-cache python3 make g++
 
 # development tests
 FROM base as test
 # install git for jest watch
 RUN apk add --no-cache git 
-RUN apk add --no-cache python make g++
+RUN apk add --no-cache python3 make g++
 
 # Builder for ci
 FROM base as ci-builder
 ENV NODE_ENV=development
 COPY package*.json yarn.lock /app/
-RUN apk add --no-cache python make g++
+RUN apk add --no-cache python3 make g++
 RUN yarn install --frozen-lockfile && yarn cache clean
 
 # CI tests
@@ -33,7 +33,7 @@ COPY . .
 FROM base as prod-builder
 ENV NODE_ENV=production
 COPY package*.json yarn.lock /app/
-RUN apk add --no-cache python make g++
+RUN apk add --no-cache python3 make g++
 RUN yarn install --frozen-lockfile && yarn cache clean
 
 # Production image build
