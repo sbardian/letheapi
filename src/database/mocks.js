@@ -31,7 +31,7 @@ export const insertMockUsers = (count) =>
   Array.from(Array(count), () => {
     // const password = faker.internet.password();
     const password = 'password';
-    const isAdmin = faker.random.boolean();
+    const isAdmin = faker.datatype.boolean();
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     const user = {
