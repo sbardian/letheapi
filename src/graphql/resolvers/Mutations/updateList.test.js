@@ -3,7 +3,7 @@ import { updateList } from './updateList';
 import { User, List } from '../../../database/models';
 import { insertMockUsers, insertMockLists } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
-import { pubsub as mockPubsub } from '../../../server/createApolloServer';
+import { pubsub as mockPubsub } from '../../../server/createApolloServers';
 
 jest.mock('../checkAuth');
 jest.mock('../../../server/createApolloServer');

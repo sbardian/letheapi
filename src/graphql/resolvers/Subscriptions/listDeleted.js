@@ -1,5 +1,5 @@
 import { AuthenticationError } from 'apollo-server';
-import { pubsub } from '../../../server/createApolloServer';
+import { pubsub } from '../../../server/createApolloServers';
 import { userOfListByListId, isTokenValid } from '../checkAuth';
 import { LIST_DELETED } from '../../events';
 

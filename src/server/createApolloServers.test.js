@@ -1,4 +1,4 @@
-import createApolloServer from './createApolloServer';
+import createApolloServer from './createApolloServers';
 
 describe('Apollo Server tests', () => {
   it('Should return an instance of apolloServer', () => {

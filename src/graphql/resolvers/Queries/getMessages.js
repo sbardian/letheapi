@@ -1,4 +1,4 @@
-import { PubSub } from 'apollo-server';
+import { PubSub } from 'graphql-subscriptions';
 import faker from 'faker';
 
 const pubsub = new PubSub();

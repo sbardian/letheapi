@@ -13,12 +13,20 @@ export const config = yargs
     default: 'mongodb://localhost/shoppinglist',
     type: 'string',
   })
-  .option('apollo-engine-api-key', {
+  .option('apollo-key', {
     describe: 'Apollo Engine Api key',
     type: 'string',
   })
+  .option('apollo-graph-id', {
+    describe: 'Apollo Graph ID',
+    type: 'string',
+  })
+  .option('apollo-graph-variant', {
+    describe: 'Apollo Graph Variant',
+    type: 'string',
+  })
   .group(
-    ['session-secret', 'mock-mode', 'database-url', 'apollo-engine-api-key'],
+    ['session-secret', 'mock-mode', 'database-url', 'apollo-key'],
     'Config Options:',
   )
   .wrap(Math.min(100, yargs.terminalWidth()))

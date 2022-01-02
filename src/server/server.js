@@ -6,35 +6,34 @@ import cors from 'cors';
 import { createServer } from 'http';
 import { connectDB } from '../database';
 import { config } from '../config';
-import createApolloServer from './createApolloServer';
+// import createApolloServer, {
+//   createSubscriptionServer,
+// } from './createApolloServers';
+import createApolloServer from './createApolloServers';
 import log from './logging';
+
+require('dotenv').config();
 
 export default async () => {
   const app = express();
   const mongo = await connectDB();
 
-  // // eslint-disable-next-line
-  // const serviceAccount = require('../../firebase_api_key.json');
-
-  // admin.initializeApp({
-  //   credential: admin.credential.cert(serviceAccount),
-  //   storageBucket: 'letheapi.appspot.com',
-  // });
-
-  // const bucket = admin.storage().bucket();
-
-  // TODO: hack because MongoMemoryServer never returns. . .
   if (process.env.TEST !== 'true') {
     const db = mongo.mongoose.connection;
     db.on('error', () => log.error('Database connection failed 🙀'));
     db.once('open', () => log.info('Connected to the database 😺'));
   }
 
+  const httpServer = createServer(app);
+
+  // const subscriptionServer = createSubscriptionServer(httpServer);
+
   const apolloServer = createApolloServer();
 
   const corsOptions = {
-    origin: ['https://lethe.netlify.app', 'http://localhost:3000'],
+    origin: ['https://lethe.netlify.app', 'https://studio.apollographql.com'],
     optionsSuccessStatus: 200,
+    credentials: true,
   };
 
   app.use(cors(corsOptions));
@@ -48,13 +47,9 @@ export default async () => {
     }),
   );
 
-  apolloServer.applyMiddleware({ app });
-  const httpServer = createServer(app);
-  // const engine = new ApolloEngine({
-  //   apiKey: config.apolloEngineApiKey,
-  // });
+  await apolloServer.start();
 
-  apolloServer.installSubscriptionHandlers(httpServer);
+  apolloServer.applyMiddleware({ app, cors: false });
 
   return { httpServer };
 };

@@ -2,7 +2,7 @@ import { declineInvitation } from './declineInvitation';
 import mockInvitation from '../../../database/models/Invitation';
 import mockList from '../../../database/models/List';
 import * as mockDeleteInvitation from './deleteInvitation';
-import { pubsub as mockPubsub } from '../../../server/createApolloServer';
+import { pubsub as mockPubsub } from '../../../server/createApolloServers';
 
 jest.mock('../../../database/models/Invitation');
 jest.mock('../../../database/models/List');

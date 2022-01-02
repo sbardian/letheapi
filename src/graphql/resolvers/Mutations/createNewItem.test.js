@@ -4,7 +4,7 @@ import { insertMockLists, insertMockUsers } from '../../../database/mocks';
 import { createNewItem } from './createNewItem';
 import { returnItems, returnUsers } from '../../../database/utils';
 import * as mockCheckAuth from '../checkAuth';
-import { pubsub as mockPubsub } from '../../../server/createApolloServer';
+import { pubsub as mockPubsub } from '../../../server/createApolloServers';
 
 jest.mock('../checkAuth');
 jest.mock('../../../server/createApolloServer');

@@ -1,8 +1,7 @@
-import {
-  ApolloServer,
-  AuthenticationError,
-  PubSub,
-} from 'apollo-server-express';
+import { ApolloServer, AuthenticationError } from 'apollo-server-express';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { PubSub } from 'graphql-subscriptions';
+import { execute, subscribe } from 'graphql';
 import * as admin from 'firebase-admin';
 import {
   Item,
@@ -28,10 +27,22 @@ admin.initializeApp({
 });
 
 const bucket = admin.storage().bucket();
+
 // Configure ApolloServer
-export default () =>
+export default (subscriptionServer) =>
   new ApolloServer({
     schema,
+    plugins: [
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              subscriptionServer.close();
+            },
+          };
+        },
+      },
+    ],
     context: ({ req, connection }) => {
       if (connection) {
         return {
@@ -64,7 +75,13 @@ export default () =>
     },
     tracing: true,
     cacheControl: true,
-    ...(config.apolloEngineApiKey && { engine: config.apolloEngineApiKey }),
+    ...(config.apolloKey && {
+      apollo: {
+        key: config.apolloKey,
+        graphId: config.apolloId,
+        graphVariant: config.apolloGraphVariant,
+      },
+    }),
     introspection: true,
     formatError: (err) => {
       log.error(err);
@@ -92,4 +109,16 @@ export default () =>
         // log.info('onDisconnect called 📫');
       },
     },
+  });
+
+export const createSubscriptionServer = (httpServer) =>
+  new SubscriptionServer({
+    schema,
+    execute,
+    subscribe,
+    onConnect(connectionParams, webSocket, context) {
+      return { connectionParams, webSocket, context };
+    },
+    server: httpServer,
+    path: '/subscriptions',
   });

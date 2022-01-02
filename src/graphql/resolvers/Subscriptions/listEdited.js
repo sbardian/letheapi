@@ -1,5 +1,6 @@
-import { AuthenticationError, withFilter } from 'apollo-server';
-import { pubsub } from '../../../server/createApolloServer';
+import { AuthenticationError } from 'apollo-server';
+import { withFilter } from 'graphql-subscriptions';
+import { pubsub } from '../../../server/createApolloServers';
 import { userOfListByListId, isTokenValid } from '../checkAuth';
 import { LIST_EDITED } from '../../events';
 
