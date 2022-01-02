@@ -11,7 +11,7 @@ import {
   BlacklistedToken,
 } from '../database/models';
 import createLoaders from '../graphql/loaders/createLoaders';
-import { verifyToken } from './verifyToken';
+import { decodeToken } from './verifyToken';
 import { config } from '../config';
 import schema from '../graphql/schema';
 import log from './logging';
@@ -93,32 +93,46 @@ export default (subscriptionServer) =>
         'editor.cursorShape': 'line',
       },
     },
-    subscriptions: {
-      path: '/subscriptions',
-      onConnect: ({ token }) => {
-        if (token) {
-          // log.info('onConnect called 📭');
-          const decodedUser = verifyToken(token);
-          return {
-            user: decodedUser,
-          };
-        }
-        throw new AuthenticationError('Authentication failed.');
-      },
-      onDisconnect: () => {
-        // log.info('onDisconnect called 📫');
-      },
-    },
   });
 
 export const createSubscriptionServer = (httpServer) =>
-  new SubscriptionServer({
-    schema,
-    execute,
-    subscribe,
-    onConnect(connectionParams, webSocket, context) {
-      return { connectionParams, webSocket, context };
+  SubscriptionServer.create(
+    {
+      schema,
+      execute,
+      subscribe,
+      onConnect(connectionParams) {
+        let token;
+        let user;
+        if (connectionParams?.Authorization) {
+          const { Authorization } = connectionParams;
+          token = Authorization.replace('Bearer ', '');
+        }
+        if (token) {
+          user = decodeToken(token);
+        }
+        if (user && token) {
+          return {
+            models: {
+              Item,
+              User,
+              List,
+              Invitation,
+              BlacklistedToken,
+            },
+            user,
+            pubsub,
+            token,
+            log,
+          };
+        }
+        return new AuthenticationError(
+          'You must Authenticate to use Subscriptions',
+        );
+      },
     },
-    server: httpServer,
-    path: '/subscriptions',
-  });
+    {
+      server: httpServer,
+      path: '/subscriptions',
+    },
+  );

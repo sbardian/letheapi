@@ -6,10 +6,10 @@ import cors from 'cors';
 import { createServer } from 'http';
 import { connectDB } from '../database';
 import { config } from '../config';
-// import createApolloServer, {
-//   createSubscriptionServer,
-// } from './createApolloServers';
-import createApolloServer from './createApolloServers';
+import createApolloServer, {
+  createSubscriptionServer,
+} from './createApolloServers';
+// import createApolloServer from './createApolloServers';
 import log from './logging';
 
 require('dotenv').config();
@@ -26,9 +26,9 @@ export default async () => {
 
   const httpServer = createServer(app);
 
-  // const subscriptionServer = createSubscriptionServer(httpServer);
+  const subscriptionServer = createSubscriptionServer(httpServer);
 
-  const apolloServer = createApolloServer();
+  const apolloServer = createApolloServer(subscriptionServer);
 
   const corsOptions = {
     origin: ['https://lethe.netlify.app', 'https://studio.apollographql.com'],
