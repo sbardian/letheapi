@@ -25,6 +25,9 @@ export default {
   },
   subscribe: withFilter(
     () => pubsub.asyncIterator([ITEM_DELETED]),
-    (payload, variables) => payload.itemDeleted.list === variables.listId,
+    (payload, variables) => {
+      const result = payload.itemDeleted.list === variables.listId;
+      return result;
+    },
   ),
 };

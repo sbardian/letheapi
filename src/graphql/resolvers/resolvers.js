@@ -1,3 +1,4 @@
+import { GraphQLUpload } from 'graphql-upload';
 import {
   login,
   logout,
@@ -44,6 +45,7 @@ import {
 } from './Subscriptions';
 
 const resolvers = {
+  Upload: GraphQLUpload,
   Query: {
     getMyInfo,
     getUser,

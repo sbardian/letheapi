@@ -102,16 +102,14 @@ export const createSubscriptionServer = (httpServer) =>
       execute,
       subscribe,
       onConnect(connectionParams) {
-        let token;
+        // let token;
         let user;
-        if (connectionParams?.Authorization) {
-          const { Authorization } = connectionParams;
-          token = Authorization.replace('Bearer ', '');
-        }
+        const { token } = connectionParams;
         if (token) {
           user = decodeToken(token);
         }
         if (user && token) {
+          console.log('user and token, you are good!');
           return {
             models: {
               Item,
@@ -122,10 +120,12 @@ export const createSubscriptionServer = (httpServer) =>
             },
             user,
             pubsub,
+            loaders: createLoaders(),
             token,
             log,
           };
         }
+        console.log('no user and or token, you suck...');
         return new AuthenticationError(
           'You must Authenticate to use Subscriptions',
         );
@@ -133,6 +133,6 @@ export const createSubscriptionServer = (httpServer) =>
     },
     {
       server: httpServer,
-      path: '/subscriptions',
+      path: '/graphql',
     },
   );

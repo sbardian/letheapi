@@ -12,11 +12,19 @@ export const deleteInvitation = async (
     throw new AuthenticationError('Invalid token');
   }
   const invitation = returnInvitations(await Invitation.findById(invitationId));
+  console.log('invitation: ', invitation);
+  console.log(
+    'user.id = ',
+    user.id,
+    '.  invitation.invitee.id = ',
+    invitation.invitee.id,
+  );
   if (
     (await ownerOfList(user, invitation.list, List)) ||
     user.isAdmin ||
-    user.id === invitation.invitee.id
+    user.id === invitation.invitee
   ) {
+    console.log('you made it in!');
     const deletedInvitation = returnInvitations(
       await Invitation.findByIdAndRemove(invitationId),
     );

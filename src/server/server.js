@@ -2,14 +2,13 @@
 import express from 'express';
 import jwt from 'express-jwt';
 import cors from 'cors';
-// import * as admin from 'firebase-admin';
+import { graphqlUploadExpress } from 'graphql-upload';
 import { createServer } from 'http';
 import { connectDB } from '../database';
 import { config } from '../config';
 import createApolloServer, {
   createSubscriptionServer,
 } from './createApolloServers';
-// import createApolloServer from './createApolloServers';
 import log from './logging';
 
 require('dotenv').config();
@@ -31,7 +30,11 @@ export default async () => {
   const apolloServer = createApolloServer(subscriptionServer);
 
   const corsOptions = {
-    origin: ['https://lethe.netlify.app', 'https://studio.apollographql.com'],
+    origin: [
+      'https://lethe.netlify.app',
+      'https://studio.apollographql.com',
+      'http://localhost:3000',
+    ],
     optionsSuccessStatus: 200,
     credentials: true,
   };
@@ -48,6 +51,8 @@ export default async () => {
   );
 
   await apolloServer.start();
+
+  app.use(graphqlUploadExpress());
 
   apolloServer.applyMiddleware({ app, cors: false });
 
