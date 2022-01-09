@@ -7,10 +7,10 @@ import {
   insertMockItems,
 } from '../../../database/mocks';
 import * as mockCheckAuth from '../checkAuth';
-import { pubsub as mockPubsub } from '../../../server/createApolloServers';
+import { pubsub as mockPubsub } from '../../../test-assets/mockPubSub';
 
 jest.mock('../checkAuth');
-jest.mock('../../../server/createApolloServers');
+jest.mock('../../../test-assets/mockPubSub');
 
 let server;
 let toUpdate;

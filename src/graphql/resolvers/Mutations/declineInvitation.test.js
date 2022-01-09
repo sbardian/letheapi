@@ -2,12 +2,12 @@ import { declineInvitation } from './declineInvitation';
 import mockInvitation from '../../../database/models/Invitation';
 import mockList from '../../../database/models/List';
 import * as mockDeleteInvitation from './deleteInvitation';
-import { pubsub as mockPubsub } from '../../../server/createApolloServers';
+import { pubsub as mockPubsub } from '../../../test-assets/mockPubSub';
 
 jest.mock('../../../database/models/Invitation');
 jest.mock('../../../database/models/List');
 jest.mock('./deleteInvitation');
-jest.mock('../../../server/createApolloServers');
+jest.mock('../../../test-assets/mockPubSub');
 
 describe('declineInvitation test', () => {
   it('deleteInvitation should be called once', async () => {
