@@ -7,7 +7,7 @@ import { pubsub as mockPubsub } from '../../../server/createApolloServers';
 jest.mock('../../../database/models/Invitation');
 jest.mock('../../../database/models/List');
 jest.mock('./deleteInvitation');
-jest.mock('../../../server/createApolloServer');
+jest.mock('../../../server/createApolloServers');
 
 describe('declineInvitation test', () => {
   it('deleteInvitation should be called once', async () => {

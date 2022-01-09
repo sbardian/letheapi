@@ -9,7 +9,7 @@ jest.mock('../../../database/models/Invitation');
 jest.mock('../../../database/models/List');
 jest.mock('../../../database/models/User');
 jest.mock('../checkAuth');
-jest.mock('../../../server/createApolloServer');
+jest.mock('../../../server/createApolloServers');
 
 describe('acceptInvitation tests', () => {
   it('Returns error', async () => {

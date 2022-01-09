@@ -7,7 +7,7 @@ import { pubsub as mockPubsub } from '../../../server/createApolloServers';
 jest.mock('../../../database/models/Invitation');
 jest.mock('../../../database/models/List');
 jest.mock('../checkAuth');
-jest.mock('../../../server/createApolloServer');
+jest.mock('../../../server/createApolloServers');
 
 describe('deleteInvitation Tests', () => {
   it('Returns a deleted invitation, is Admin', async () => {
@@ -18,9 +18,7 @@ describe('deleteInvitation Tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: {
-          id: 'someInviteeId',
-        },
+        invitee: 'someInviteeId',
         list: 'someListId',
       },
     ]);
@@ -28,9 +26,7 @@ describe('deleteInvitation Tests', () => {
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: {
-        id: 'someInviteeId',
-      },
+      invitee: 'someInviteeId',
       list: 'someListId',
     }));
     expect(
@@ -48,9 +44,7 @@ describe('deleteInvitation Tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: {
-          id: 'someInviteeId',
-        },
+        invitee: 'someInviteeId',
         list: 'someListId',
       }),
     );
@@ -64,9 +58,7 @@ describe('deleteInvitation Tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: {
-          id: 'someInviteeId',
-        },
+        invitee: 'someInviteeId',
         list: 'someListId',
       },
     ]);
@@ -74,9 +66,7 @@ describe('deleteInvitation Tests', () => {
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: {
-        id: 'someInviteeId',
-      },
+      invitee: 'someInviteeId',
       list: 'someListId',
     }));
     expect(
@@ -94,9 +84,7 @@ describe('deleteInvitation Tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: {
-          id: 'someInviteeId',
-        },
+        invitee: 'someInviteeId',
         list: 'someListId',
       }),
     );
@@ -109,18 +97,14 @@ describe('deleteInvitation Tests', () => {
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: {
-        id: 'someInviteeId',
-      },
+      invitee: 'someInviteeId',
       list: 'someListId',
     }));
     mockInvitation.findByIdAndRemove.mockImplementationOnce(() => ({
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: {
-        id: 'someInviteeId',
-      },
+      invitee: 'someInviteeId',
       list: 'someListId',
     }));
     expect(
@@ -138,9 +122,7 @@ describe('deleteInvitation Tests', () => {
         id: 'someInvitationId',
         title: 'someInvitationTitle',
         inviter: 'someInviterId',
-        invitee: {
-          id: 'someInviteeId',
-        },
+        invitee: 'someInviteeId',
         list: 'someListId',
       }),
     );
@@ -154,9 +136,7 @@ describe('deleteInvitation Tests', () => {
       id: 'someInvitationId',
       title: 'someInvitationTitle',
       inviter: 'someInviterId',
-      invitee: {
-        id: 'someInviteeId',
-      },
+      invitee: 'someInviteeId',
       list: 'someListId',
     }));
     try {

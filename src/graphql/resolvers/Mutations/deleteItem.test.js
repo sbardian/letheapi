@@ -10,7 +10,7 @@ import { deleteItem } from './deleteItem';
 import { pubsub as mockPubsub } from '../../../server/createApolloServers';
 
 jest.mock('../checkAuth');
-jest.mock('../../../server/createApolloServer');
+jest.mock('../../../server/createApolloServers');
 
 let server;
 
