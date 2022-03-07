@@ -2529,7 +2529,7 @@ apollo-server-errors@^3.3.0:
   resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-3.3.0.tgz#ac8ceb1400064312f983d8d70195693fbcf2be3c"
   integrity sha512-9/MNlPZBbEjcCdJcUSbKbVEBT9xZS8GSpX7T/TyzcxHSbsXJszSDSipQNGC+PRKTKAUnv61IONScVyLKEZ5XEQ==
 
-apollo-server-express@^3.6.1:
+apollo-server-express@3.6.1, apollo-server-express@^3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/apollo-server-express/-/apollo-server-express-3.6.1.tgz#b8bda303e05c551ac76c9c0b26bc651ca1466912"
   integrity sha512-29imWvRPn5GsQq02Akt0+jejpWzpOIZfUmgoiFm4YB7somvhDNw15Pu7fv4sISK8ehNIDF68IpLd2cpY8sCkYQ==
@@ -2562,7 +2562,7 @@ apollo-server-types@^3.5.0:
     apollo-server-caching "^3.3.0"
     apollo-server-env "^4.2.0"
 
-apollo-server@^3.6.1:
+apollo-server@3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/apollo-server/-/apollo-server-3.6.1.tgz#29420b1c0cddbf2e18147a3ca7299485f17137a2"
   integrity sha512-Y2MY2/WvaTiofVoIR5ZIYt6c6wX8klZRaXI9x+7JBiFV9HMcOuLLpU3+P4r2EVXuN1LLe82m1PgiAYr+a1OmQg==
