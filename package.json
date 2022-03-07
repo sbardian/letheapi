@@ -41,7 +41,7 @@
     "apollo-server-express": "^3.6.1",
     "bcrypt": "5.0.1",
     "bunyan": "1.8.15",
-    "common-tags": "1.8.0",
+    "common-tags": "1.8.2",
     "cors": "2.8.5",
     "dataloader": "2.0.0",
     "dotenv": "^10.0.0",
