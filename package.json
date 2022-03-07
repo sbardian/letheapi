@@ -47,7 +47,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-jwt": "6.0.0",
-    "faker": "5.5.3",
+    "faker": "6.6.6",
     "firebase-admin": "^9.5.0",
     "get-stream": "6.0.1",
     "graphql": "^16.2.0",
