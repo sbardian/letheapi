@@ -50,7 +50,7 @@
     "faker": "5.5.3",
     "firebase-admin": "^9.5.0",
     "get-stream": "6.0.1",
-    "graphql": "^16.2.0",
+    "graphql": "16.6.0",
     "graphql-subscriptions": "^2.0.0",
     "graphql-upload": "^13.0.0",
     "http": "0.0.0",
