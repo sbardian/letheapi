@@ -48,7 +48,7 @@
     "express": "^4.17.2",
     "express-jwt": "6.0.0",
     "faker": "5.5.3",
-    "firebase-admin": "^9.5.0",
+    "firebase-admin": "11.0.1",
     "get-stream": "6.0.1",
     "graphql": "^16.2.0",
     "graphql-subscriptions": "^2.0.0",
