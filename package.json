@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^5.7.2",
-    "@graphql-tools/schema": "^8.3.1",
+    "@graphql-tools/schema": "9.0.4",
     "apollo-engine": "1.1.2",
     "apollo-server": "^3.6.1",
     "apollo-server-express": "^3.6.1",
